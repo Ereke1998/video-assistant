@@ -1,0 +1,8 @@
+references/downloads/*
+!references/downloads/.gitkeep
+build/*
+!build/.gitkeep
+graphics/remotion/node_modules
+graphics/remotion/public/*.mp3
+graphics/remotion/public/*.mp4
+graphics/remotion/package-lock.json

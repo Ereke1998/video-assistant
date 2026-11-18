@@ -13,7 +13,7 @@ export const Subtitles = () => {
     return sl && f >= sl.from && f < sl.from + sl.frames;
   });
   if (hidden) return null;
-  const st = config.subtitles.style;
+  const st = { ...config.subtitles.style, font: config.theme.font ?? config.subtitles.style.font };
   const pop = st.animation === "pop" ? spring({ frame: f - Math.round(b.start * fps), fps, config: { damping: 11, stiffness: 220 } }) : 1;
   return (
     <AbsoluteFill style={{ alignItems: "center", paddingInline: config.format.safe_zone.side_px }}>

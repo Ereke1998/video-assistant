@@ -11,10 +11,17 @@ voiceover.md          ← текст под озвучку (генерирует
 references/           ← analysis.md, metrics.json, downloads/ (yt-dlp, не в git)
 build/                ← script.json, timeline.json, audio/, renders/ — генерируется (не в git)
 subtitles/            ← subtitles.srt, subtitles.json
-graphics/remotion/    ← Main (сборка), Background, Hook, Plate, List, Infographic, Counter, Code, CTA, Subtitles
+graphics/remotion/    ← Main (сборка), themes.ts (пресеты), Background, Headline (караоке), Mascot, HUD, визуалы Chips/Chat/Phone/ToolList/Folder/Steps/Bars/Counter/Cards/Code/CTA
 graphics/hyperframes/ ← HTML-композиции интерфейсов (мокапы, клики, UI)
 pipeline/             ← скрипты шагов
 ```
+
+## Стиль по умолчанию
+Без склеек: постоянный фон + кодовый маскот снизу, сверху заголовок = озвучка (слова появляются в такт голосу), в центре анимированные UI-карточки.
+Пресеты `theme.preset`: **night** (тёмный, оранжевые плашки), **blueprint** (чертёж, HUD, бегущая строка), **paper** (бумага, караоке, красный курсив).
+
+Разметка в `scenes[].voice`: `*акцент*` · `~зачёркнуто~` · `^КРУПНО^` · `_подводка_` · ` | ` перенос строки.
+Пример: `"Ошибка номер один — *долгое* вступление. | Никаких ~«всем привет».~"`
 
 ## Конвейер
 | Шаг | Команда | Результат |

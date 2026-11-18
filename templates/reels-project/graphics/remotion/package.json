@@ -4,13 +4,15 @@
   "scripts": {
     "studio": "remotion studio",
     "render": "remotion render Main ../../build/renders/final.mp4 --codec=h264 --crf=18",
-    "render:hook": "remotion render Hook ../../build/renders/hook.mp4"
+    "still": "remotion still Main ../../build/renders/still.png"
   },
   "dependencies": {
     "@remotion/cli": "4.0.240",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "remotion": "4.0.240"
+    "remotion": "4.0.240",
+    "@fontsource/montserrat": "5.1.0",
+    "@fontsource/jetbrains-mono": "5.1.0"
   },
   "devDependencies": {
     "@types/react": "18.3.12",

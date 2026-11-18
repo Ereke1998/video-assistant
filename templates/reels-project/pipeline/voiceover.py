@@ -17,11 +17,11 @@ async def tts(text, out):
 parts, timeline, t = [], [], 0.0
 for i, s in enumerate(script["scenes"]):
     raw, wav = tmp / f"{i:02}_{s['id']}.mp3", tmp / f"{i:02}_{s['id']}.wav"
-    if vo["engine"] == "edge-tts" and s["voice"].strip():
-        asyncio.run(tts(s["voice"], raw))
+    if vo["engine"] == "edge-tts" and s["voice_plain"].strip():
+        asyncio.run(tts(s["voice_plain"], raw))
         run(["ffmpeg", "-y", "-i", raw, "-af", f"apad=pad_dur={vo['pad_after_sec']}", "-ar", "48000", "-ac", "1", wav])
     else:
-        d = max(len(words_of(s["voice"])) / script["pace_wps"], 1.0) + vo["pad_after_sec"]
+        d = max(len(words_of(s["voice_plain"])) / script["pace_wps"], 1.0) + vo["pad_after_sec"]
         run(["ffmpeg", "-y", "-f", "lavfi", "-i", "anullsrc=r=48000:cl=mono", "-t", f"{d:.3f}", wav])
     d = duration(wav)
     timeline.append({"id": s["id"], "start": round(t, 3), "end": round(t + d, 3),

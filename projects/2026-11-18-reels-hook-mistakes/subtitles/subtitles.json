@@ -1,0 +1,362 @@
+[
+ {
+  "start": 0.0,
+  "end": 1.654,
+  "words": [
+   {
+    "text": "Твой",
+    "accent": false,
+    "start": 0.0,
+    "end": 0.382
+   },
+   {
+    "text": "Reels",
+    "accent": false,
+    "start": 0.382,
+    "end": 0.827
+   },
+   {
+    "text": "листают",
+    "accent": true,
+    "start": 0.827,
+    "end": 1.4
+   },
+   {
+    "text": "за",
+    "accent": false,
+    "start": 1.4,
+    "end": 1.654
+   }
+  ]
+ },
+ {
+  "start": 1.654,
+  "end": 2.609,
+  "words": [
+   {
+    "text": "две",
+    "accent": false,
+    "start": 1.654,
+    "end": 1.973
+   },
+   {
+    "text": "секунды",
+    "accent": true,
+    "start": 1.973,
+    "end": 2.609
+   }
+  ]
+ },
+ {
+  "start": 2.759,
+  "end": 4.242,
+  "words": [
+   {
+    "text": "Ошибка",
+    "accent": true,
+    "start": 2.759,
+    "end": 3.168
+   },
+   {
+    "text": "номер",
+    "accent": false,
+    "start": 3.168,
+    "end": 3.526
+   },
+   {
+    "text": "один",
+    "accent": false,
+    "start": 3.526,
+    "end": 3.833
+   },
+   {
+    "text": "долгое",
+    "accent": false,
+    "start": 3.833,
+    "end": 4.242
+   }
+  ]
+ },
+ {
+  "start": 4.242,
+  "end": 6.237,
+  "words": [
+   {
+    "text": "вступление",
+    "accent": true,
+    "start": 4.242,
+    "end": 4.907
+   },
+   {
+    "text": "Никаких",
+    "accent": false,
+    "start": 4.907,
+    "end": 5.368
+   },
+   {
+    "text": "«всем",
+    "accent": false,
+    "start": 5.368,
+    "end": 5.726
+   },
+   {
+    "text": "привет»",
+    "accent": false,
+    "start": 5.726,
+    "end": 6.237
+   }
+  ]
+ },
+ {
+  "start": 6.387,
+  "end": 7.829,
+  "words": [
+   {
+    "text": "Ошибка",
+    "accent": true,
+    "start": 6.387,
+    "end": 6.799
+   },
+   {
+    "text": "номер",
+    "accent": false,
+    "start": 6.799,
+    "end": 7.159
+   },
+   {
+    "text": "два",
+    "accent": false,
+    "start": 7.159,
+    "end": 7.417
+   },
+   {
+    "text": "мелкий",
+    "accent": false,
+    "start": 7.417,
+    "end": 7.829
+   }
+  ]
+ },
+ {
+  "start": 7.829,
+  "end": 9.682,
+  "words": [
+   {
+    "text": "текст",
+    "accent": false,
+    "start": 7.829,
+    "end": 8.241
+   },
+   {
+    "text": "Половину",
+    "accent": false,
+    "start": 8.241,
+    "end": 8.755
+   },
+   {
+    "text": "кадра",
+    "accent": false,
+    "start": 8.755,
+    "end": 9.116
+   },
+   {
+    "text": "закрывает",
+    "accent": true,
+    "start": 9.116,
+    "end": 9.682
+   }
+  ]
+ },
+ {
+  "start": 9.682,
+  "end": 11.579,
+  "words": [
+   {
+    "text": "интерфейс",
+    "accent": true,
+    "start": 9.682,
+    "end": 10.3
+   },
+   {
+    "text": "Ошибка",
+    "accent": false,
+    "start": 10.45,
+    "end": 10.902
+   },
+   {
+    "text": "номер",
+    "accent": false,
+    "start": 10.902,
+    "end": 11.297
+   },
+   {
+    "text": "три",
+    "accent": false,
+    "start": 11.297,
+    "end": 11.579
+   }
+  ]
+ },
+ {
+  "start": 11.579,
+  "end": 12.313,
+  "words": [
+   {
+    "text": "нет",
+    "accent": false,
+    "start": 11.579,
+    "end": 11.862
+   },
+   {
+    "text": "ритма",
+    "accent": true,
+    "start": 11.862,
+    "end": 12.313
+   }
+  ]
+ },
+ {
+  "start": 12.313,
+  "end": 14.233,
+  "words": [
+   {
+    "text": "Меняй",
+    "accent": false,
+    "start": 12.313,
+    "end": 12.709
+   },
+   {
+    "text": "картинку",
+    "accent": true,
+    "start": 12.709,
+    "end": 13.273
+   },
+   {
+    "text": "каждые",
+    "accent": false,
+    "start": 13.273,
+    "end": 13.725
+   },
+   {
+    "text": "две-три",
+    "accent": false,
+    "start": 13.725,
+    "end": 14.233
+   }
+  ]
+ },
+ {
+  "start": 14.233,
+  "end": 15.981,
+  "words": [
+   {
+    "text": "секунды",
+    "accent": true,
+    "start": 14.233,
+    "end": 14.798
+   },
+   {
+    "text": "Запомни",
+    "accent": false,
+    "start": 14.948,
+    "end": 15.437
+   },
+   {
+    "text": "формулу",
+    "accent": false,
+    "start": 15.437,
+    "end": 15.981
+   }
+  ]
+ },
+ {
+  "start": 15.981,
+  "end": 16.687,
+  "words": [
+   {
+    "text": "хук",
+    "accent": false,
+    "start": 15.981,
+    "end": 16.307
+   },
+   {
+    "text": "ритм",
+    "accent": true,
+    "start": 16.307,
+    "end": 16.687
+   }
+  ]
+ },
+ {
+  "start": 16.687,
+  "end": 18.315,
+  "words": [
+   {
+    "text": "текст",
+    "accent": false,
+    "start": 16.687,
+    "end": 17.122
+   },
+   {
+    "text": "Напиши",
+    "accent": false,
+    "start": 17.272,
+    "end": 17.736
+   },
+   {
+    "text": "«ХУК»",
+    "accent": true,
+    "start": 17.736,
+    "end": 18.142
+   },
+   {
+    "text": "в",
+    "accent": false,
+    "start": 18.142,
+    "end": 18.315
+   }
+  ]
+ },
+ {
+  "start": 18.315,
+  "end": 20.228,
+  "words": [
+   {
+    "text": "директ",
+    "accent": false,
+    "start": 18.315,
+    "end": 18.779
+   },
+   {
+    "text": "пришлю",
+    "accent": false,
+    "start": 18.779,
+    "end": 19.243
+   },
+   {
+    "text": "десять",
+    "accent": false,
+    "start": 19.243,
+    "end": 19.707
+   },
+   {
+    "text": "готовых",
+    "accent": true,
+    "start": 19.707,
+    "end": 20.228
+   }
+  ]
+ },
+ {
+  "start": 20.228,
+  "end": 20.75,
+  "words": [
+   {
+    "text": "формул",
+    "accent": true,
+    "start": 20.228,
+    "end": 20.75
+   }
+  ]
+ }
+]

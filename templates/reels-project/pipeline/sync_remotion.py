@@ -6,6 +6,7 @@ cfg = load_config(); pub = p("graphics/remotion/public"); pub.mkdir(parents=True
 shutil.copy(p(cfg["script"]["output_json"]), pub / "script.json")
 shutil.copy(p(cfg["voiceover"]["timeline_json"]), pub / "timeline.json")
 shutil.copy(p(cfg["subtitles"]["output_json"]), pub / "subtitles.json")
+shutil.copy(p(cfg["alignment"]["output_json"]), pub / "words.json")
 shutil.copy(p(cfg["voiceover"]["output"]), pub / "voiceover.mp3")
 for s in active_scenes(cfg):
     if s["visual"]["engine"] == "hyperframes" and p(s["visual"]["render"]).exists():

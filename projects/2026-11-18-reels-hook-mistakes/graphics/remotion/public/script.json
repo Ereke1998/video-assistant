@@ -1,0 +1,491 @@
+{
+  "language": "ru",
+  "pace_wps": 2.3,
+  "est_total_sec": 20.0,
+  "scenes": [
+    {
+      "id": "hook",
+      "label": "хук",
+      "role": "hook",
+      "voice": "Твой Reels листают | за *две секунды.*",
+      "mascot": "think",
+      "flash": false,
+      "visual": {
+        "engine": "remotion",
+        "component": "Chips",
+        "props": {
+          "layout": "float",
+          "items": [
+            {
+              "text": "Свайп вниз",
+              "icon": "👇"
+            },
+            {
+              "text": "Досмотр 9%",
+              "icon": "📉"
+            },
+            {
+              "text": "0 сохранений",
+              "icon": "🫥"
+            }
+          ]
+        }
+      },
+      "transition": "pop",
+      "sfx": [
+        "whoosh"
+      ],
+      "tokens": [
+        {
+          "text": "Твой",
+          "style": "normal",
+          "wi": 0
+        },
+        {
+          "text": "Reels",
+          "style": "normal",
+          "wi": 1
+        },
+        {
+          "text": "листают",
+          "style": "normal",
+          "wi": 2
+        },
+        {
+          "text": "",
+          "style": "normal",
+          "wi": null,
+          "br": true
+        },
+        {
+          "text": "за",
+          "style": "normal",
+          "wi": 3
+        },
+        {
+          "text": "две",
+          "style": "accent",
+          "wi": 4
+        },
+        {
+          "text": "секунды.",
+          "style": "accent",
+          "wi": 5
+        }
+      ],
+      "voice_plain": "Твой Reels листают за две секунды.",
+      "est_sec": 2.61
+    },
+    {
+      "id": "problem",
+      "label": "проблема",
+      "role": "problem",
+      "voice": "Ошибка номер один — *долгое* вступление. | Никаких ~«всем привет».~",
+      "mascot": "shrug",
+      "visual": {
+        "engine": "remotion",
+        "component": "Chat",
+        "props": {
+          "messages": [
+            {
+              "from": "them",
+              "name": "начало ролика",
+              "text": "Всем привет! Сегодня я хочу рассказать вам…"
+            },
+            {
+              "from": "me",
+              "text": "Сразу к сути — с первого слова"
+            }
+          ],
+          "strike": 0
+        }
+      },
+      "transition": "rise",
+      "sfx": [
+        "pop"
+      ],
+      "tokens": [
+        {
+          "text": "Ошибка",
+          "style": "normal",
+          "wi": 6
+        },
+        {
+          "text": "номер",
+          "style": "normal",
+          "wi": 7
+        },
+        {
+          "text": "один",
+          "style": "normal",
+          "wi": 8
+        },
+        {
+          "text": "—",
+          "style": "normal",
+          "wi": null
+        },
+        {
+          "text": "долгое",
+          "style": "accent",
+          "wi": 9
+        },
+        {
+          "text": "вступление.",
+          "style": "normal",
+          "wi": 10
+        },
+        {
+          "text": "",
+          "style": "normal",
+          "wi": null,
+          "br": true
+        },
+        {
+          "text": "Никаких",
+          "style": "normal",
+          "wi": 11
+        },
+        {
+          "text": "«всем",
+          "style": "strike",
+          "wi": 12
+        },
+        {
+          "text": "привет».",
+          "style": "strike",
+          "wi": 13
+        }
+      ],
+      "voice_plain": "Ошибка номер один — долгое вступление. Никаких «всем привет».",
+      "est_sec": 3.48
+    },
+    {
+      "id": "value1",
+      "label": "решение",
+      "role": "value",
+      "voice": "Ошибка номер два — *мелкий* текст. | Половину кадра закрывает интерфейс.",
+      "mascot": "point",
+      "visual": {
+        "engine": "remotion",
+        "component": "Phone",
+        "props": {
+          "screens": [
+            {
+              "kind": "safe"
+            }
+          ]
+        }
+      },
+      "transition": "rise",
+      "sfx": [
+        "pop"
+      ],
+      "mascot_x": "right",
+      "tokens": [
+        {
+          "text": "Ошибка",
+          "style": "normal",
+          "wi": 14
+        },
+        {
+          "text": "номер",
+          "style": "normal",
+          "wi": 15
+        },
+        {
+          "text": "два",
+          "style": "normal",
+          "wi": 16
+        },
+        {
+          "text": "—",
+          "style": "normal",
+          "wi": null
+        },
+        {
+          "text": "мелкий",
+          "style": "accent",
+          "wi": 17
+        },
+        {
+          "text": "текст.",
+          "style": "normal",
+          "wi": 18
+        },
+        {
+          "text": "",
+          "style": "normal",
+          "wi": null,
+          "br": true
+        },
+        {
+          "text": "Половину",
+          "style": "normal",
+          "wi": 19
+        },
+        {
+          "text": "кадра",
+          "style": "normal",
+          "wi": 20
+        },
+        {
+          "text": "закрывает",
+          "style": "normal",
+          "wi": 21
+        },
+        {
+          "text": "интерфейс.",
+          "style": "normal",
+          "wi": 22
+        }
+      ],
+      "voice_plain": "Ошибка номер два — мелкий текст. Половину кадра закрывает интерфейс.",
+      "est_sec": 3.91
+    },
+    {
+      "id": "value2",
+      "label": "шаги",
+      "role": "value",
+      "voice": "Ошибка номер три — *нет ритма.* | Меняй картинку каждые две-три секунды.",
+      "mascot": "present",
+      "visual": {
+        "engine": "remotion",
+        "component": "Steps",
+        "props": {
+          "items": [
+            {
+              "name": "Хук",
+              "note": "0–2 с"
+            },
+            {
+              "name": "Смена кадра",
+              "note": "каждые 2–3 с"
+            },
+            {
+              "name": "Призыв",
+              "note": "в конце"
+            }
+          ]
+        }
+      },
+      "transition": "rise",
+      "sfx": [
+        "pop"
+      ],
+      "tokens": [
+        {
+          "text": "Ошибка",
+          "style": "normal",
+          "wi": 23
+        },
+        {
+          "text": "номер",
+          "style": "normal",
+          "wi": 24
+        },
+        {
+          "text": "три",
+          "style": "normal",
+          "wi": 25
+        },
+        {
+          "text": "—",
+          "style": "normal",
+          "wi": null
+        },
+        {
+          "text": "нет",
+          "style": "accent",
+          "wi": 26
+        },
+        {
+          "text": "ритма.",
+          "style": "accent",
+          "wi": 27
+        },
+        {
+          "text": "",
+          "style": "normal",
+          "wi": null,
+          "br": true
+        },
+        {
+          "text": "Меняй",
+          "style": "normal",
+          "wi": 28
+        },
+        {
+          "text": "картинку",
+          "style": "normal",
+          "wi": 29
+        },
+        {
+          "text": "каждые",
+          "style": "normal",
+          "wi": 30
+        },
+        {
+          "text": "две-три",
+          "style": "normal",
+          "wi": 31
+        },
+        {
+          "text": "секунды.",
+          "style": "normal",
+          "wi": 32
+        }
+      ],
+      "voice_plain": "Ошибка номер три — нет ритма. Меняй картинку каждые две-три секунды.",
+      "est_sec": 4.35
+    },
+    {
+      "id": "proof",
+      "label": "результат",
+      "role": "value",
+      "voice": "_Запомни формулу:_ | ^хук,^ ^ритм,^ ^текст.^",
+      "mascot": "idle",
+      "visual": {
+        "engine": "remotion",
+        "component": "ToolList",
+        "props": {
+          "badge": "чек-лист",
+          "items": [
+            {
+              "name": "Хук",
+              "desc": "0–2 с",
+              "icon": "⚡"
+            },
+            {
+              "name": "Ритм",
+              "desc": "2–3 с",
+              "icon": "🎞"
+            },
+            {
+              "name": "Текст",
+              "desc": "в safe zone",
+              "icon": "🔤"
+            }
+          ],
+          "total": 3,
+          "title": null
+        }
+      },
+      "transition": "pop",
+      "sfx": [
+        "riser"
+      ],
+      "flash": true,
+      "tokens": [
+        {
+          "text": "Запомни",
+          "style": "kicker",
+          "wi": 33
+        },
+        {
+          "text": "формулу:",
+          "style": "kicker",
+          "wi": 34
+        },
+        {
+          "text": "",
+          "style": "normal",
+          "wi": null,
+          "br": true
+        },
+        {
+          "text": "хук,",
+          "style": "big",
+          "wi": 35
+        },
+        {
+          "text": "ритм,",
+          "style": "big",
+          "wi": 36
+        },
+        {
+          "text": "текст.",
+          "style": "big",
+          "wi": 37
+        }
+      ],
+      "voice_plain": "Запомни формулу: хук, ритм, текст.",
+      "est_sec": 2.17
+    },
+    {
+      "id": "cta",
+      "label": "призыв",
+      "role": "cta",
+      "voice": "Напиши *«ХУК»* в директ — | пришлю десять готовых формул.",
+      "mascot": "wave",
+      "visual": {
+        "engine": "remotion",
+        "component": "CTA",
+        "props": {
+          "text": "Написать в директ",
+          "icon": "✉"
+        }
+      },
+      "transition": "pop",
+      "sfx": [
+        "impact"
+      ],
+      "tokens": [
+        {
+          "text": "Напиши",
+          "style": "normal",
+          "wi": 38
+        },
+        {
+          "text": "«ХУК»",
+          "style": "accent",
+          "wi": 39
+        },
+        {
+          "text": "в",
+          "style": "normal",
+          "wi": 40
+        },
+        {
+          "text": "директ",
+          "style": "normal",
+          "wi": 41
+        },
+        {
+          "text": "—",
+          "style": "normal",
+          "wi": null
+        },
+        {
+          "text": "",
+          "style": "normal",
+          "wi": null,
+          "br": true
+        },
+        {
+          "text": "пришлю",
+          "style": "normal",
+          "wi": 42
+        },
+        {
+          "text": "десять",
+          "style": "normal",
+          "wi": 43
+        },
+        {
+          "text": "готовых",
+          "style": "normal",
+          "wi": 44
+        },
+        {
+          "text": "формул.",
+          "style": "normal",
+          "wi": 45
+        }
+      ],
+      "voice_plain": "Напиши «ХУК» в директ — пришлю десять готовых формул.",
+      "est_sec": 3.48
+    }
+  ],
+  "warnings": []
+}

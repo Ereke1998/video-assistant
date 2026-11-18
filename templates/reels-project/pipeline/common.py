@@ -42,4 +42,29 @@ def duration(path) -> float:
 
 
 def words_of(text: str):
-    return [w for w in text.split() if w.strip("—–-")]
+    return [w for w in text.split() if any(ch.isalnum() for ch in w)]
+
+
+MARK = {"*": "accent", "~": "strike", "^": "big", "_": "kicker"}
+
+
+def tokenize(voice: str, offset: int = 0):
+    """Разметка заголовка: *акцент* ~зачёркнуто~ ^КРУПНО^ _подводка_ и « | » — перенос строки.
+    Возвращает (tokens, plain): tokens для Remotion (wi — индекс слова в общей озвучке), plain — чистый текст для TTS."""
+    tokens, style, wi = [], "normal", offset
+    for raw in voice.split():
+        if raw == "|":
+            tokens.append({"text": "", "style": "normal", "wi": None, "br": True}); continue
+        t, s = raw, style
+        if t[0] in MARK:
+            s = style = MARK[t[0]]; t = t[1:]
+        close = bool(t) and t[-1] in MARK and MARK[t[-1]] == s
+        if close:
+            t = t[:-1]
+        is_word = any(ch.isalnum() for ch in t)
+        tokens.append({"text": t, "style": s, "wi": wi if is_word else None})
+        wi += is_word
+        if close:
+            style = "normal"
+    plain = " ".join(x["text"] for x in tokens if not x.get("br") and x["text"])
+    return tokens, plain

@@ -1,5 +1,5 @@
 {
-  "$comment": "Единый источник правды. Ролик целиком генерируется кодом: сценарий → TTS-озвучка → выравнивание слов → субтитры → Remotion/HyperFrames. Записей экрана и голоса автора нет. Правки на естественном языке вносятся сюда + строкой в edits.md.",
+  "$comment": "Единый источник правды. Ролик целиком генерируется кодом, без склеек: постоянный фон + персонаж-маскот, сверху заголовок = озвучка (караоке), в центре анимированные UI-карточки. Правки на естественном языке — сюда + строкой в edits.md.",
   "project": {
     "name": "untitled",
     "date": "YYYY-MM-DD",
@@ -29,7 +29,7 @@
     "rule": "Вдохновляйся, но не копируй: берём темп, тип хука, ритм субтитров — не текст, не кадры, не графику"
   },
   "script": {
-    "$comment": "Бриф для pipeline/generate_script.py. Пустой voice хука заполняется по hook.formula; остальные сцены пишет ассистент.",
+    "$comment": "Бриф для pipeline/generate_script.py. Разметка в scenes[].voice: *акцент* ~зачёркнуто~ ^КРУПНО^ _подводка_ и « | » — перенос строки. В TTS уходит текст без разметки.",
     "topic": "",
     "audience": "",
     "tone": "энергично, по делу",
@@ -49,7 +49,7 @@
       "ru": 2.3,
       "kk": 2.0
     },
-    "max_words_per_scene": 14,
+    "max_words_per_scene": 16,
     "output_json": "build/script.json",
     "output_md": "script.md",
     "voiceover_md": "voiceover.md"
@@ -57,120 +57,174 @@
   "scenes": [
     {
       "id": "hook",
+      "label": "хук",
       "role": "hook",
       "voice": "",
+      "mascot": "think",
+      "flash": false,
       "visual": {
         "engine": "remotion",
-        "component": "Hook",
+        "component": "Chips",
         "props": {
-          "title": "",
-          "scale": 1.0
+          "layout": "float",
+          "items": [
+            {
+              "text": ""
+            },
+            {
+              "text": ""
+            },
+            {
+              "text": ""
+            }
+          ]
         }
       },
-      "transition": "zoom",
+      "transition": "pop",
       "sfx": [
         "whoosh"
       ]
     },
     {
       "id": "problem",
+      "label": "проблема",
       "role": "problem",
       "voice": "",
+      "mascot": "shrug",
       "visual": {
         "engine": "remotion",
-        "component": "Plate",
+        "component": "Chat",
         "props": {
-          "title": "",
-          "subtitle": "",
-          "emoji": ""
+          "messages": [
+            {
+              "from": "them",
+              "text": ""
+            }
+          ],
+          "strike": 0
         }
       },
-      "transition": "slide",
+      "transition": "rise",
       "sfx": [
         "pop"
       ]
     },
     {
-      "id": "steps",
+      "id": "value1",
+      "label": "решение",
       "role": "value",
       "voice": "",
+      "mascot": "point",
       "visual": {
         "engine": "remotion",
-        "component": "List",
+        "component": "Phone",
         "props": {
-          "title": "",
-          "items": []
+          "screens": [
+            {
+              "kind": "post",
+              "title": ""
+            },
+            {
+              "kind": "stats",
+              "value": 0,
+              "caption": ""
+            }
+          ]
         }
       },
-      "transition": "slide",
+      "transition": "rise",
+      "sfx": [
+        "pop"
+      ]
+    },
+    {
+      "id": "value2",
+      "label": "шаги",
+      "role": "value",
+      "voice": "",
+      "mascot": "present",
+      "visual": {
+        "engine": "remotion",
+        "component": "ToolList",
+        "props": {
+          "title": "",
+          "items": [],
+          "total": 4
+        }
+      },
+      "transition": "rise",
       "sfx": [
         "pop"
       ]
     },
     {
       "id": "proof",
+      "label": "результат",
       "role": "value",
       "voice": "",
+      "mascot": null,
       "visual": {
         "engine": "remotion",
-        "component": "Infographic",
+        "component": "Counter",
         "props": {
-          "items": [
-            {
-              "label": "Было",
-              "value": 10
-            },
-            {
-              "label": "Стало",
-              "value": 85
-            }
-          ]
+          "to": 0,
+          "label": "",
+          "badge": ""
         }
       },
-      "transition": "zoom",
+      "transition": "pop",
       "sfx": [
         "riser"
       ]
     },
     {
       "id": "demo",
+      "label": "интерфейс",
       "role": "value",
       "enabled": false,
       "voice": "",
+      "mascot": "point",
       "visual": {
         "engine": "hyperframes",
         "file": "graphics/hyperframes/index.html",
         "render": "build/renders/hf_demo.mp4"
       },
-      "transition": "slide",
+      "transition": "rise",
       "sfx": []
     },
     {
       "id": "cta",
+      "label": "призыв",
       "role": "cta",
       "voice": "",
+      "mascot": "wave",
       "visual": {
         "engine": "remotion",
         "component": "CTA",
         "props": {
-          "text": ""
+          "text": "",
+          "icon": "✉"
         }
       },
-      "transition": "zoom",
+      "transition": "pop",
       "sfx": [
         "impact"
       ]
     }
   ],
   "scene_components": {
-    "$comment": "Доступные визуалы Remotion для scenes[].visual.component",
-    "Hook": "крупный заголовок с pop/rotate, props: title, scale",
-    "Plate": "плашка с заголовком, подзаголовком, эмодзи, props: title, subtitle, emoji",
-    "List": "пункты появляются по очереди, props: title, items[]",
-    "Infographic": "анимированные бары со счётчиком, props: items[{label,value}]",
-    "Counter": "большая цифра с отсчётом, props: from, to, suffix, label",
-    "Code": "блок кода с эффектом печати, props: code, language",
-    "CTA": "пульсирующая кнопка-призыв, props: text"
+    "$comment": "Визуалы средней зоны (y≈620–1260). scenes[].mascot: idle|point|wave|think|present|shrug|null; mascot_x: left|center|right; flash: true — фон вспыхивает акцентом на первом *акцентном* слове.",
+    "Chips": "плашки с чекбоксами/иконками, props: items[{text,icon?,checked?}], layout float|stack",
+    "Chat": "сообщения/комментарии, props: messages[{from:me|them,text,name?}], strike — индекс зачёркнутого",
+    "Phone": "1–2 телефона веером, props: screens[{kind:stats|post|safe,title,value,caption,color}]",
+    "ToolList": "список с пустыми слотами, props: title, badge, items[{name,desc,icon}], total",
+    "Folder": "дерево папок, props: root, children[]",
+    "Steps": "шаги 01/02/03 с подсветкой активного, props: items[{name,note}]",
+    "Bars": "сравнение столбиками, props: items[{label,value}], suffix",
+    "Counter": "крупная цифра с отсчётом, props: from, to, suffix, label, badge",
+    "Cards": "веер мини-обложек, props: items[{title,emoji,color}]",
+    "Code": "окно кода/терминала с печатью, props: code, title",
+    "CTA": "кнопка + курсор-клик + ник, props: text, icon, handle"
   },
   "voiceover": {
     "engine": "edge-tts",
@@ -197,6 +251,7 @@
     "output_json": "build/audio/words.json"
   },
   "subtitles": {
+    "mode": "headline",
     "words_per_block": {
       "min": 2,
       "max": 4
@@ -225,28 +280,17 @@
       "uppercase": false
     },
     "output_srt": "subtitles/subtitles.srt",
-    "output_json": "subtitles/subtitles.json"
+    "output_json": "subtitles/subtitles.json",
+    "$comment": "mode: headline — текст озвучки сверху с акцентами (как в референсах); bottom — классические субтитры снизу; off. SRT экспортируется всегда — для автосубтитров платформы."
   },
   "theme": {
-    "background": {
-      "type": "gradient",
-      "colors": [
-        "#0F1020",
-        "#2A1B5C",
-        "#0B3D5C"
-      ],
-      "motion": true,
-      "grid": true
+    "preset": "night",
+    "presets_available": {
+      "night": "тёмный фон-созвездие, оранжевые плашки за словами, светящиеся карточки",
+      "blueprint": "чертёжная сетка, HUD с REC и таймкодом, бегущая строка, крупные цифры",
+      "paper": "бумага в клетку, караоке-текст, красный курсив, карточки с жёсткой тенью"
     },
-    "plate": {
-      "bg": "rgba(255,255,255,0.08)",
-      "border": "rgba(255,255,255,0.18)",
-      "radius": 40,
-      "blur_px": 20
-    },
-    "text_color": "#FFFFFF",
-    "accent_color": "#FFD400",
-    "font": "Montserrat"
+    "overrides": {}
   },
   "audio": {
     "music": {
@@ -266,5 +310,24 @@
     "codec": "h264",
     "crf": 18,
     "output": "build/renders/final.mp4"
+  },
+  "headline": {
+    "reveal": "auto",
+    "reveal_available": [
+      "auto",
+      "pop",
+      "karaoke"
+    ],
+    "size_px": null
+  },
+  "mascot": {
+    "enabled": true,
+    "x": "center"
+  },
+  "hud": {
+    "brand": "",
+    "handle": "",
+    "ticker": "",
+    "show": {}
   }
 }
