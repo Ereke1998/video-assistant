@@ -1,6 +1,6 @@
 // HUD-оверлеи: хлебные крошки + точки прогресса (paper), REC-бар с таймкодом (blueprint), бегущая строка.
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
-import { config, theme, scenes, sceneIndexAt } from "../config";
+import { config, theme, scenes, sceneIndexAt, timeline, wordTime } from "../config";
 
 const mono: React.CSSProperties = { fontFamily: theme.mono, fontSize: 24, letterSpacing: ".04em" };
 
@@ -9,16 +9,20 @@ export const HUD = () => {
   const i = sceneIndexAt(f); const s = scenes[i];
   const tc = (fr: number) => { const t = Math.floor(fr / fps); return `00:${String(Math.floor(t / 60)).padStart(2, "0")}:${String(t % 60).padStart(2, "0")}:${String(fr % fps).padStart(2, "0")}`; };
   const brand = config.hud?.brand ?? "";
+  // Во время вспышки фона (scenes[].flash) акцентный цвет сливается с фоном — HUD переходит в белый.
+  const acc = s?.flash ? s.tokens?.find((t: any) => (t.style === "accent" || t.style === "big") && t.wi !== null) : null;
+  const flashing = acc && timeline[i] && f / fps >= wordTime(acc.wi).start;
+  const dotOn = flashing ? "#FFFFFF" : theme.accent; const hudText = flashing ? "#FFFFFF" : theme.text;
   return (
     <AbsoluteFill style={{ pointerEvents: "none" }}>
       {theme.hud.breadcrumb && (
-        <div style={{ ...mono, position: "absolute", top: 64, left: 64, color: theme.text, opacity: .55 }}>
+        <div style={{ ...mono, position: "absolute", top: 64, left: 64, color: hudText, opacity: .55 }}>
           // {String(i + 1).padStart(2, "0")} — {s?.label ?? s?.id}
         </div>
       )}
       {theme.hud.dots && (
         <div style={{ position: "absolute", top: 66, right: 64, display: "flex", gap: 10 }}>
-          {scenes.map((_, k) => <div key={k} style={{ width: 20, height: 20, borderRadius: 10, border: `3px solid ${theme.text}`, background: k === i ? theme.accent : "transparent", borderColor: k === i ? theme.accent : theme.text }} />)}
+          {scenes.map((_, k) => <div key={k} style={{ width: 20, height: 20, borderRadius: 10, border: `3px solid ${k === i ? dotOn : hudText}`, background: k === i ? dotOn : "transparent" }} />)}
         </div>
       )}
       {theme.hud.topbar && (
