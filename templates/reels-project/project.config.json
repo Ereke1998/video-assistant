@@ -1,0 +1,123 @@
+{
+  "$comment": "Единый источник правды проекта. Все скрипты pipeline/ и композиции Remotion читают этот файл. Правки «на естественном языке» вносятся сюда + в edits.md.",
+  "project": {
+    "name": "untitled",
+    "date": "YYYY-MM-DD",
+    "language": "ru",
+    "platform": ["reels", "tiktok"],
+    "target_duration_sec": 30,
+    "goal": "",
+    "cta": ""
+  },
+  "format": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "safe_zone": { "top_pct": 10, "bottom_pct": 20, "side_px": 60 }
+  },
+  "references": {
+    "urls": [],
+    "download_dir": "references/downloads",
+    "analysis_file": "references/analysis.md",
+    "rule": "Вдохновляйся, но не копируй: берём темп, тип хука, ритм субтитров — не текст, не кадры, не графику"
+  },
+  "sources": {
+    "dir": "sources",
+    "main": "sources/screen.mp4",
+    "broll": []
+  },
+  "autocut": {
+    "silence_threshold_db": -35,
+    "min_silence_sec": 0.35,
+    "keep_padding_sec": 0.08,
+    "min_segment_sec": 0.25,
+    "remove_fillers": true,
+    "fillers": {
+      "ru": ["э", "ээ", "эм", "мм", "ну", "вот", "типа", "короче", "как бы", "в общем", "значит", "собственно"],
+      "kk": ["ээ", "мм", "енді", "яғни", "сосын", "жаңағы", "солай", "ана", "мынау"]
+    },
+    "output": "build/cuts/main_cut.mp4"
+  },
+  "whisper": {
+    "engine": "faster-whisper",
+    "model": "large-v3",
+    "language": "ru",
+    "word_timestamps": true,
+    "output_json": "build/audio/transcript.json"
+  },
+  "subtitles": {
+    "words_per_block": { "min": 2, "max": 4 },
+    "min_block_sec": 0.5,
+    "max_block_sec": 2.0,
+    "keywords": [],
+    "auto_accent": { "numbers": true, "caps_words": true },
+    "style": {
+      "font": "Montserrat",
+      "weight": 800,
+      "size_px": 78,
+      "color": "#FFFFFF",
+      "accent_color": "#FFD400",
+      "accent_scale": 1.15,
+      "stroke_px": 6,
+      "stroke_color": "#000000",
+      "position_y_pct": 62,
+      "animation": "pop",
+      "uppercase": false
+    },
+    "output_srt": "subtitles/subtitles.srt",
+    "output_json": "subtitles/subtitles.json"
+  },
+  "timeline": [
+    {
+      "id": "hook",
+      "start": "00:00",
+      "end": "00:03",
+      "type": "hook",
+      "text": "",
+      "graphics": { "engine": "remotion", "composition": "Hook", "props": { "title": "", "scale": 1.0 } },
+      "speed": 1.0,
+      "sfx": ["whoosh"]
+    },
+    {
+      "id": "problem",
+      "start": "00:03",
+      "end": "00:08",
+      "type": "screen",
+      "source": "build/cuts/main_cut.mp4",
+      "graphics": { "engine": "hyperframes", "file": "graphics/hyperframes/index.html" },
+      "speed": 1.0,
+      "zoom": { "enabled": true, "factor": 1.2 },
+      "sfx": ["pop"]
+    },
+    {
+      "id": "value",
+      "start": "00:08",
+      "end": "00:25",
+      "type": "screen",
+      "source": "build/cuts/main_cut.mp4",
+      "graphics": { "engine": "remotion", "composition": "Infographic", "props": { "items": [] } },
+      "speed": 1.0,
+      "sfx": []
+    },
+    {
+      "id": "cta",
+      "start": "00:25",
+      "end": "00:30",
+      "type": "cta",
+      "graphics": { "engine": "remotion", "composition": "CTA", "props": { "text": "" } },
+      "speed": 1.0,
+      "sfx": ["impact"]
+    }
+  ],
+  "audio": {
+    "music": { "file": "", "volume_db": -18, "ducking_db": -8 },
+    "voice_lufs": -14,
+    "sfx_dir": "../../assets/sfx"
+  },
+  "render": {
+    "codec": "h264",
+    "crf": 18,
+    "audio_bitrate": "192k",
+    "output": "build/renders/final.mp4"
+  }
+}

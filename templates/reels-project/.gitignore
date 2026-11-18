@@ -1,0 +1,8 @@
+sources/*
+!sources/.gitkeep
+references/downloads/*
+!references/downloads/.gitkeep
+build/*
+!build/.gitkeep
+graphics/remotion/node_modules
+graphics/remotion/public/*.mp4
