@@ -11,7 +11,6 @@ import json, sys, datetime
 d, name, lang = sys.argv[1:]
 f = f"{d}/project.config.json"; c = json.load(open(f, encoding="utf-8"))
 c["project"].update(name=name, date=str(datetime.date.today()), language=lang)
-c["whisper"]["language"] = "kk" if lang == "kk" else "ru"
 json.dump(c, open(f, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
 PY
 echo "$DIR"

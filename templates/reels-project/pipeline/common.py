@@ -30,3 +30,16 @@ def sec_to_srt(t: float) -> str:
 def run(cmd):
     print("$", " ".join(map(str, cmd)), file=sys.stderr)
     return subprocess.run(list(map(str, cmd)), check=True, capture_output=True, text=True)
+
+
+def active_scenes(cfg):
+    return [s for s in cfg["scenes"] if s.get("enabled", True)]
+
+
+def duration(path) -> float:
+    return float(run(["ffprobe", "-v", "error", "-show_entries", "format=duration",
+                      "-of", "csv=p=0", path]).stdout.strip())
+
+
+def words_of(text: str):
+    return [w for w in text.split() if w.strip("—–-")]

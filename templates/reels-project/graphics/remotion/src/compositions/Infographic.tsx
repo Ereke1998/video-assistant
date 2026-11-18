@@ -5,7 +5,7 @@ type Item = { label: string; value: number };
 export const Infographic: React.FC<{ items: Item[] }> = ({ items }) => {
   const f = useCurrentFrame(); const { fps } = useVideoConfig();
   const max = Math.max(1, ...items.map((i) => i.value));
-  const st = config.subtitles.style;
+  const st = { ...config.subtitles.style, font: config.theme.font, accent_color: config.theme.accent_color };
   return (
     <AbsoluteFill style={{ justifyContent: "flex-start", paddingTop: "14%", paddingInline: 80, gap: 36 }}>
       {items.map((it, i) => {

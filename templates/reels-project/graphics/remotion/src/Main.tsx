@@ -1,41 +1,44 @@
-// Сборка всего ролика по config.timeline: видеоряд + графика блоков + субтитры поверх.
-import { AbsoluteFill, OffthreadVideo, Sequence, staticFile, interpolate, useCurrentFrame } from "remotion";
-import { config, sec, tcToSec } from "./config";
-import { Hook } from "./compositions/Hook";
-import { Infographic } from "./compositions/Infographic";
-import { CTA } from "./compositions/CTA";
+// Сборка ролика целиком из кода: фон → сцены (Remotion / HyperFrames) с переходами → субтитры → озвучка, музыка, SFX.
+import { AbsoluteFill, Audio, OffthreadVideo, Sequence, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
+import { config, scenes, timeline, hasVoiceover } from "./config";
+import { COMPONENTS } from "./compositions";
+import { Background } from "./compositions/Background";
 import { Subtitles } from "./compositions/Subtitles";
 
-const GRAPHICS: Record<string, React.FC<any>> = { Hook, Infographic, CTA };
+const db = (v: number) => Math.pow(10, v / 20);
+const T = 8; // кадров на переход
 
-const Zoom: React.FC<{ factor: number; children: React.ReactNode; dur: number }> = ({ factor, children, dur }) => {
-  const f = useCurrentFrame();
-  const s = interpolate(f, [0, dur], [1, factor], { extrapolateRight: "clamp" });
-  return <AbsoluteFill style={{ transform: `scale(${s})` }}>{children}</AbsoluteFill>;
+const Transition: React.FC<{ type: string; frames: number; children: React.ReactNode }> = ({ type, frames, children }) => {
+  const f = useCurrentFrame(); const { fps } = useVideoConfig();
+  const enter = spring({ frame: f, fps, config: { damping: 16, stiffness: 160 } });
+  const exit = interpolate(f, [frames - T, frames], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const transform = type === "slide" ? `translateX(${(1 - enter) * 120}%)` : `scale(${0.85 + 0.15 * enter})`;
+  return <AbsoluteFill style={{ transform, opacity: Math.min(enter * 1.5, 1) * exit }}>{children}</AbsoluteFill>;
 };
 
-export const Main = () => {
-  let videoOffset = 0; // позиция в смонтированном ряду main_cut.mp4
-  return (
-    <AbsoluteFill style={{ backgroundColor: "#000" }}>
-      {config.timeline.map((b: any) => {
-        const from = sec(tcToSec(b.start));
-        const dur = sec(tcToSec(b.end)) - from;
-        const startFrom = videoOffset;
-        if (b.source) videoOffset += Math.round(dur * (b.speed ?? 1));
-        const G = b.graphics?.engine === "remotion" ? GRAPHICS[b.graphics.composition] : null;
-        const video = b.source ? (
-          <OffthreadVideo src={staticFile("main_cut.mp4")} startFrom={startFrom} playbackRate={b.speed ?? 1}
-            style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-        ) : null;
-        return (
-          <Sequence key={b.id} from={from} durationInFrames={dur} name={b.id}>
-            {video && (b.zoom?.enabled ? <Zoom factor={b.zoom.factor} dur={dur}>{video}</Zoom> : video)}
-            {G && <G {...b.graphics.props} />}
-          </Sequence>
-        );
-      })}
-      <Subtitles />
-    </AbsoluteFill>
-  );
-};
+export const Main = () => (
+  <AbsoluteFill>
+    <Background />
+    {scenes.map((s) => {
+      const slot = timeline.find((t) => t.id === s.id);
+      if (!slot) return null;
+      const C = s.visual.engine === "remotion" ? COMPONENTS[s.visual.component] : null;
+      return (
+        <Sequence key={s.id} from={slot.from} durationInFrames={slot.frames} name={s.id}>
+          <Transition type={s.transition ?? "zoom"} frames={slot.frames}>
+            {C && <C {...s.visual.props} />}
+            {s.visual.engine === "hyperframes" && (
+              <OffthreadVideo src={staticFile(`hf_${s.id}.mp4`)} transparent muted style={{ width: "100%", height: "100%" }} />
+            )}
+          </Transition>
+          {config.audio.sfx_enabled && (s.sfx ?? []).map((x: string) => config.audio.sfx_files[x] && (
+            <Audio key={x} src={staticFile(config.audio.sfx_files[x])} volume={db(config.audio.sfx_volume_db)} />
+          ))}
+        </Sequence>
+      );
+    })}
+    <Subtitles />
+    {hasVoiceover && <Audio src={staticFile("voiceover.mp3")} />}
+    {config.audio.music.file && <Audio src={staticFile(config.audio.music.file)} volume={db(config.audio.music.volume_db)} loop />}
+  </AbsoluteFill>
+);

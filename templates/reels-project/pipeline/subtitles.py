@@ -1,11 +1,11 @@
-"""Шаг 4b. Динамичные субтитры: блоки по 2–4 слова, акценты на ключевых словах.
-Вход: transcript.json (для смонтированного видео — запусти transcribe.py на build/cuts/main_cut.mp4).
+"""Шаг 4. Динамичные субтитры: блоки по 2–4 слова, акценты на ключевых словах.
+Вход: alignment.output_json (пословные тайминги озвучки).
 Выход: subtitles.srt (ключевые слова в <b>) и subtitles.json (для Remotion-композиции Subtitles)."""
 import json, re
 from common import load_config, p, sec_to_srt
 
 cfg = load_config(); s = cfg["subtitles"]
-words = json.loads(p(cfg["whisper"]["output_json"]).read_text(encoding="utf-8"))
+words = json.loads(p(cfg["alignment"]["output_json"]).read_text(encoding="utf-8"))
 kw = {k.lower() for k in s["keywords"]}
 lo, hi = s["words_per_block"]["min"], s["words_per_block"]["max"]
 PREPS = {"в", "на", "с", "к", "о", "и", "а", "не", "за", "по", "до", "из", "у", "от", "для", "без"}
@@ -45,7 +45,4 @@ srt = "\n".join(
     for i, b in enumerate(out, 1))
 for key, data in (("output_srt", srt), ("output_json", json.dumps(out, ensure_ascii=False, indent=1))):
     f = p(s[key]); f.parent.mkdir(parents=True, exist_ok=True); f.write_text(data, encoding="utf-8")
-# копия для Remotion
-rp = p("graphics/remotion/public"); rp.mkdir(parents=True, exist_ok=True)
-(rp / "subtitles.json").write_text(json.dumps(out, ensure_ascii=False), encoding="utf-8")
 print(f"{len(out)} блоков -> {s['output_srt']}, {s['output_json']}")
