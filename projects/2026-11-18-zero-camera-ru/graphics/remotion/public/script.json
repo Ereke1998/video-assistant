@@ -1,0 +1,551 @@
+{
+  "language": "ru",
+  "pace_wps": 2.3,
+  "est_total_sec": 20.9,
+  "scenes": [
+    {
+      "id": "hook",
+      "label": "хук",
+      "role": "hook",
+      "voice": "^0{Ноль} камер,^ | ^0{ноль} микрофонов,^ | ^0{ноль} монтажёров.^",
+      "mascot": "present",
+      "visual": {
+        "engine": "remotion",
+        "component": "Cards",
+        "props": {
+          "items": [
+            {
+              "title": "Камера",
+              "emoji": "📷"
+            },
+            {
+              "title": "Микрофон",
+              "emoji": "🎙"
+            },
+            {
+              "title": "Монтаж",
+              "emoji": "✂️"
+            }
+          ]
+        }
+      },
+      "transition": "pop",
+      "sfx": [
+        "whoosh"
+      ],
+      "flash": "last",
+      "tokens": [
+        {
+          "text": "0",
+          "style": "big",
+          "wi": 0,
+          "say": "Ноль"
+        },
+        {
+          "text": "камер,",
+          "style": "big",
+          "wi": 1
+        },
+        {
+          "text": "",
+          "style": "normal",
+          "wi": null,
+          "br": true
+        },
+        {
+          "text": "0",
+          "style": "big",
+          "wi": 2,
+          "say": "ноль"
+        },
+        {
+          "text": "микрофонов,",
+          "style": "big",
+          "wi": 3
+        },
+        {
+          "text": "",
+          "style": "normal",
+          "wi": null,
+          "br": true
+        },
+        {
+          "text": "0",
+          "style": "big",
+          "wi": 4,
+          "say": "ноль"
+        },
+        {
+          "text": "монтажёров.",
+          "style": "big",
+          "wi": 5
+        }
+      ],
+      "voice_plain": "Ноль камер, ноль микрофонов, ноль монтажёров.",
+      "est_sec": 2.61
+    },
+    {
+      "id": "code",
+      "label": "код",
+      "role": "problem",
+      "voice": "И всё равно ролик *выходит.* | Его собирает код.",
+      "mascot": "point",
+      "visual": {
+        "engine": "remotion",
+        "component": "Code",
+        "props": {
+          "title": "reel.tsx",
+          "code": "<Headline voice=\"Его собирает код\" />\n<Mascot pose=\"point\" />\n<CTA handle=\"@ekasymoff\" />",
+          "cps": 38
+        }
+      },
+      "transition": "rise",
+      "sfx": [
+        "pop"
+      ],
+      "tokens": [
+        {
+          "text": "И",
+          "style": "normal",
+          "wi": 6
+        },
+        {
+          "text": "всё",
+          "style": "normal",
+          "wi": 7
+        },
+        {
+          "text": "равно",
+          "style": "normal",
+          "wi": 8
+        },
+        {
+          "text": "ролик",
+          "style": "normal",
+          "wi": 9
+        },
+        {
+          "text": "выходит.",
+          "style": "accent",
+          "wi": 10
+        },
+        {
+          "text": "",
+          "style": "normal",
+          "wi": null,
+          "br": true
+        },
+        {
+          "text": "Его",
+          "style": "normal",
+          "wi": 11
+        },
+        {
+          "text": "собирает",
+          "style": "normal",
+          "wi": 12
+        },
+        {
+          "text": "код.",
+          "style": "normal",
+          "wi": 13
+        }
+      ],
+      "voice_plain": "И всё равно ролик выходит. Его собирает код.",
+      "est_sec": 3.48
+    },
+    {
+      "id": "claude",
+      "label": "сценарий",
+      "role": "value",
+      "voice": "*Claude{Клод}* пишет сценарий | и собирает весь код.",
+      "mascot": "think",
+      "visual": {
+        "engine": "remotion",
+        "component": "Chat",
+        "props": {
+          "messages": [
+            {
+              "from": "me",
+              "text": "Напиши сценарий для Reels: хук, 5 сцен, CTA"
+            },
+            {
+              "from": "them",
+              "name": "Claude",
+              "text": "Готово ✓ Хук уложился в 3 секунды"
+            }
+          ]
+        }
+      },
+      "transition": "rise",
+      "sfx": [
+        "pop"
+      ],
+      "tokens": [
+        {
+          "text": "Claude",
+          "style": "accent",
+          "wi": 14,
+          "say": "Клод"
+        },
+        {
+          "text": "пишет",
+          "style": "normal",
+          "wi": 15
+        },
+        {
+          "text": "сценарий",
+          "style": "normal",
+          "wi": 16
+        },
+        {
+          "text": "",
+          "style": "normal",
+          "wi": null,
+          "br": true
+        },
+        {
+          "text": "и",
+          "style": "normal",
+          "wi": 17
+        },
+        {
+          "text": "собирает",
+          "style": "normal",
+          "wi": 18
+        },
+        {
+          "text": "весь",
+          "style": "normal",
+          "wi": 19
+        },
+        {
+          "text": "код.",
+          "style": "normal",
+          "wi": 20
+        }
+      ],
+      "voice_plain": "Клод пишет сценарий и собирает весь код.",
+      "est_sec": 3.04
+    },
+    {
+      "id": "voice",
+      "label": "голос",
+      "role": "value",
+      "voice": "Голос, который вы слышите, — *нейросеть.* | Заметили?",
+      "mascot": "shrug",
+      "visual": {
+        "engine": "remotion",
+        "component": "Chips",
+        "props": {
+          "layout": "float",
+          "items": [
+            {
+              "text": "Синтез речи",
+              "icon": "🔊"
+            },
+            {
+              "text": "Без микрофона",
+              "icon": "🎙"
+            },
+            {
+              "text": "Любой текст",
+              "icon": "📝"
+            }
+          ]
+        }
+      },
+      "transition": "rise",
+      "sfx": [
+        "riser"
+      ],
+      "flash": true,
+      "tokens": [
+        {
+          "text": "Голос,",
+          "style": "normal",
+          "wi": 21
+        },
+        {
+          "text": "который",
+          "style": "normal",
+          "wi": 22
+        },
+        {
+          "text": "вы",
+          "style": "normal",
+          "wi": 23
+        },
+        {
+          "text": "слышите,",
+          "style": "normal",
+          "wi": 24
+        },
+        {
+          "text": "—",
+          "style": "normal",
+          "wi": null
+        },
+        {
+          "text": "нейросеть.",
+          "style": "accent",
+          "wi": 25
+        },
+        {
+          "text": "",
+          "style": "normal",
+          "wi": null,
+          "br": true
+        },
+        {
+          "text": "Заметили?",
+          "style": "normal",
+          "wi": 26
+        }
+      ],
+      "voice_plain": "Голос, который вы слышите, — нейросеть. Заметили?",
+      "est_sec": 2.61
+    },
+    {
+      "id": "tools",
+      "label": "инструменты",
+      "role": "value",
+      "voice": "Тайминг каждого слова — *автоматически,* | а *Remotion{Ремоушн}* всё анимирует.",
+      "mascot": "present",
+      "visual": {
+        "engine": "remotion",
+        "component": "ToolList",
+        "props": {
+          "title": "5 инструментов",
+          "items": [
+            {
+              "name": "Claude",
+              "desc": "сценарий + код",
+              "icon": "✳️"
+            },
+            {
+              "name": "Edge TTS",
+              "desc": "голос + тайминги",
+              "icon": "🔊"
+            },
+            {
+              "name": "Remotion",
+              "desc": "анимация",
+              "icon": "🎬"
+            },
+            {
+              "name": "FFmpeg",
+              "desc": "звук",
+              "icon": "🎚"
+            },
+            {
+              "name": "yt-dlp",
+              "desc": "референсы",
+              "icon": "⬇️"
+            }
+          ],
+          "total": 5,
+          "stagger": 14
+        }
+      },
+      "transition": "rise",
+      "sfx": [
+        "pop"
+      ],
+      "tokens": [
+        {
+          "text": "Тайминг",
+          "style": "normal",
+          "wi": 27
+        },
+        {
+          "text": "каждого",
+          "style": "normal",
+          "wi": 28
+        },
+        {
+          "text": "слова",
+          "style": "normal",
+          "wi": 29
+        },
+        {
+          "text": "—",
+          "style": "normal",
+          "wi": null
+        },
+        {
+          "text": "автоматически,",
+          "style": "accent",
+          "wi": 30
+        },
+        {
+          "text": "",
+          "style": "normal",
+          "wi": null,
+          "br": true
+        },
+        {
+          "text": "а",
+          "style": "normal",
+          "wi": 31
+        },
+        {
+          "text": "Remotion",
+          "style": "accent",
+          "wi": 32,
+          "say": "Ремоушн"
+        },
+        {
+          "text": "всё",
+          "style": "normal",
+          "wi": 33
+        },
+        {
+          "text": "анимирует.",
+          "style": "normal",
+          "wi": 34
+        }
+      ],
+      "voice_plain": "Тайминг каждого слова — автоматически, а Ремоушн всё анимирует.",
+      "est_sec": 3.48
+    },
+    {
+      "id": "result",
+      "label": "итог",
+      "role": "value",
+      "voice": "Итог — *этот ролик.* | Ни одного снятого кадра.",
+      "mascot": "point",
+      "visual": {
+        "engine": "remotion",
+        "component": "Phone",
+        "props": {
+          "screens": [
+            {
+              "kind": "post",
+              "title": "0 камер\n0 микрофонов\n0 монтажёров",
+              "caption": "@ekasymoff",
+              "color": "#E8402A"
+            }
+          ]
+        }
+      },
+      "transition": "rise",
+      "sfx": [
+        "pop"
+      ],
+      "mascot_x": "right",
+      "tokens": [
+        {
+          "text": "Итог",
+          "style": "normal",
+          "wi": 35
+        },
+        {
+          "text": "—",
+          "style": "normal",
+          "wi": null
+        },
+        {
+          "text": "этот",
+          "style": "accent",
+          "wi": 36
+        },
+        {
+          "text": "ролик.",
+          "style": "accent",
+          "wi": 37
+        },
+        {
+          "text": "",
+          "style": "normal",
+          "wi": null,
+          "br": true
+        },
+        {
+          "text": "Ни",
+          "style": "normal",
+          "wi": 38
+        },
+        {
+          "text": "одного",
+          "style": "normal",
+          "wi": 39
+        },
+        {
+          "text": "снятого",
+          "style": "normal",
+          "wi": 40
+        },
+        {
+          "text": "кадра.",
+          "style": "normal",
+          "wi": 41
+        }
+      ],
+      "voice_plain": "Итог — этот ролик. Ни одного снятого кадра.",
+      "est_sec": 3.04
+    },
+    {
+      "id": "cta",
+      "label": "призыв",
+      "role": "cta",
+      "voice": "Нужна инструкция? | Напиши *«КОД»* в директ.",
+      "mascot": "wave",
+      "visual": {
+        "engine": "remotion",
+        "component": "CTA",
+        "props": {
+          "text": "Написать в директ",
+          "icon": "✉"
+        }
+      },
+      "transition": "pop",
+      "sfx": [
+        "impact"
+      ],
+      "tokens": [
+        {
+          "text": "Нужна",
+          "style": "normal",
+          "wi": 42
+        },
+        {
+          "text": "инструкция?",
+          "style": "normal",
+          "wi": 43
+        },
+        {
+          "text": "",
+          "style": "normal",
+          "wi": null,
+          "br": true
+        },
+        {
+          "text": "Напиши",
+          "style": "normal",
+          "wi": 44
+        },
+        {
+          "text": "«КОД»",
+          "style": "accent",
+          "wi": 45
+        },
+        {
+          "text": "в",
+          "style": "normal",
+          "wi": 46
+        },
+        {
+          "text": "директ.",
+          "style": "normal",
+          "wi": 47
+        }
+      ],
+      "voice_plain": "Нужна инструкция? Напиши «КОД» в директ.",
+      "est_sec": 2.61
+    }
+  ],
+  "warnings": [
+    "хронометраж ~20.9 с vs цель 28 с"
+  ]
+}

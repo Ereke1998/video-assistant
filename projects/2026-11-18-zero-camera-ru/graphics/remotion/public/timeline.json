@@ -1,0 +1,57 @@
+{
+ "total_sec": 26.854,
+ "total_frames": 806,
+ "fps": 30,
+ "engine": "edge-tts",
+ "scenes": [
+  {
+   "id": "hook",
+   "start": 0.0,
+   "end": 3.366,
+   "from": 0,
+   "frames": 101
+  },
+  {
+   "id": "code",
+   "start": 3.366,
+   "end": 7.172,
+   "from": 101,
+   "frames": 114
+  },
+  {
+   "id": "claude",
+   "start": 7.172,
+   "end": 10.101,
+   "from": 215,
+   "frames": 88
+  },
+  {
+   "id": "voice",
+   "start": 10.101,
+   "end": 14.406,
+   "from": 303,
+   "frames": 129
+  },
+  {
+   "id": "tools",
+   "start": 14.406,
+   "end": 18.852,
+   "from": 432,
+   "frames": 133
+  },
+  {
+   "id": "result",
+   "start": 18.852,
+   "end": 22.659,
+   "from": 566,
+   "frames": 114
+  },
+  {
+   "id": "cta",
+   "start": 22.659,
+   "end": 26.854,
+   "from": 680,
+   "frames": 126
+  }
+ ]
+}

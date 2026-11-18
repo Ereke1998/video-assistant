@@ -46,7 +46,7 @@
       "max_sec": 3
     },
     "pace_wps": {
-      "ru": 2.3,
+      "ru": 1.9,
       "kk": 1.8
     },
     "max_words_per_scene": 16,
@@ -238,10 +238,35 @@
     },
     "rate": "+8%",
     "pitch": "+0Hz",
-    "pad_after_sec": 0.15,
     "lufs": -14,
     "output": "build/audio/voiceover.mp3",
-    "timeline_json": "build/timeline.json"
+    "timeline_json": "build/timeline.json",
+    "voices_available": {
+      "ru": [
+        "ru-RU-DmitryNeural",
+        "ru-RU-SvetlanaNeural",
+        "en-US-AndrewMultilingualNeural",
+        "en-US-BrianMultilingualNeural",
+        "en-US-AvaMultilingualNeural"
+      ],
+      "kk": [
+        "kk-KZ-DauletNeural",
+        "kk-KZ-AigulNeural"
+      ]
+    },
+    "fx": "announcer",
+    "fx_available": [
+      "none",
+      "announcer"
+    ],
+    "trim": {
+      "enabled": true,
+      "lead_sec": 0.05,
+      "tail_sec": 0.12,
+      "max_pause_sec": 0.38,
+      "$comment": "срезает тишину TTS: хвост фразы и паузы длиннее max_pause_sec"
+    },
+    "pad_after_sec": 0.15
   },
   "alignment": {
     "engine": "tts",

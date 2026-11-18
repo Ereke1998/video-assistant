@@ -3,12 +3,30 @@
 import { interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { theme, wordTime, Token, config } from "../config";
 
-// Знаки без букв («—», «→») не переносятся отдельно: склеиваются с предыдущим словом.
+// Неразрывные группы: знаки без букв («—», «→») липнут к предыдущему слову,
+// подряд идущие ^КРУПНЫЕ^ слова в одной строке не разрываются («0 МИКРОФОНОВ»).
 const groups = (tokens: Token[]) => tokens.reduce<Token[][]>((acc, tk) => {
   const prev = acc[acc.length - 1];
-  if (!tk.br && tk.wi === null && prev && !prev[0].br) prev.push(tk); else acc.push([tk]);
+  const last = prev?.[prev.length - 1];
+  const glue = prev && !prev[0].br && !tk.br && (tk.wi === null || (tk.style === "big" && last?.style === "big"));
+  if (glue) prev.push(tk); else acc.push([tk]);
   return acc;
 }, []);
+
+// Автоподгонка: оценка ширины самой длинной неразрывной группы → уменьшаем кегль, чтобы ничего не вылезало.
+const WIDTH = 1080 - 128;
+const fitSize = (tokens: Token[], size: number) => {
+  let need = 1;
+  for (const g of groups(tokens)) {
+    if (g[0].br) continue;
+    const w = g.reduce((sum, t) => {
+      const k = t.style === "big" ? 1.75 * .74 : t.style === "kicker" ? .78 * .5 : .6; // ср. ширина знака, в кеглях
+      return sum + (t.text.length + 1) * size * k;
+    }, 0);
+    need = Math.max(need, w / WIDTH);
+  }
+  return size / need;
+};
 
 export const Headline: React.FC<{ tokens: Token[]; from: number; frames: number; flashAt?: number | null }> = ({ tokens, from, frames, flashAt }) => {
   const lf = useCurrentFrame(); const { fps } = useVideoConfig();
@@ -18,7 +36,7 @@ export const Headline: React.FC<{ tokens: Token[]; from: number; frames: number;
   const accentC = flash ? theme.accent2 : theme.accent;
   const exit = interpolate(lf, [frames - 6, frames], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const top = theme.hud.topbar ? 200 : 150;
-  const size = config.headline?.size_px ?? theme.headlineSize;
+  const size = fitSize(tokens, config.headline?.size_px ?? theme.headlineSize);
   let last = 0;
   return (
     <div style={{
