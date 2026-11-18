@@ -40,6 +40,7 @@ const tokenize = (voice: string, offset: number): Token[] => {
     if (MARK[t[0]]) { s = MARK[t[0]]; style = s; t = t.slice(1); }
     const close = MARK[t[t.length - 1]] && MARK[t[t.length - 1]] === s ? true : false;
     if (close) t = t.slice(0, -1);
+    const say = t.match(/^(.*?)\{([^}]+)\}(.*)$/); if (say) t = say[1] + say[3]; // 0{нөл}: экран «0», голос «нөл»
     const isWord = /[\p{L}\p{N}]/u.test(t);
     out.push({ text: t, style: s, wi: isWord ? wi++ : null });
     if (close) style = "normal";
@@ -81,5 +82,12 @@ export const wordTime = (wi: number): { start: number; end: number } => {
     }
   }
   return { start: 0, end: 0 };
+};
+// Слово, на котором фон вспыхивает: scenes[].flash = true | "first" — первый акцент, "last" — последний.
+export const flashTime = (s: any): number | null => {
+  if (!s?.flash) return null;
+  const acc = (s.tokens as Token[]).filter((t) => (t.style === "accent" || t.style === "big") && t.wi !== null);
+  const tk = s.flash === "last" ? acc[acc.length - 1] : acc[0];
+  return tk ? wordTime(tk.wi!).start : null;
 };
 export const sceneIndexAt = (frame: number) => Math.max(0, timeline.findIndex((s) => frame >= s.from && frame < s.from + s.frames));

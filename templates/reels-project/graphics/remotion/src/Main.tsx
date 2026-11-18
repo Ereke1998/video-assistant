@@ -1,7 +1,7 @@
 // Сборка без склеек: постоянный фон → вспышка-акцент → визуал сцены → заголовок-караоке → маскот → HUD → звук.
 import "./fonts";
 import { AbsoluteFill, Audio, OffthreadVideo, Sequence, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
-import { config, scenes, timeline, hasVoiceover, theme, wordTime, Token } from "./config";
+import { config, scenes, timeline, hasVoiceover, theme, flashTime } from "./config";
 import { COMPONENTS } from "./compositions";
 import { Background } from "./compositions/Background";
 import { Headline } from "./compositions/Headline";
@@ -29,12 +29,11 @@ const Flash: React.FC<{ at: number; from: number }> = ({ at, from }) => {
 export const Main = () => (
   <AbsoluteFill style={{ background: theme.bg }}>
     <Background />
-    {scenes.map((s, i) => {
+    {scenes.map((s) => {
       const slot = timeline.find((t) => t.id === s.id);
       if (!slot) return null;
       const C = s.visual?.engine === "remotion" ? COMPONENTS[s.visual.component] : null;
-      const acc = (s.tokens as Token[]).find((t) => (t.style === "accent" || t.style === "big") && t.wi !== null);
-      const flashAt = s.flash && acc ? wordTime(acc.wi!).start : null;
+      const flashAt = flashTime(s);
       return (
         <Sequence key={s.id} from={slot.from} durationInFrames={slot.frames} name={s.id}>
           {flashAt != null && <Flash at={flashAt} from={slot.from} />}

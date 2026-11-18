@@ -1,0 +1,382 @@
+{
+  "$comment": "Единый источник правды. Ролик целиком генерируется кодом, без склеек: постоянный фон + персонаж-маскот, сверху заголовок = озвучка (караоке), в центре анимированные UI-карточки. Правки на естественном языке — сюда + строкой в edits.md.",
+  "project": {
+    "name": "zero-camera",
+    "date": "2026-11-18",
+    "language": "kk",
+    "platform": [
+      "reels",
+      "tiktok"
+    ],
+    "target_duration_sec": 25,
+    "goal": "Камерасыз, микрофонсыз, монтажшысыз Reels жасауға болатынын көрсету; директке «КОД» лидтері",
+    "cta": "Директке «КОД» деп жаз"
+  },
+  "format": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "safe_zone": {
+      "top_pct": 10,
+      "bottom_pct": 20,
+      "side_px": 60
+    }
+  },
+  "references": {
+    "urls": [],
+    "download_dir": "references/downloads",
+    "analysis_file": "references/analysis.md",
+    "rule": "Вдохновляйся, но не копируй: берём темп, тип хука, ритм субтитров — не текст, не кадры, не графику"
+  },
+  "script": {
+    "$comment": "Бриф для pipeline/generate_script.py. Разметка в scenes[].voice: *акцент* ~зачёркнуто~ ^КРУПНО^ _подводка_ и « | » — перенос строки. В TTS уходит текст без разметки.",
+    "topic": "Камерасыз, микрофонсыз, монтажшысыз Reels",
+    "audience": "Reels жүргізгісі келетін, бірақ кадрға шыққысы келмейтін эксперттер мен бизнес",
+    "tone": "батыл, қысқа, дәлелмен",
+    "hook": {
+      "formula": "number",
+      "formulas_available": [
+        "question",
+        "number",
+        "mistake",
+        "secret",
+        "before_after"
+      ],
+      "number": 3,
+      "max_sec": 3
+    },
+    "pace_wps": {
+      "ru": 2.3,
+      "kk": 2.0
+    },
+    "max_words_per_scene": 16,
+    "output_json": "build/script.json",
+    "output_md": "script.md",
+    "voiceover_md": "voiceover.md"
+  },
+  "scenes": [
+    {
+      "id": "hook",
+      "label": "хук",
+      "role": "hook",
+      "voice": "^0{нөл} камера,^ | ^0{нөл} микрофон,^ | ^0{нөл} монтажшы.^",
+      "mascot": "present",
+      "visual": {
+        "engine": "remotion",
+        "component": "Cards",
+        "props": {
+          "items": [
+            {
+              "title": "Камера",
+              "emoji": "📷"
+            },
+            {
+              "title": "Микрофон",
+              "emoji": "🎙"
+            },
+            {
+              "title": "Монтаж",
+              "emoji": "✂️"
+            }
+          ]
+        }
+      },
+      "transition": "pop",
+      "sfx": [
+        "whoosh"
+      ],
+      "flash": "last"
+    },
+    {
+      "id": "code",
+      "label": "код",
+      "role": "problem",
+      "voice": "Бірақ ролик *бәрібір* шығады. | Оны код жинайды.",
+      "mascot": "point",
+      "visual": {
+        "engine": "remotion",
+        "component": "Code",
+        "props": {
+          "title": "reel.tsx",
+          "code": "<Headline voice=\"Оны код жинайды\" />\n<Mascot pose=\"point\" />\n<CTA handle=\"@ekasymoff\" />",
+          "cps": 38
+        }
+      },
+      "transition": "rise",
+      "sfx": [
+        "pop"
+      ]
+    },
+    {
+      "id": "claude",
+      "label": "сценарий",
+      "role": "value",
+      "voice": "*Claude* сценарий жазады | және бүкіл кодты құрастырады.",
+      "mascot": "think",
+      "visual": {
+        "engine": "remotion",
+        "component": "Chat",
+        "props": {
+          "messages": [
+            {
+              "from": "me",
+              "text": "Reels-ке сценарий жаз: хук, 5 сахна, CTA"
+            },
+            {
+              "from": "them",
+              "name": "Claude",
+              "text": "Дайын ✓ Хук 3 секундқа сыйды"
+            }
+          ]
+        }
+      },
+      "transition": "rise",
+      "sfx": [
+        "pop"
+      ]
+    },
+    {
+      "id": "voice",
+      "label": "дауыс",
+      "role": "value",
+      "voice": "Дауысты *нейрожелі* оқиды — | қазақ тілінде.",
+      "mascot": "idle",
+      "visual": {
+        "engine": "remotion",
+        "component": "Chips",
+        "props": {
+          "layout": "float",
+          "items": [
+            {
+              "text": "Қазақша дауыс",
+              "icon": "🔊"
+            },
+            {
+              "text": "Микрофон керек емес",
+              "icon": "🎙"
+            },
+            {
+              "text": "Кез келген мәтін",
+              "icon": "📝"
+            }
+          ]
+        }
+      },
+      "transition": "rise",
+      "sfx": [
+        "pop"
+      ]
+    },
+    {
+      "id": "tools",
+      "label": "құралдар",
+      "role": "value",
+      "voice": "*Whisper* әр сөздің уақытын табады, | ал *Remotion* бәрін анимациялайды.",
+      "mascot": "present",
+      "visual": {
+        "engine": "remotion",
+        "component": "ToolList",
+        "props": {
+          "title": "5 құрал",
+          "items": [
+            {
+              "name": "Claude",
+              "desc": "сценарий + код",
+              "icon": "✳️"
+            },
+            {
+              "name": "Нейродауыс",
+              "desc": "озвучка",
+              "icon": "🔊"
+            },
+            {
+              "name": "Whisper",
+              "desc": "сөз уақыты",
+              "icon": "⏱"
+            },
+            {
+              "name": "Remotion",
+              "desc": "анимация",
+              "icon": "🎬"
+            },
+            {
+              "name": "FFmpeg",
+              "desc": "дыбыс",
+              "icon": "🎚"
+            }
+          ],
+          "total": 5,
+          "stagger": 14
+        }
+      },
+      "transition": "rise",
+      "sfx": [
+        "pop"
+      ]
+    },
+    {
+      "id": "result",
+      "label": "нәтиже",
+      "role": "value",
+      "voice": "Нәтижесі — *осы ролик.* | Бір кадр да түсірмедім.",
+      "mascot": "point",
+      "visual": {
+        "engine": "remotion",
+        "component": "Phone",
+        "props": {
+          "screens": [
+            {
+              "kind": "post",
+              "title": "0 камера\n0 микрофон\n0 монтажшы",
+              "caption": "@ekasymoff",
+              "color": "#E8402A"
+            }
+          ]
+        }
+      },
+      "transition": "rise",
+      "sfx": [
+        "riser"
+      ],
+      "mascot_x": "right",
+      "flash": false
+    },
+    {
+      "id": "cta",
+      "label": "шақыру",
+      "role": "cta",
+      "voice": "Нұсқаулық керек пе? | Директке *«КОД»* деп жаз.",
+      "mascot": "wave",
+      "visual": {
+        "engine": "remotion",
+        "component": "CTA",
+        "props": {
+          "text": "Директке жазу",
+          "icon": "✉"
+        }
+      },
+      "transition": "pop",
+      "sfx": [
+        "impact"
+      ]
+    }
+  ],
+  "scene_components": {
+    "$comment": "Визуалы средней зоны (y≈620–1260). scenes[].mascot: idle|point|wave|think|present|shrug|null; mascot_x: left|center|right; flash: true — фон вспыхивает акцентом на первом *акцентном* слове.",
+    "Chips": "плашки с чекбоксами/иконками, props: items[{text,icon?,checked?}], layout float|stack",
+    "Chat": "сообщения/комментарии, props: messages[{from:me|them,text,name?}], strike — индекс зачёркнутого",
+    "Phone": "1–2 телефона веером, props: screens[{kind:stats|post|safe,title,value,caption,color}]",
+    "ToolList": "список с пустыми слотами, props: title, badge, items[{name,desc,icon}], total",
+    "Folder": "дерево папок, props: root, children[]",
+    "Steps": "шаги 01/02/03 с подсветкой активного, props: items[{name,note}]",
+    "Bars": "сравнение столбиками, props: items[{label,value}], suffix",
+    "Counter": "крупная цифра с отсчётом, props: from, to, suffix, label, badge",
+    "Cards": "веер мини-обложек, props: items[{title,emoji,color}]",
+    "Code": "окно кода/терминала с печатью, props: code, title",
+    "CTA": "кнопка + курсор-клик + ник, props: text, icon, handle"
+  },
+  "voiceover": {
+    "engine": "preview",
+    "engines_available": [
+      "edge-tts",
+      "preview"
+    ],
+    "voices": {
+      "ru": "ru-RU-DmitryNeural",
+      "kk": "kk-KZ-DauletNeural"
+    },
+    "rate": "+8%",
+    "pitch": "+0Hz",
+    "pad_after_sec": 0.15,
+    "lufs": -14,
+    "output": "build/audio/voiceover.mp3",
+    "timeline_json": "build/timeline.json"
+  },
+  "alignment": {
+    "engine": "faster-whisper",
+    "fallback": "estimate",
+    "model": "large-v3",
+    "snap_to_script": true,
+    "output_json": "build/audio/words.json"
+  },
+  "subtitles": {
+    "mode": "headline",
+    "words_per_block": {
+      "min": 2,
+      "max": 4
+    },
+    "min_block_sec": 0.5,
+    "max_block_sec": 2.0,
+    "keywords": [],
+    "auto_accent": {
+      "numbers": true,
+      "caps_words": true
+    },
+    "hide_on_scenes": [
+      "hook"
+    ],
+    "style": {
+      "font": "Montserrat",
+      "weight": 800,
+      "size_px": 78,
+      "color": "#FFFFFF",
+      "accent_color": "#FFD400",
+      "accent_scale": 1.15,
+      "stroke_px": 6,
+      "stroke_color": "#000000",
+      "position_y_pct": 66,
+      "animation": "pop",
+      "uppercase": false
+    },
+    "output_srt": "subtitles/subtitles.srt",
+    "output_json": "subtitles/subtitles.json",
+    "$comment": "mode: headline — текст озвучки сверху с акцентами (как в референсах); bottom — классические субтитры снизу; off. SRT экспортируется всегда — для автосубтитров платформы."
+  },
+  "theme": {
+    "preset": "paper",
+    "presets_available": {
+      "night": "тёмный фон-созвездие, оранжевые плашки за словами, светящиеся карточки",
+      "blueprint": "чертёжная сетка, HUD с REC и таймкодом, бегущая строка, крупные цифры",
+      "paper": "бумага в клетку, караоке-текст, красный курсив, карточки с жёсткой тенью"
+    },
+    "overrides": {}
+  },
+  "audio": {
+    "music": {
+      "file": "",
+      "volume_db": -20
+    },
+    "sfx_enabled": false,
+    "sfx_files": {
+      "whoosh": "sfx/whoosh.mp3",
+      "pop": "sfx/pop.mp3",
+      "riser": "sfx/riser.mp3",
+      "impact": "sfx/impact.mp3"
+    },
+    "sfx_volume_db": -10
+  },
+  "render": {
+    "codec": "h264",
+    "crf": 18,
+    "output": "build/renders/final.mp4"
+  },
+  "headline": {
+    "reveal": "auto",
+    "reveal_available": [
+      "auto",
+      "pop",
+      "karaoke"
+    ],
+    "size_px": 60
+  },
+  "mascot": {
+    "enabled": true,
+    "x": "center"
+  },
+  "hud": {
+    "brand": "EKASYMOFF",
+    "handle": "@ekasymoff",
+    "ticker": "",
+    "show": {}
+  }
+}

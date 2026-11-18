@@ -17,9 +17,9 @@ const Stats: React.FC<{ s: Screen; p: number }> = ({ s, p }) => (
 );
 
 const Post: React.FC<{ s: Screen }> = ({ s }) => (
-  <div style={{ position: "absolute", inset: 0, background: `linear-gradient(160deg, ${s.color ?? theme.accent2}, #111)`, display: "flex", flexDirection: "column", justifyContent: "center", padding: 28 }}>
-    <div style={{ fontFamily: theme.font, fontWeight: 900, fontSize: 44, color: "#fff", lineHeight: 1.1 }}>{s.title}</div>
-    <div style={{ position: "absolute", left: "50%", top: "62%", width: 90, height: 90, marginLeft: -45, borderRadius: 45, background: "rgba(255,255,255,.85)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 40 }}>▶</div>
+  <div style={{ position: "absolute", inset: 0, background: `linear-gradient(160deg, ${s.color ?? theme.accent2}, #111)`, display: "flex", flexDirection: "column", justifyContent: "flex-start", padding: "70px 24px 24px" }}>
+    <div style={{ fontFamily: theme.font, fontWeight: 900, fontSize: 34, color: "#fff", lineHeight: 1.15, whiteSpace: "pre-line" }}>{s.title}</div>
+    <div style={{ position: "absolute", left: "50%", top: "70%", width: 90, height: 90, marginLeft: -45, borderRadius: 45, background: "rgba(255,255,255,.85)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 40 }}>▶</div>
     {s.caption && <div style={{ position: "absolute", bottom: 26, left: 28, fontFamily: theme.mono, fontSize: 20, color: "#fff", opacity: .8 }}>{s.caption}</div>}
   </div>
 );

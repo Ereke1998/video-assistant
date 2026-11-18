@@ -1,5 +1,5 @@
 """Общие утилиты: чтение конфига, таймкоды, запуск ffmpeg."""
-import json, subprocess, sys
+import json, re, subprocess, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent  # папка проекта
@@ -48,8 +48,12 @@ def words_of(text: str):
 MARK = {"*": "accent", "~": "strike", "^": "big", "_": "kicker"}
 
 
+SAY = re.compile(r"^(.*?)\{([^}]+)\}(.*)$")  # 0{нөл} — на экране «0», в озвучке «нөл»
+
+
 def tokenize(voice: str, offset: int = 0):
-    """Разметка заголовка: *акцент* ~зачёркнуто~ ^КРУПНО^ _подводка_ и « | » — перенос строки.
+    """Разметка заголовка: *акцент* ~зачёркнуто~ ^КРУПНО^ _подводка_, « | » — перенос строки,
+    текст{произношение} — показать одно, озвучить другое (цифры, аббревиатуры).
     Возвращает (tokens, plain): tokens для Remotion (wi — индекс слова в общей озвучке), plain — чистый текст для TTS."""
     tokens, style, wi = [], "normal", offset
     for raw in voice.split():
@@ -61,10 +65,17 @@ def tokenize(voice: str, offset: int = 0):
         close = bool(t) and t[-1] in MARK and MARK[t[-1]] == s
         if close:
             t = t[:-1]
+        say = None
+        m = SAY.match(t)
+        if m:
+            t, say = m.group(1) + m.group(3), m.group(2) + m.group(3)
         is_word = any(ch.isalnum() for ch in t)
-        tokens.append({"text": t, "style": s, "wi": wi if is_word else None})
+        tok = {"text": t, "style": s, "wi": wi if is_word else None}
+        if say:
+            tok["say"] = say
+        tokens.append(tok)
         wi += is_word
         if close:
             style = "normal"
-    plain = " ".join(x["text"] for x in tokens if not x.get("br") and x["text"])
+    plain = " ".join(x.get("say", x["text"]) for x in tokens if not x.get("br") and x["text"])
     return tokens, plain

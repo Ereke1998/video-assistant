@@ -213,7 +213,7 @@
     }
   ],
   "scene_components": {
-    "$comment": "Визуалы средней зоны (y≈620–1260). scenes[].mascot: idle|point|wave|think|present|shrug|null; mascot_x: left|center|right; flash: true — фон вспыхивает акцентом на первом *акцентном* слове.",
+    "$comment": "Визуалы средней зоны (y≈620–1260). scenes[].mascot: idle|point|wave|think|present|shrug|null; mascot_x: left|center|right; flash: true | \"last\" — фон вспыхивает на первом / последнем *акцентном* или ^крупном^ слове.",
     "Chips": "плашки с чекбоксами/иконками, props: items[{text,icon?,checked?}], layout float|stack",
     "Chat": "сообщения/комментарии, props: messages[{from:me|them,text,name?}], strike — индекс зачёркнутого",
     "Phone": "1–2 телефона веером, props: screens[{kind:stats|post|safe,title,value,caption,color}]",

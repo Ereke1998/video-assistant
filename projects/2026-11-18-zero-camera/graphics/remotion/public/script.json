@@ -1,0 +1,542 @@
+{
+  "language": "kk",
+  "pace_wps": 2.0,
+  "est_total_sec": 24.0,
+  "scenes": [
+    {
+      "id": "hook",
+      "label": "хук",
+      "role": "hook",
+      "voice": "^0{нөл} камера,^ | ^0{нөл} микрофон,^ | ^0{нөл} монтажшы.^",
+      "mascot": "present",
+      "visual": {
+        "engine": "remotion",
+        "component": "Cards",
+        "props": {
+          "items": [
+            {
+              "title": "Камера",
+              "emoji": "📷"
+            },
+            {
+              "title": "Микрофон",
+              "emoji": "🎙"
+            },
+            {
+              "title": "Монтаж",
+              "emoji": "✂️"
+            }
+          ]
+        }
+      },
+      "transition": "pop",
+      "sfx": [
+        "whoosh"
+      ],
+      "flash": "last",
+      "tokens": [
+        {
+          "text": "0",
+          "style": "big",
+          "wi": 0,
+          "say": "нөл"
+        },
+        {
+          "text": "камера,",
+          "style": "big",
+          "wi": 1
+        },
+        {
+          "text": "",
+          "style": "normal",
+          "wi": null,
+          "br": true
+        },
+        {
+          "text": "0",
+          "style": "big",
+          "wi": 2,
+          "say": "нөл"
+        },
+        {
+          "text": "микрофон,",
+          "style": "big",
+          "wi": 3
+        },
+        {
+          "text": "",
+          "style": "normal",
+          "wi": null,
+          "br": true
+        },
+        {
+          "text": "0",
+          "style": "big",
+          "wi": 4,
+          "say": "нөл"
+        },
+        {
+          "text": "монтажшы.",
+          "style": "big",
+          "wi": 5
+        }
+      ],
+      "voice_plain": "нөл камера, нөл микрофон, нөл монтажшы.",
+      "est_sec": 3.0
+    },
+    {
+      "id": "code",
+      "label": "код",
+      "role": "problem",
+      "voice": "Бірақ ролик *бәрібір* шығады. | Оны код жинайды.",
+      "mascot": "point",
+      "visual": {
+        "engine": "remotion",
+        "component": "Code",
+        "props": {
+          "title": "reel.tsx",
+          "code": "<Headline voice=\"Оны код жинайды\" />\n<Mascot pose=\"point\" />\n<CTA handle=\"@ekasymoff\" />",
+          "cps": 38
+        }
+      },
+      "transition": "rise",
+      "sfx": [
+        "pop"
+      ],
+      "tokens": [
+        {
+          "text": "Бірақ",
+          "style": "normal",
+          "wi": 6
+        },
+        {
+          "text": "ролик",
+          "style": "normal",
+          "wi": 7
+        },
+        {
+          "text": "бәрібір",
+          "style": "accent",
+          "wi": 8
+        },
+        {
+          "text": "шығады.",
+          "style": "normal",
+          "wi": 9
+        },
+        {
+          "text": "",
+          "style": "normal",
+          "wi": null,
+          "br": true
+        },
+        {
+          "text": "Оны",
+          "style": "normal",
+          "wi": 10
+        },
+        {
+          "text": "код",
+          "style": "normal",
+          "wi": 11
+        },
+        {
+          "text": "жинайды.",
+          "style": "normal",
+          "wi": 12
+        }
+      ],
+      "voice_plain": "Бірақ ролик бәрібір шығады. Оны код жинайды.",
+      "est_sec": 3.5
+    },
+    {
+      "id": "claude",
+      "label": "сценарий",
+      "role": "value",
+      "voice": "*Claude* сценарий жазады | және бүкіл кодты құрастырады.",
+      "mascot": "think",
+      "visual": {
+        "engine": "remotion",
+        "component": "Chat",
+        "props": {
+          "messages": [
+            {
+              "from": "me",
+              "text": "Reels-ке сценарий жаз: хук, 5 сахна, CTA"
+            },
+            {
+              "from": "them",
+              "name": "Claude",
+              "text": "Дайын ✓ Хук 3 секундқа сыйды"
+            }
+          ]
+        }
+      },
+      "transition": "rise",
+      "sfx": [
+        "pop"
+      ],
+      "tokens": [
+        {
+          "text": "Claude",
+          "style": "accent",
+          "wi": 13
+        },
+        {
+          "text": "сценарий",
+          "style": "normal",
+          "wi": 14
+        },
+        {
+          "text": "жазады",
+          "style": "normal",
+          "wi": 15
+        },
+        {
+          "text": "",
+          "style": "normal",
+          "wi": null,
+          "br": true
+        },
+        {
+          "text": "және",
+          "style": "normal",
+          "wi": 16
+        },
+        {
+          "text": "бүкіл",
+          "style": "normal",
+          "wi": 17
+        },
+        {
+          "text": "кодты",
+          "style": "normal",
+          "wi": 18
+        },
+        {
+          "text": "құрастырады.",
+          "style": "normal",
+          "wi": 19
+        }
+      ],
+      "voice_plain": "Claude сценарий жазады және бүкіл кодты құрастырады.",
+      "est_sec": 3.5
+    },
+    {
+      "id": "voice",
+      "label": "дауыс",
+      "role": "value",
+      "voice": "Дауысты *нейрожелі* оқиды — | қазақ тілінде.",
+      "mascot": "idle",
+      "visual": {
+        "engine": "remotion",
+        "component": "Chips",
+        "props": {
+          "layout": "float",
+          "items": [
+            {
+              "text": "Қазақша дауыс",
+              "icon": "🔊"
+            },
+            {
+              "text": "Микрофон керек емес",
+              "icon": "🎙"
+            },
+            {
+              "text": "Кез келген мәтін",
+              "icon": "📝"
+            }
+          ]
+        }
+      },
+      "transition": "rise",
+      "sfx": [
+        "pop"
+      ],
+      "tokens": [
+        {
+          "text": "Дауысты",
+          "style": "normal",
+          "wi": 20
+        },
+        {
+          "text": "нейрожелі",
+          "style": "accent",
+          "wi": 21
+        },
+        {
+          "text": "оқиды",
+          "style": "normal",
+          "wi": 22
+        },
+        {
+          "text": "—",
+          "style": "normal",
+          "wi": null
+        },
+        {
+          "text": "",
+          "style": "normal",
+          "wi": null,
+          "br": true
+        },
+        {
+          "text": "қазақ",
+          "style": "normal",
+          "wi": 23
+        },
+        {
+          "text": "тілінде.",
+          "style": "normal",
+          "wi": 24
+        }
+      ],
+      "voice_plain": "Дауысты нейрожелі оқиды — қазақ тілінде.",
+      "est_sec": 2.5
+    },
+    {
+      "id": "tools",
+      "label": "құралдар",
+      "role": "value",
+      "voice": "*Whisper* әр сөздің уақытын табады, | ал *Remotion* бәрін анимациялайды.",
+      "mascot": "present",
+      "visual": {
+        "engine": "remotion",
+        "component": "ToolList",
+        "props": {
+          "title": "5 құрал",
+          "items": [
+            {
+              "name": "Claude",
+              "desc": "сценарий + код",
+              "icon": "✳️"
+            },
+            {
+              "name": "Нейродауыс",
+              "desc": "озвучка",
+              "icon": "🔊"
+            },
+            {
+              "name": "Whisper",
+              "desc": "сөз уақыты",
+              "icon": "⏱"
+            },
+            {
+              "name": "Remotion",
+              "desc": "анимация",
+              "icon": "🎬"
+            },
+            {
+              "name": "FFmpeg",
+              "desc": "дыбыс",
+              "icon": "🎚"
+            }
+          ],
+          "total": 5,
+          "stagger": 14
+        }
+      },
+      "transition": "rise",
+      "sfx": [
+        "pop"
+      ],
+      "tokens": [
+        {
+          "text": "Whisper",
+          "style": "accent",
+          "wi": 25
+        },
+        {
+          "text": "әр",
+          "style": "normal",
+          "wi": 26
+        },
+        {
+          "text": "сөздің",
+          "style": "normal",
+          "wi": 27
+        },
+        {
+          "text": "уақытын",
+          "style": "normal",
+          "wi": 28
+        },
+        {
+          "text": "табады,",
+          "style": "normal",
+          "wi": 29
+        },
+        {
+          "text": "",
+          "style": "normal",
+          "wi": null,
+          "br": true
+        },
+        {
+          "text": "ал",
+          "style": "normal",
+          "wi": 30
+        },
+        {
+          "text": "Remotion",
+          "style": "accent",
+          "wi": 31
+        },
+        {
+          "text": "бәрін",
+          "style": "normal",
+          "wi": 32
+        },
+        {
+          "text": "анимациялайды.",
+          "style": "normal",
+          "wi": 33
+        }
+      ],
+      "voice_plain": "Whisper әр сөздің уақытын табады, ал Remotion бәрін анимациялайды.",
+      "est_sec": 4.5
+    },
+    {
+      "id": "result",
+      "label": "нәтиже",
+      "role": "value",
+      "voice": "Нәтижесі — *осы ролик.* | Бір кадр да түсірмедім.",
+      "mascot": "point",
+      "visual": {
+        "engine": "remotion",
+        "component": "Phone",
+        "props": {
+          "screens": [
+            {
+              "kind": "post",
+              "title": "0 камера\n0 микрофон\n0 монтажшы",
+              "caption": "@ekasymoff",
+              "color": "#E8402A"
+            }
+          ]
+        }
+      },
+      "transition": "rise",
+      "sfx": [
+        "riser"
+      ],
+      "mascot_x": "right",
+      "flash": false,
+      "tokens": [
+        {
+          "text": "Нәтижесі",
+          "style": "normal",
+          "wi": 34
+        },
+        {
+          "text": "—",
+          "style": "normal",
+          "wi": null
+        },
+        {
+          "text": "осы",
+          "style": "accent",
+          "wi": 35
+        },
+        {
+          "text": "ролик.",
+          "style": "accent",
+          "wi": 36
+        },
+        {
+          "text": "",
+          "style": "normal",
+          "wi": null,
+          "br": true
+        },
+        {
+          "text": "Бір",
+          "style": "normal",
+          "wi": 37
+        },
+        {
+          "text": "кадр",
+          "style": "normal",
+          "wi": 38
+        },
+        {
+          "text": "да",
+          "style": "normal",
+          "wi": 39
+        },
+        {
+          "text": "түсірмедім.",
+          "style": "normal",
+          "wi": 40
+        }
+      ],
+      "voice_plain": "Нәтижесі — осы ролик. Бір кадр да түсірмедім.",
+      "est_sec": 3.5
+    },
+    {
+      "id": "cta",
+      "label": "шақыру",
+      "role": "cta",
+      "voice": "Нұсқаулық керек пе? | Директке *«КОД»* деп жаз.",
+      "mascot": "wave",
+      "visual": {
+        "engine": "remotion",
+        "component": "CTA",
+        "props": {
+          "text": "Директке жазу",
+          "icon": "✉"
+        }
+      },
+      "transition": "pop",
+      "sfx": [
+        "impact"
+      ],
+      "tokens": [
+        {
+          "text": "Нұсқаулық",
+          "style": "normal",
+          "wi": 41
+        },
+        {
+          "text": "керек",
+          "style": "normal",
+          "wi": 42
+        },
+        {
+          "text": "пе?",
+          "style": "normal",
+          "wi": 43
+        },
+        {
+          "text": "",
+          "style": "normal",
+          "wi": null,
+          "br": true
+        },
+        {
+          "text": "Директке",
+          "style": "normal",
+          "wi": 44
+        },
+        {
+          "text": "«КОД»",
+          "style": "accent",
+          "wi": 45
+        },
+        {
+          "text": "деп",
+          "style": "normal",
+          "wi": 46
+        },
+        {
+          "text": "жаз.",
+          "style": "normal",
+          "wi": 47
+        }
+      ],
+      "voice_plain": "Нұсқаулық керек пе? Директке «КОД» деп жаз.",
+      "est_sec": 3.5
+    }
+  ],
+  "warnings": []
+}

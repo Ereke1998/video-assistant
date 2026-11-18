@@ -1,6 +1,6 @@
 // HUD-оверлеи: хлебные крошки + точки прогресса (paper), REC-бар с таймкодом (blueprint), бегущая строка.
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
-import { config, theme, scenes, sceneIndexAt, timeline, wordTime } from "../config";
+import { config, theme, scenes, sceneIndexAt, flashTime } from "../config";
 
 const mono: React.CSSProperties = { fontFamily: theme.mono, fontSize: 24, letterSpacing: ".04em" };
 
@@ -10,8 +10,7 @@ export const HUD = () => {
   const tc = (fr: number) => { const t = Math.floor(fr / fps); return `00:${String(Math.floor(t / 60)).padStart(2, "0")}:${String(t % 60).padStart(2, "0")}:${String(fr % fps).padStart(2, "0")}`; };
   const brand = config.hud?.brand ?? "";
   // Во время вспышки фона (scenes[].flash) акцентный цвет сливается с фоном — HUD переходит в белый.
-  const acc = s?.flash ? s.tokens?.find((t: any) => (t.style === "accent" || t.style === "big") && t.wi !== null) : null;
-  const flashing = acc && timeline[i] && f / fps >= wordTime(acc.wi).start;
+  const fa = flashTime(s); const flashing = fa != null && f / fps >= fa;
   const dotOn = flashing ? "#FFFFFF" : theme.accent; const hudText = flashing ? "#FFFFFF" : theme.text;
   return (
     <AbsoluteFill style={{ pointerEvents: "none" }}>
