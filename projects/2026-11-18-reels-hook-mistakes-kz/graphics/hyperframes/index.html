@@ -1,0 +1,40 @@
+<!doctype html>
+<!--
+  HyperFrames: HTML-композиция под интерфейсы (мокапы приложений, UI-подсветки, курсор, клики).
+  Рендер: npx hyperframes render index.html  (сверь флаги с актуальной версией CLI — `npx hyperframes --help`).
+  Размер и тайминги блока — из project.config.json → timeline[problem].
+-->
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<style>
+  :root { --accent: #FFD400; --bg: transparent; }
+  html, body { margin: 0; width: 1080px; height: 1920px; background: var(--bg); font-family: Montserrat, sans-serif; }
+  .phone { position: absolute; left: 140px; top: 300px; width: 800px; height: 1300px; border-radius: 60px;
+           background: #111; box-shadow: 0 40px 120px rgba(0,0,0,.5); overflow: hidden; }
+  .row { margin: 40px; height: 120px; border-radius: 24px; background: #222; color: #fff; font-size: 40px;
+         display: flex; align-items: center; padding-left: 40px; }
+  .hl { outline: 6px solid var(--accent); }
+  .cursor { position: absolute; width: 48px; height: 48px; border-radius: 50%; background: rgba(255,212,0,.8); }
+</style>
+</head>
+<body>
+  <div id="root" data-composition-id="ui-demo" data-width="1080" data-height="1920" data-duration="5">
+    <div class="phone">
+      <div class="row" id="r1">Пункт меню 1</div>
+      <div class="row" id="r2">Пункт меню 2</div>
+      <div class="row" id="r3">Пункт меню 3</div>
+    </div>
+    <div class="cursor" id="cursor" style="left:900px;top:1500px"></div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.from(".phone", { y: 200, opacity: 0, duration: .6, ease: "back.out(1.6)" })
+      .to("#cursor", { left: 700, top: 560, duration: .8, ease: "power2.inOut" })
+      .add(() => document.getElementById("r2").classList.add("hl"))
+      .to("#cursor", { scale: .7, yoyo: true, repeat: 1, duration: .12 });
+    window.__timelines = { "ui-demo": tl }; // таймлайн для покадрового рендера
+  </script>
+</body>
+</html>

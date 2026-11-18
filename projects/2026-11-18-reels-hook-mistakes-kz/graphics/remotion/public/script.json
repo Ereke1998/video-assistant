@@ -1,0 +1,490 @@
+{
+  "language": "kk",
+  "pace_wps": 2.0,
+  "est_total_sec": 23.0,
+  "scenes": [
+    {
+      "id": "hook",
+      "label": "хук",
+      "role": "hook",
+      "voice": "Reels-іңді *екі секундта* | өткізіп жібереді.",
+      "mascot": "think",
+      "flash": false,
+      "visual": {
+        "engine": "remotion",
+        "component": "Chips",
+        "props": {
+          "layout": "float",
+          "items": [
+            {
+              "text": "Төмен сырғыту",
+              "icon": "👇"
+            },
+            {
+              "text": "Қарау 9%",
+              "icon": "📉"
+            },
+            {
+              "text": "0 сақтау",
+              "icon": "🫥"
+            }
+          ]
+        }
+      },
+      "transition": "pop",
+      "sfx": [
+        "whoosh"
+      ],
+      "tokens": [
+        {
+          "text": "Reels-іңді",
+          "style": "normal",
+          "wi": 0
+        },
+        {
+          "text": "екі",
+          "style": "accent",
+          "wi": 1
+        },
+        {
+          "text": "секундта",
+          "style": "accent",
+          "wi": 2
+        },
+        {
+          "text": "",
+          "style": "normal",
+          "wi": null,
+          "br": true
+        },
+        {
+          "text": "өткізіп",
+          "style": "normal",
+          "wi": 3
+        },
+        {
+          "text": "жібереді.",
+          "style": "normal",
+          "wi": 4
+        }
+      ],
+      "voice_plain": "Reels-іңді екі секундта өткізіп жібереді.",
+      "est_sec": 2.5
+    },
+    {
+      "id": "problem",
+      "label": "мәселе",
+      "role": "problem",
+      "voice": "Бірінші қате — *ұзақ* кіріспе. | ~«Бәріне сәлем»~ деп бастама.",
+      "mascot": "shrug",
+      "visual": {
+        "engine": "remotion",
+        "component": "Chat",
+        "props": {
+          "messages": [
+            {
+              "from": "them",
+              "name": "роликтің басы",
+              "text": "Бәріне сәлем! Бүгін сендерге айтып берейін…"
+            },
+            {
+              "from": "me",
+              "text": "Бірден мәселенің өзіне — алғашқы сөзден"
+            }
+          ],
+          "strike": 0
+        }
+      },
+      "transition": "rise",
+      "sfx": [
+        "pop"
+      ],
+      "tokens": [
+        {
+          "text": "Бірінші",
+          "style": "normal",
+          "wi": 5
+        },
+        {
+          "text": "қате",
+          "style": "normal",
+          "wi": 6
+        },
+        {
+          "text": "—",
+          "style": "normal",
+          "wi": null
+        },
+        {
+          "text": "ұзақ",
+          "style": "accent",
+          "wi": 7
+        },
+        {
+          "text": "кіріспе.",
+          "style": "normal",
+          "wi": 8
+        },
+        {
+          "text": "",
+          "style": "normal",
+          "wi": null,
+          "br": true
+        },
+        {
+          "text": "«Бәріне",
+          "style": "strike",
+          "wi": 9
+        },
+        {
+          "text": "сәлем»",
+          "style": "strike",
+          "wi": 10
+        },
+        {
+          "text": "деп",
+          "style": "normal",
+          "wi": 11
+        },
+        {
+          "text": "бастама.",
+          "style": "normal",
+          "wi": 12
+        }
+      ],
+      "voice_plain": "Бірінші қате — ұзақ кіріспе. «Бәріне сәлем» деп бастама.",
+      "est_sec": 4.0
+    },
+    {
+      "id": "value1",
+      "label": "мәтін",
+      "role": "value",
+      "voice": "Екінші қате — *ұсақ* мәтін. | Кадрдың жартысын интерфейс жауып тұрады.",
+      "mascot": "point",
+      "visual": {
+        "engine": "remotion",
+        "component": "Phone",
+        "props": {
+          "screens": [
+            {
+              "kind": "safe"
+            }
+          ]
+        }
+      },
+      "transition": "rise",
+      "sfx": [
+        "pop"
+      ],
+      "mascot_x": "right",
+      "tokens": [
+        {
+          "text": "Екінші",
+          "style": "normal",
+          "wi": 13
+        },
+        {
+          "text": "қате",
+          "style": "normal",
+          "wi": 14
+        },
+        {
+          "text": "—",
+          "style": "normal",
+          "wi": null
+        },
+        {
+          "text": "ұсақ",
+          "style": "accent",
+          "wi": 15
+        },
+        {
+          "text": "мәтін.",
+          "style": "normal",
+          "wi": 16
+        },
+        {
+          "text": "",
+          "style": "normal",
+          "wi": null,
+          "br": true
+        },
+        {
+          "text": "Кадрдың",
+          "style": "normal",
+          "wi": 17
+        },
+        {
+          "text": "жартысын",
+          "style": "normal",
+          "wi": 18
+        },
+        {
+          "text": "интерфейс",
+          "style": "normal",
+          "wi": 19
+        },
+        {
+          "text": "жауып",
+          "style": "normal",
+          "wi": 20
+        },
+        {
+          "text": "тұрады.",
+          "style": "normal",
+          "wi": 21
+        }
+      ],
+      "voice_plain": "Екінші қате — ұсақ мәтін. Кадрдың жартысын интерфейс жауып тұрады.",
+      "est_sec": 4.5
+    },
+    {
+      "id": "value2",
+      "label": "ырғақ",
+      "role": "value",
+      "voice": "Үшінші қате — *ырғақ жоқ.* | Суретті әр екі-үш секунд сайын ауыстыр.",
+      "mascot": "present",
+      "visual": {
+        "engine": "remotion",
+        "component": "Steps",
+        "props": {
+          "items": [
+            {
+              "name": "Хук",
+              "note": "0–2 с"
+            },
+            {
+              "name": "Кадр ауысуы",
+              "note": "әр 2–3 с"
+            },
+            {
+              "name": "Шақыру",
+              "note": "соңында"
+            }
+          ]
+        }
+      },
+      "transition": "rise",
+      "sfx": [
+        "pop"
+      ],
+      "tokens": [
+        {
+          "text": "Үшінші",
+          "style": "normal",
+          "wi": 22
+        },
+        {
+          "text": "қате",
+          "style": "normal",
+          "wi": 23
+        },
+        {
+          "text": "—",
+          "style": "normal",
+          "wi": null
+        },
+        {
+          "text": "ырғақ",
+          "style": "accent",
+          "wi": 24
+        },
+        {
+          "text": "жоқ.",
+          "style": "accent",
+          "wi": 25
+        },
+        {
+          "text": "",
+          "style": "normal",
+          "wi": null,
+          "br": true
+        },
+        {
+          "text": "Суретті",
+          "style": "normal",
+          "wi": 26
+        },
+        {
+          "text": "әр",
+          "style": "normal",
+          "wi": 27
+        },
+        {
+          "text": "екі-үш",
+          "style": "normal",
+          "wi": 28
+        },
+        {
+          "text": "секунд",
+          "style": "normal",
+          "wi": 29
+        },
+        {
+          "text": "сайын",
+          "style": "normal",
+          "wi": 30
+        },
+        {
+          "text": "ауыстыр.",
+          "style": "normal",
+          "wi": 31
+        }
+      ],
+      "voice_plain": "Үшінші қате — ырғақ жоқ. Суретті әр екі-үш секунд сайын ауыстыр.",
+      "est_sec": 5.0
+    },
+    {
+      "id": "proof",
+      "label": "формула",
+      "role": "value",
+      "voice": "_Формуланы есте сақта:_ | ^хук,^ ^ырғақ,^ ^мәтін.^",
+      "mascot": "idle",
+      "visual": {
+        "engine": "remotion",
+        "component": "ToolList",
+        "props": {
+          "badge": "чек-лист",
+          "items": [
+            {
+              "name": "Хук",
+              "desc": "0–2 с",
+              "icon": "⚡"
+            },
+            {
+              "name": "Ырғақ",
+              "desc": "2–3 с",
+              "icon": "🎞"
+            },
+            {
+              "name": "Мәтін",
+              "desc": "қауіпсіз аймақта",
+              "icon": "🔤"
+            }
+          ],
+          "total": 3
+        }
+      },
+      "transition": "pop",
+      "sfx": [
+        "riser"
+      ],
+      "flash": true,
+      "tokens": [
+        {
+          "text": "Формуланы",
+          "style": "kicker",
+          "wi": 32
+        },
+        {
+          "text": "есте",
+          "style": "kicker",
+          "wi": 33
+        },
+        {
+          "text": "сақта:",
+          "style": "kicker",
+          "wi": 34
+        },
+        {
+          "text": "",
+          "style": "normal",
+          "wi": null,
+          "br": true
+        },
+        {
+          "text": "хук,",
+          "style": "big",
+          "wi": 35
+        },
+        {
+          "text": "ырғақ,",
+          "style": "big",
+          "wi": 36
+        },
+        {
+          "text": "мәтін.",
+          "style": "big",
+          "wi": 37
+        }
+      ],
+      "voice_plain": "Формуланы есте сақта: хук, ырғақ, мәтін.",
+      "est_sec": 3.0
+    },
+    {
+      "id": "cta",
+      "label": "шақыру",
+      "role": "cta",
+      "voice": "Директке *«ХУК»* деп жаз — | дайын он формуланы жіберемін.",
+      "mascot": "wave",
+      "visual": {
+        "engine": "remotion",
+        "component": "CTA",
+        "props": {
+          "text": "Директке жазу",
+          "icon": "✉"
+        }
+      },
+      "transition": "pop",
+      "sfx": [
+        "impact"
+      ],
+      "tokens": [
+        {
+          "text": "Директке",
+          "style": "normal",
+          "wi": 38
+        },
+        {
+          "text": "«ХУК»",
+          "style": "accent",
+          "wi": 39
+        },
+        {
+          "text": "деп",
+          "style": "normal",
+          "wi": 40
+        },
+        {
+          "text": "жаз",
+          "style": "normal",
+          "wi": 41
+        },
+        {
+          "text": "—",
+          "style": "normal",
+          "wi": null
+        },
+        {
+          "text": "",
+          "style": "normal",
+          "wi": null,
+          "br": true
+        },
+        {
+          "text": "дайын",
+          "style": "normal",
+          "wi": 42
+        },
+        {
+          "text": "он",
+          "style": "normal",
+          "wi": 43
+        },
+        {
+          "text": "формуланы",
+          "style": "normal",
+          "wi": 44
+        },
+        {
+          "text": "жіберемін.",
+          "style": "normal",
+          "wi": 45
+        }
+      ],
+      "voice_plain": "Директке «ХУК» деп жаз — дайын он формуланы жіберемін.",
+      "est_sec": 4.0
+    }
+  ],
+  "warnings": []
+}

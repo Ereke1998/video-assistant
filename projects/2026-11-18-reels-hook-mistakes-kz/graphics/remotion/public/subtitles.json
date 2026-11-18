@@ -1,0 +1,362 @@
+[
+ {
+  "start": 0.0,
+  "end": 1.915,
+  "words": [
+   {
+    "text": "Reels-іңді",
+    "accent": true,
+    "start": 0.0,
+    "end": 0.638
+   },
+   {
+    "text": "екі",
+    "accent": false,
+    "start": 0.638,
+    "end": 0.904
+   },
+   {
+    "text": "секундта",
+    "accent": false,
+    "start": 0.904,
+    "end": 1.436
+   },
+   {
+    "text": "өткізіп",
+    "accent": false,
+    "start": 1.436,
+    "end": 1.915
+   }
+  ]
+ },
+ {
+  "start": 1.915,
+  "end": 3.983,
+  "words": [
+   {
+    "text": "жібереді",
+    "accent": true,
+    "start": 1.915,
+    "end": 2.5
+   },
+   {
+    "text": "Бірінші",
+    "accent": false,
+    "start": 2.65,
+    "end": 3.221
+   },
+   {
+    "text": "қате",
+    "accent": false,
+    "start": 3.221,
+    "end": 3.602
+   },
+   {
+    "text": "ұзақ",
+    "accent": false,
+    "start": 3.602,
+    "end": 3.983
+   }
+  ]
+ },
+ {
+  "start": 3.983,
+  "end": 6.015,
+  "words": [
+   {
+    "text": "кіріспе",
+    "accent": true,
+    "start": 3.983,
+    "end": 4.618
+   },
+   {
+    "text": "«Бәріне",
+    "accent": false,
+    "start": 4.618,
+    "end": 5.19
+   },
+   {
+    "text": "сәлем»",
+    "accent": false,
+    "start": 5.19,
+    "end": 5.698
+   },
+   {
+    "text": "деп",
+    "accent": false,
+    "start": 5.698,
+    "end": 6.015
+   }
+  ]
+ },
+ {
+  "start": 6.015,
+  "end": 8.016,
+  "words": [
+   {
+    "text": "бастама",
+    "accent": true,
+    "start": 6.015,
+    "end": 6.65
+   },
+   {
+    "text": "Екінші",
+    "accent": false,
+    "start": 6.8,
+    "end": 7.286
+   },
+   {
+    "text": "қате",
+    "accent": false,
+    "start": 7.286,
+    "end": 7.651
+   },
+   {
+    "text": "ұсақ",
+    "accent": false,
+    "start": 7.651,
+    "end": 8.016
+   }
+  ]
+ },
+ {
+  "start": 8.016,
+  "end": 10.327,
+  "words": [
+   {
+    "text": "мәтін",
+    "accent": false,
+    "start": 8.016,
+    "end": 8.503
+   },
+   {
+    "text": "Кадрдың",
+    "accent": false,
+    "start": 8.503,
+    "end": 9.05
+   },
+   {
+    "text": "жартысын",
+    "accent": false,
+    "start": 9.05,
+    "end": 9.658
+   },
+   {
+    "text": "интерфейс",
+    "accent": true,
+    "start": 9.658,
+    "end": 10.327
+   }
+  ]
+ },
+ {
+  "start": 10.327,
+  "end": 11.3,
+  "words": [
+   {
+    "text": "жауып",
+    "accent": false,
+    "start": 10.327,
+    "end": 10.753
+   },
+   {
+    "text": "тұрады",
+    "accent": true,
+    "start": 10.753,
+    "end": 11.3
+   }
+  ]
+ },
+ {
+  "start": 11.45,
+  "end": 13.299,
+  "words": [
+   {
+    "text": "Үшінші",
+    "accent": true,
+    "start": 11.45,
+    "end": 11.998
+   },
+   {
+    "text": "қате",
+    "accent": false,
+    "start": 11.998,
+    "end": 12.409
+   },
+   {
+    "text": "ырғақ",
+    "accent": false,
+    "start": 12.409,
+    "end": 12.888
+   },
+   {
+    "text": "жоқ",
+    "accent": false,
+    "start": 12.888,
+    "end": 13.299
+   }
+  ]
+ },
+ {
+  "start": 13.299,
+  "end": 15.286,
+  "words": [
+   {
+    "text": "Суретті",
+    "accent": true,
+    "start": 13.299,
+    "end": 13.916
+   },
+   {
+    "text": "әр",
+    "accent": false,
+    "start": 13.916,
+    "end": 14.19
+   },
+   {
+    "text": "екі-үш",
+    "accent": false,
+    "start": 14.19,
+    "end": 14.738
+   },
+   {
+    "text": "секунд",
+    "accent": false,
+    "start": 14.738,
+    "end": 15.286
+   }
+  ]
+ },
+ {
+  "start": 15.286,
+  "end": 16.45,
+  "words": [
+   {
+    "text": "сайын",
+    "accent": false,
+    "start": 15.286,
+    "end": 15.765
+   },
+   {
+    "text": "ауыстыр",
+    "accent": true,
+    "start": 15.765,
+    "end": 16.45
+   }
+  ]
+ },
+ {
+  "start": 16.6,
+  "end": 18.196,
+  "words": [
+   {
+    "text": "Формуланы",
+    "accent": true,
+    "start": 16.6,
+    "end": 17.302
+   },
+   {
+    "text": "есте",
+    "accent": false,
+    "start": 17.302,
+    "end": 17.685
+   },
+   {
+    "text": "сақта",
+    "accent": false,
+    "start": 17.685,
+    "end": 18.196
+   }
+  ]
+ },
+ {
+  "start": 18.196,
+  "end": 19.089,
+  "words": [
+   {
+    "text": "хук",
+    "accent": false,
+    "start": 18.196,
+    "end": 18.579
+   },
+   {
+    "text": "ырғақ",
+    "accent": true,
+    "start": 18.579,
+    "end": 19.089
+   }
+  ]
+ },
+ {
+  "start": 19.089,
+  "end": 21.193,
+  "words": [
+   {
+    "text": "мәтін",
+    "accent": false,
+    "start": 19.089,
+    "end": 19.6
+   },
+   {
+    "text": "Директке",
+    "accent": false,
+    "start": 19.75,
+    "end": 20.406
+   },
+   {
+    "text": "«ХУК»",
+    "accent": true,
+    "start": 20.406,
+    "end": 20.865
+   },
+   {
+    "text": "деп",
+    "accent": false,
+    "start": 20.865,
+    "end": 21.193
+   }
+  ]
+ },
+ {
+  "start": 21.193,
+  "end": 22.963,
+  "words": [
+   {
+    "text": "жаз",
+    "accent": false,
+    "start": 21.193,
+    "end": 21.52
+   },
+   {
+    "text": "дайын",
+    "accent": false,
+    "start": 21.52,
+    "end": 21.98
+   },
+   {
+    "text": "он",
+    "accent": false,
+    "start": 21.98,
+    "end": 22.242
+   },
+   {
+    "text": "формуланы",
+    "accent": true,
+    "start": 22.242,
+    "end": 22.963
+   }
+  ]
+ },
+ {
+  "start": 22.963,
+  "end": 23.75,
+  "words": [
+   {
+    "text": "жіберемін",
+    "accent": true,
+    "start": 22.963,
+    "end": 23.75
+   }
+  ]
+ }
+]

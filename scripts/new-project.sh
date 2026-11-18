@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# Создаёт projects/<YYYY-MM-DD>-<name>/ из шаблона. Использование: scripts/new-project.sh my-project [ru|kk]
+# Создаёт projects/<YYYY-MM-DD>-<name>/ из шаблона. Использование: scripts/new-project.sh my-project [kk|ru], по умолчанию kk
 set -euo pipefail
 cd "$(dirname "$0")/.."
-NAME="${1:?укажи название латиницей через дефис}"; LANG_="${2:-ru}"
+NAME="${1:?укажи название латиницей через дефис}"; LANG_="${2:-kk}"
 DIR="projects/$(date +%F)-$NAME"
 [ -e "$DIR" ] && { echo "Уже существует: $DIR"; exit 1; }
 cp -r templates/reels-project "$DIR"

@@ -1,13 +1,13 @@
 // Мокапы телефонов (до 2, веером). Экраны: stats — цифра + график; post — обложка ролика; safe — безопасная зона 9:16.
 import { interpolate, useCurrentFrame } from "remotion";
-import { theme } from "../config";
+import { theme, L } from "../config";
 import { Band, fmt, useIn } from "./ui";
 
 type Screen = { kind: "stats" | "post" | "safe"; title?: string; value?: number; caption?: string; color?: string };
 
 const Stats: React.FC<{ s: Screen; p: number }> = ({ s, p }) => (
   <div style={{ padding: 26, color: "#fff", fontFamily: theme.font }}>
-    <div style={{ fontSize: 22, opacity: .6 }}>{s.title ?? "Статистика"}</div>
+    <div style={{ fontSize: 22, opacity: .6 }}>{s.title ?? L.stats}</div>
     <div style={{ fontSize: 62, fontWeight: 900, marginTop: 8 }}>{fmt((s.value ?? 0) * p)}</div>
     <div style={{ fontSize: 22, color: theme.accent, fontWeight: 700 }}>{s.caption}</div>
     <div style={{ display: "flex", alignItems: "flex-end", gap: 10, height: 220, marginTop: 30 }}>
@@ -27,9 +27,9 @@ const Post: React.FC<{ s: Screen }> = ({ s }) => (
 const Safe: React.FC<{ p: number }> = ({ p }) => (
   <div style={{ position: "absolute", inset: 0, background: "#1A1D24", fontFamily: theme.font }}>
     <div style={{ position: "absolute", left: 0, right: 0, top: 0, height: "10%", background: `rgba(255,59,48,${.55 * p})` }} />
-    <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: "20%", background: `rgba(255,59,48,${.55 * p})`, color: "#fff", fontSize: 22, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center" }}>подпись · кнопки</div>
+    <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: "20%", background: `rgba(255,59,48,${.55 * p})`, color: "#fff", fontSize: 22, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center" }}>{L.ui}</div>
     <div style={{ position: "absolute", right: 14, bottom: "24%", display: "flex", flexDirection: "column", gap: 22, fontSize: 34, opacity: .8 }}>{["♥", "💬", "↗"].map((x) => <span key={x}>{x}</span>)}</div>
-    <div style={{ position: "absolute", left: "10%", right: "18%", top: "30%", height: "28%", border: `4px dashed #34C759`, borderRadius: 18, opacity: p, color: "#34C759", fontSize: 24, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center" }}>текст<br />здесь</div>
+    <div style={{ position: "absolute", left: "10%", right: "18%", top: "30%", height: "28%", border: `4px dashed #34C759`, borderRadius: 18, opacity: p, color: "#34C759", fontSize: 24, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", whiteSpace: "pre-line" }}>{L.here}</div>
   </div>
 );
 

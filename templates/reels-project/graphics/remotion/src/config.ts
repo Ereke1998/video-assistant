@@ -17,6 +17,13 @@ export const theme: Theme = { ...THEMES[cfg.theme.preset] ?? THEMES.night, ...(c
 theme.hud = { ...theme.hud, ...(cfg.hud?.show ?? {}) };
 if (cfg.headline?.reveal && cfg.headline.reveal !== "auto") theme.reveal = cfg.headline.reveal as Theme["reveal"];
 
+// Подписи внутри визуалов — по языку проекта (project.language).
+const LABELS: Record<string, Record<string, string>> = {
+  ru: { stats: "Статистика", ui: "подпись · кнопки", here: "текст\nздесь" },
+  kk: { stats: "Статистика", ui: "жазба · батырмалар", here: "мәтін\nосында" },
+};
+export const L = LABELS[cfg.project.language] ?? LABELS.ru;
+
 export const FPS: number = cfg.format.fps;
 export const sec = (s: number) => Math.round(s * FPS);
 

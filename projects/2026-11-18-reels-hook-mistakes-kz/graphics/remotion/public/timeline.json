@@ -1,0 +1,50 @@
+{
+ "total_sec": 23.9,
+ "total_frames": 717,
+ "fps": 30,
+ "engine": "preview",
+ "scenes": [
+  {
+   "id": "hook",
+   "start": 0.0,
+   "end": 2.65,
+   "from": 0,
+   "frames": 80
+  },
+  {
+   "id": "problem",
+   "start": 2.65,
+   "end": 6.8,
+   "from": 80,
+   "frames": 125
+  },
+  {
+   "id": "value1",
+   "start": 6.8,
+   "end": 11.45,
+   "from": 204,
+   "frames": 140
+  },
+  {
+   "id": "value2",
+   "start": 11.45,
+   "end": 16.6,
+   "from": 344,
+   "frames": 154
+  },
+  {
+   "id": "proof",
+   "start": 16.6,
+   "end": 19.75,
+   "from": 498,
+   "frames": 94
+  },
+  {
+   "id": "cta",
+   "start": 19.75,
+   "end": 23.9,
+   "from": 592,
+   "frames": 125
+  }
+ ]
+}
