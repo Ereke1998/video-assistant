@@ -1,0 +1,426 @@
+<title>Портфолио видеографа</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: монтажный стол — шапка-слейт с бегущим таймкодом, фильтры-дорожки, колонки работ разной высоты (9:16 и 16:9 вперемешку), внизу услуги и контакты */
+:root{
+  --bg:#EEF0F3; --surface:#FFFFFF; --ink:#14161C; --muted:#5B6170; --line:#D5D9E1;
+  --rec:#D8312B; --rec-ink:#FFFFFF; --chip:#E2E6EC; --shade:rgba(10,12,18,.55);
+  --f-display:"Unbounded","Manrope",system-ui,sans-serif;
+  --f-body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1014; --surface:#171A21; --ink:#ECEEF2; --muted:#9AA1AF; --line:#2A2F3A;
+  --rec:#F0463F; --rec-ink:#FFFFFF; --chip:#20242D; --shade:rgba(0,0,0,.7); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1014; --surface:#171A21; --ink:#ECEEF2; --muted:#9AA1AF; --line:#2A2F3A;
+  --rec:#F0463F; --rec-ink:#FFFFFF; --chip:#20242D; --shade:rgba(0,0,0,.7); color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:1180px;margin:0 auto}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--rec);outline-offset:2px}
+a{color:inherit}
+
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:16px;padding-block:12px;flex-wrap:wrap}
+.bar .brand{font-family:var(--f-display);font-weight:700;font-size:15px;letter-spacing:.02em;margin-right:auto;min-width:0}
+.bar nav{display:flex;gap:16px;font-size:14px;font-weight:600}
+.bar nav a{text-decoration:none;color:var(--muted)} .bar nav a:hover{color:var(--ink)}
+
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 16px;font-size:14px;font-weight:600;cursor:pointer}
+.btn:hover{border-color:var(--ink)}
+.btn.rec{background:var(--rec);color:var(--rec-ink);border-color:var(--rec)}
+.btn.rec:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent}
+.btn.danger{color:var(--rec);border-color:var(--rec);background:transparent}
+.btn[disabled]{opacity:.5;cursor:default}
+
+.hero{padding-block:56px 40px;display:grid;gap:20px}
+.slate{display:flex;align-items:center;gap:10px;font-family:var(--f-mono);font-size:13px;color:var(--muted);letter-spacing:.06em;flex-wrap:wrap}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--rec);animation:blink 1.2s steps(2,start) infinite}
+@keyframes blink{to{visibility:hidden}}
+@media (prefers-reduced-motion:reduce){.dot{animation:none}}
+.hero h1{font-family:var(--f-display);font-weight:700;font-size:clamp(34px,7vw,76px);line-height:1.02;margin:0;text-wrap:balance;letter-spacing:-.01em}
+.hero p.lead{font-size:clamp(17px,2.2vw,21px);max-width:58ch;margin:0;color:var(--muted)}
+.hero .cta{display:flex;gap:12px;flex-wrap:wrap}
+
+.section-h{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-block:8px 18px}
+.section-h h2{font-family:var(--f-display);font-weight:500;font-size:22px;margin:0}
+.section-h .meta{font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.chip{border:0;background:var(--chip);border-radius:999px;padding:7px 14px;font-size:14px;font-weight:600;cursor:pointer;color:var(--muted)}
+.chip b{font-family:var(--f-mono);font-weight:400;font-size:12px;margin-left:6px;opacity:.8}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+
+.grid{columns:3 280px;column-gap:18px}
+.card{break-inside:avoid;margin-bottom:22px;display:grid;gap:10px}
+.cover{position:relative;display:block;width:100%;border:0;padding:0;border-radius:6px;overflow:hidden;cursor:pointer;background:var(--chip);max-width:100%}
+.cover img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.cover:hover img{transform:scale(1.03)}
+@media (prefers-reduced-motion:reduce){.cover img{transition:none}}
+.cover .ph{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--f-display);font-size:28px;color:var(--muted);
+  background:repeating-linear-gradient(135deg,var(--chip) 0 14px,var(--surface) 14px 28px)}
+.play{position:absolute;left:12px;bottom:12px;width:44px;height:44px;border-radius:50%;background:var(--rec);display:grid;place-items:center}
+.play svg{width:16px;height:16px;fill:var(--rec-ink);margin-left:3px}
+.tc{position:absolute;right:10px;bottom:12px;font-family:var(--f-mono);font-size:12px;background:var(--shade);color:#fff;padding:3px 7px;border-radius:4px;font-variant-numeric:tabular-nums}
+.fmt{position:absolute;right:10px;top:10px;font-family:var(--f-mono);font-size:11px;background:var(--shade);color:#fff;padding:2px 6px;border-radius:4px}
+.card h3{margin:0;font-size:17px;font-weight:700;line-height:1.3}
+.card .sub{font-size:14px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap}
+.card .tools{display:flex;gap:6px;flex-wrap:wrap}
+.card .tools .btn{padding:5px 12px;font-size:13px}
+
+.empty{border:1px dashed var(--line);border-radius:8px;padding:40px 24px;text-align:center;display:grid;gap:12px;justify-items:center;color:var(--muted)}
+.empty strong{color:var(--ink);font-size:18px}
+
+.split{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:32px;padding-block:48px;border-top:1px solid var(--line);margin-top:24px}
+.split > *{min-width:0}
+.services{list-style:none;margin:0;padding:0;display:grid}
+.services li{display:flex;justify-content:space-between;gap:16px;padding-block:14px;border-bottom:1px solid var(--line)}
+.services li span:last-child{font-family:var(--f-mono);font-size:14px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.about{color:var(--muted);max-width:60ch;white-space:pre-line}
+.contacts{display:grid;gap:10px}
+.contact{display:grid;grid-template-columns:110px 1fr auto;align-items:center;gap:12px;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:8px}
+.contact .k{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700}
+.contact .v{font-weight:600;overflow-wrap:anywhere;user-select:all;min-width:0}
+.contact .btn{padding:5px 12px;font-size:13px}
+@media (max-width:480px){.contact{grid-template-columns:1fr auto}.contact .k{grid-column:1/-1}}
+.foot{padding-block:24px 40px;font-family:var(--f-mono);font-size:12px;color:var(--muted);border-top:1px solid var(--line)}
+
+dialog{border:0;padding:0;border-radius:10px;background:var(--surface);color:var(--ink);width:min(920px,calc(100vw - 32px));max-height:calc(100dvh - 32px)}
+dialog::backdrop{background:var(--shade)}
+.dlg{display:grid;gap:16px;padding:20px}
+.dlg-h{display:flex;justify-content:space-between;align-items:start;gap:12px}
+.dlg-h h3{margin:0;font-family:var(--f-display);font-weight:500;font-size:20px;text-wrap:balance}
+.x{border:0;background:var(--chip);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:18px;flex:none}
+.player{background:#000;border-radius:6px;overflow:hidden;display:grid;place-items:center}
+.player video{width:100%;max-height:70dvh;display:block;background:#000}
+.player img{width:100%;max-height:60dvh;object-fit:contain;display:block}
+.desc{white-space:pre-line;color:var(--muted);margin:0}
+.facts{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+
+form.f{display:grid;gap:14px}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
+label.l{display:grid;gap:6px;font-size:13px;font-weight:700;color:var(--muted);min-width:0}
+label.l input,label.l select,label.l textarea{border:1px solid var(--line);background:var(--bg);border-radius:6px;padding:10px 12px;font-weight:500;color:var(--ink);width:100%}
+label.l textarea{min-height:90px;resize:vertical}
+.hint{font-size:13px;color:var(--muted);font-weight:500}
+.or{display:grid;gap:14px;padding:14px;border:1px solid var(--line);border-radius:8px}
+.prev{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.prev img{width:96px;height:96px;object-fit:cover;border-radius:6px}
+.actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);
+  padding:10px 18px;border-radius:999px;font-size:14px;font-weight:600;z-index:20;max-width:calc(100vw - 32px)}
+.ownerbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:12px 14px;margin-top:16px;border:1px solid var(--rec);border-radius:8px;font-size:14px}
+.ownerbar span{margin-right:auto;min-width:0}
+</style>
+
+<div id="app"></div>
+
+<script type="application/json" id="portfolio-data">{"profile":{"name":"","tagline":"","city":"","about":"","phone":"","whatsapp":"","telegram":"","instagram":"","email":""},"services":[],"works":[]}</script>
+
+<script id="main">
+(function(){
+const SKELETON_HEAD='<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style></head><body>';
+const CATS=["Реклама","Reels / TikTok","Свадьба","Клип","Корпоратив","Мероприятие","Другое"];
+const FMTS=["16:9","9:16","1:1","4:5"];
+const MAX=20*1024*1024;
+let DATA;
+try{DATA=JSON.parse(document.getElementById('portfolio-data').textContent)}catch(e){DATA={profile:{},services:[],works:[]}}
+DATA.profile=DATA.profile||{};DATA.services=DATA.services||[];DATA.works=DATA.works||[];
+const app=document.getElementById('app');
+let filter='Все', canEdit=false, editMode=false, artifactNS=null, assetsNS=null;
+
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const blob=id=>id?'/_blob/'+id:'';
+const uid=()=>Math.random().toString(36).slice(2,10)+Date.now().toString(36).slice(-4);
+const fmtDur=s=>{s=Math.round(+s||0);if(!s)return'';const m=Math.floor(s/60),r=s%60;return String(m).padStart(2,'0')+':'+String(r).padStart(2,'0')};
+const ratio=f=>({"16:9":"16/9","9:16":"9/16","1:1":"1/1","4:5":"4/5"}[f]||"16/9");
+const PLAY='<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 1.5v13l11-6.5z"/></svg>';
+function toast(msg,ms){const t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),ms||3200)}
+function linkHost(u){try{const h=new URL(u).hostname.replace(/^www\./,'');if(/youtu/.test(h))return'YouTube';if(/instagram/.test(h))return'Instagram';if(/tiktok/.test(h))return'TikTok';if(/drive\.google/.test(h))return'Google Диск';if(/vimeo/.test(h))return'Vimeo';return h}catch(e){return'ссылке'}}
+function safeUrl(u){try{const x=new URL(u);return(x.protocol==='https:'||x.protocol==='http:')?x.href:''}catch(e){return''}}
+
+/* ---------- render ---------- */
+function render(){
+  const p=DATA.profile, works=DATA.works;
+  const counts={};works.forEach(w=>counts[w.category]=(counts[w.category]||0)+1);
+  const usedCats=CATS.filter(c=>counts[c]);
+  if(filter!=='Все'&&!counts[filter])filter='Все';
+  const shown=filter==='Все'?works:works.filter(w=>w.category===filter);
+  const name=p.name||'Видеосъёмка и монтаж';
+  const totalSec=works.reduce((a,w)=>a+(+w.duration||0),0);
+
+  app.innerHTML=`
+  <div class="wrap">
+    <header class="bar">
+      <div class="brand">${esc(p.name||'Портфолио')}</div>
+      <nav><a href="#works">Работы</a>${DATA.services.length?'<a href="#services">Услуги</a>':''}<a href="#contacts">Контакты</a></nav>
+      ${canEdit?`<button class="btn ${editMode?'rec':''}" id="toggleEdit">${editMode?'Готово':'Редактировать'}</button>`:''}
+    </header>
+    ${canEdit&&editMode?`<div class="ownerbar"><span>Режим автора. Клиенты видят страницу без этих кнопок. Каждое сохранение публикует новую версию.</span>
+      <button class="btn rec" id="addWork">+ Добавить работу</button><button class="btn" id="editProfile">Профиль и услуги</button></div>`:''}
+    <section class="hero">
+      <div class="slate"><span class="dot" aria-hidden="true"></span><span>REC</span><span id="tc">00:00:00:00</span>${p.city?`<span>· ${esc(p.city)}</span>`:''}</div>
+      <h1>${esc(name)}</h1>
+      <p class="lead">${esc(p.tagline||'Рекламные ролики, Reels, свадьбы, клипы и мероприятия: съёмка, монтаж, цвет и звук под ключ.')}</p>
+      <div class="cta"><a class="btn rec" href="#contacts" style="text-decoration:none">Заказать съёмку</a>${works.length?`<a class="btn ghost" href="#works" style="text-decoration:none">Смотреть работы</a>`:''}</div>
+    </section>
+
+    <section id="works">
+      <div class="section-h"><h2>Работы</h2><span class="meta">${works.length} ${plural(works.length,'проект','проекта','проектов')}${totalSec?' · '+fmtDur(totalSec)+' хронометража':''}</span></div>
+      ${usedCats.length>1?`<div class="chips" role="group" aria-label="Фильтр по жанру">
+        ${['Все',...usedCats].map(c=>`<button class="chip" data-cat="${esc(c)}" aria-pressed="${c===filter}">${esc(c)}<b>${c==='Все'?works.length:counts[c]}</b></button>`).join('')}</div>`:''}
+      ${works.length?`<div class="grid">${shown.map(card).join('')}</div>`:emptyState()}
+    </section>
+
+    <section class="split">
+      <div style="display:grid;gap:18px;align-content:start" id="services">
+        ${p.about?`<div><div class="section-h"><h2>Обо мне</h2></div><p class="about">${esc(p.about)}</p></div>`:''}
+        ${DATA.services.length?`<div><div class="section-h"><h2>Услуги и цены</h2></div><ul class="services">${DATA.services.map(s=>`<li><span>${esc(s.name)}</span><span>${esc(s.price)}</span></li>`).join('')}</ul></div>`:
+          (canEdit?`<div class="empty"><strong>Услуги и цены</strong><span>Добавьте список услуг в «Профиль и услуги», чтобы клиенты видели, что можно заказать.</span></div>`:'')}
+      </div>
+      <div id="contacts" style="display:grid;gap:14px;align-content:start">
+        <div class="section-h"><h2>Заказать съёмку</h2></div>
+        <p class="hint" style="margin:0">Напишите дату, формат и задачу ролика. Отвечу и пришлю смету.</p>
+        <div class="contacts">${contacts()}</div>
+      </div>
+    </section>
+    <footer class="foot">${esc(p.name||'Портфолио')} · ${new Date().getFullYear()}</footer>
+  </div>`;
+  bind();
+}
+function plural(n,a,b,c){const m10=n%10,m100=n%100;if(m10===1&&m100!==11)return a;if(m10>=2&&m10<=4&&(m100<10||m100>=20))return b;return c}
+function emptyState(){
+  return canEdit?`<div class="empty"><strong>Здесь будут ваши работы</strong><span>Загрузите видео до 20 МБ или добавьте ссылку на YouTube, Instagram или Google Диск.</span><button class="btn rec" id="addFirst">+ Добавить первую работу</button></div>`
+  :`<div class="empty"><strong>Работы скоро появятся</strong><span>А пока можно написать напрямую: контакты ниже.</span></div>`;
+}
+function card(w){
+  const i=DATA.works.indexOf(w);
+  const cov=w.cover?`<img src="${blob(w.cover)}" alt="" loading="lazy">`:`<span class="ph">${esc((w.title||'?').slice(0,1))}</span>`;
+  return `<article class="card">
+    <button class="cover" data-open="${esc(w.id)}" style="aspect-ratio:${ratio(w.format)}" aria-label="Смотреть: ${esc(w.title)}">
+      ${cov}<span class="play">${PLAY}</span>${w.duration?`<span class="tc">${fmtDur(w.duration)}</span>`:''}<span class="fmt">${esc(w.format||'16:9')}</span></button>
+    <div><h3>${esc(w.title)}</h3><div class="sub"><span>${esc(w.category||'')}</span>${w.client?`<span>· ${esc(w.client)}</span>`:''}${w.year?`<span>· ${esc(w.year)}</span>`:''}</div></div>
+    ${canEdit&&editMode?`<div class="tools"><button class="btn" data-edit="${esc(w.id)}">Изменить</button>
+      <button class="btn" data-up="${i}" ${i===0?'disabled':''} aria-label="Выше">↑</button><button class="btn" data-down="${i}" ${i===DATA.works.length-1?'disabled':''} aria-label="Ниже">↓</button></div>`:''}
+  </article>`;
+}
+function contacts(){
+  const p=DATA.profile,rows=[];
+  const wa=(p.whatsapp||'').replace(/[^\d]/g,'');
+  if(p.phone)rows.push(['Телефон',p.phone,'']);
+  if(p.whatsapp)rows.push(['WhatsApp',p.whatsapp,wa?'https://wa.me/'+wa:'']);
+  if(p.telegram){const t=p.telegram.replace(/^@/,'').replace(/^https?:\/\/t\.me\//,'');rows.push(['Telegram','@'+t,'https://t.me/'+encodeURIComponent(t)])}
+  if(p.instagram){const t=p.instagram.replace(/^@/,'').replace(/^https?:\/\/(www\.)?instagram\.com\//,'').replace(/\/$/,'');rows.push(['Instagram','@'+t,'https://instagram.com/'+encodeURIComponent(t)])}
+  if(p.email)rows.push(['Почта',p.email,'']);
+  if(!rows.length)return `<div class="empty"><span>${canEdit?'Добавьте телефон, WhatsApp, Telegram или Instagram в «Профиль и услуги».':'Контакты появятся здесь.'}</span></div>`;
+  return rows.map(([k,v,href])=>`<div class="contact"><span class="k">${k}</span><span class="v">${esc(v)}</span>
+    ${href?`<a class="btn" href="${esc(href)}" target="_blank" rel="noopener" style="text-decoration:none">Открыть</a>`:`<button class="btn" data-copy="${esc(v)}">Копировать</button>`}</div>`).join('');
+}
+
+/* ---------- events ---------- */
+function bind(){
+  app.querySelectorAll('[data-cat]').forEach(b=>b.onclick=()=>{filter=b.dataset.cat;render()});
+  app.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openWork(b.dataset.open));
+  app.querySelectorAll('[data-copy]').forEach(b=>b.onclick=()=>copy(b.dataset.copy,b));
+  const t=document.getElementById('toggleEdit');if(t)t.onclick=()=>{editMode=!editMode;render()};
+  ['addWork','addFirst'].forEach(id=>{const b=document.getElementById(id);if(b)b.onclick=()=>editWork(null)});
+  const ep=document.getElementById('editProfile');if(ep)ep.onclick=editProfile;
+  app.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>editWork(b.dataset.edit));
+  app.querySelectorAll('[data-up],[data-down]').forEach(b=>b.onclick=()=>{
+    const i=+(b.dataset.up??b.dataset.down),j=b.dataset.up!=null?i-1:i+1;
+    const w=DATA.works;[w[i],w[j]]=[w[j],w[i]];save('Порядок сохранён');});
+}
+function copy(text,btn){
+  const done=()=>{btn.textContent='Скопировано';setTimeout(()=>btn.textContent='Копировать',1600)};
+  try{navigator.clipboard.writeText(text).then(done,()=>sel(btn))}catch(e){sel(btn)}
+}
+function sel(btn){const v=btn.parentElement.querySelector('.v');const r=document.createRange();r.selectNodeContents(v);const s=getSelection();s.removeAllRanges();s.addRange(r);toast('Текст выделен, скопируйте его')}
+
+/* ---------- dialogs ---------- */
+function dialog(html){
+  const d=document.createElement('dialog');d.innerHTML=html;document.body.appendChild(d);
+  d.addEventListener('close',()=>{d.querySelectorAll('video').forEach(v=>v.pause());d.remove()});
+  d.addEventListener('click',e=>{if(e.target===d)d.close()});
+  d.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>d.close());
+  d.showModal();return d;
+}
+function openWork(id){
+  const w=DATA.works.find(x=>x.id===id);if(!w)return;
+  const link=safeUrl(w.link);
+  let media;
+  if(w.video)media=`<div class="player"><video controls playsinline preload="metadata" ${w.cover?`poster="${blob(w.cover)}"`:''} src="${blob(w.video)}"></video></div>`;
+  else if(link)media=`<div class="player">${w.cover?`<img src="${blob(w.cover)}" alt="">`:''}</div><a class="btn rec" href="${esc(link)}" target="_blank" rel="noopener" style="text-decoration:none;justify-self:start">Смотреть на ${esc(linkHost(link))}</a>`;
+  else media=w.cover?`<div class="player"><img src="${blob(w.cover)}" alt=""></div>`:'';
+  const d=dialog(`<div class="dlg"><div class="dlg-h"><h3>${esc(w.title)}</h3><button class="x" data-close aria-label="Закрыть">×</button></div>
+    ${media}
+    <div class="facts"><span>${esc(w.category||'')}</span>${w.client?`<span>Клиент: ${esc(w.client)}</span>`:''}${w.year?`<span>${esc(w.year)}</span>`:''}<span>${esc(w.format||'16:9')}</span>${w.duration?`<span>${fmtDur(w.duration)}</span>`:''}</div>
+    ${w.desc?`<p class="desc">${esc(w.desc)}</p>`:''}
+    <div class="actions"><a class="btn" href="#contacts" data-close style="text-decoration:none">Хочу такой же ролик</a></div></div>`);
+  d.querySelector('a[href="#contacts"]').onclick=()=>{d.close();document.getElementById('contacts').scrollIntoView({behavior:'smooth'})};
+}
+
+function editWork(id){
+  const w=id?DATA.works.find(x=>x.id===id):{id:uid(),title:'',category:CATS[0],client:'',year:String(new Date().getFullYear()),format:'16:9',desc:'',link:'',video:'',cover:'',duration:0};
+  const pend={video:null,cover:null,autoCover:null,duration:w.duration};
+  const d=dialog(`<div class="dlg"><div class="dlg-h"><h3>${id?'Изменить работу':'Новая работа'}</h3><button class="x" data-close aria-label="Закрыть">×</button></div>
+  <form class="f" id="wf">
+    <label class="l">Название *<input id="w-title" required maxlength="120" value="${esc(w.title)}" placeholder="Например: Реклама кофейни Qazaq Coffee"></label>
+    <div class="row">
+      <label class="l">Жанр<select id="w-cat">${CATS.map(c=>`<option ${c===w.category?'selected':''}>${esc(c)}</option>`).join('')}</select></label>
+      <label class="l">Формат<select id="w-fmt">${FMTS.map(c=>`<option ${c===w.format?'selected':''}>${c}</option>`).join('')}</select></label>
+      <label class="l">Клиент<input id="w-client" maxlength="80" value="${esc(w.client)}"></label>
+      <label class="l">Год<input id="w-year" maxlength="4" inputmode="numeric" value="${esc(w.year)}"></label>
+    </div>
+    <div class="or">
+      <label class="l">Видеофайл (MP4, до 20 МБ)<input id="w-video" type="file" accept="video/mp4,video/quicktime,video/webm"></label>
+      <span class="hint" id="w-vinfo">${w.video?'Видео загружено. Выберите новый файл, чтобы заменить.':'Длинные ролики лучше выложить на YouTube или Google Диск и вставить ссылку ниже.'}</span>
+      <label class="l">или ссылка на ролик<input id="w-link" type="url" value="${esc(w.link)}" placeholder="https://youtube.com/…  https://instagram.com/reel/…"></label>
+    </div>
+    <div class="prev"><label class="l" style="flex:1">Обложка (JPG/PNG)<input id="w-cover" type="file" accept="image/*"></label>
+      <img id="w-cprev" ${w.cover?`src="${blob(w.cover)}"`:'hidden'} alt="Обложка"></div>
+    <span class="hint">Если загрузить видео без обложки, кадр возьмётся из ролика автоматически.</span>
+    <label class="l">Описание<textarea id="w-desc" maxlength="1200" placeholder="Задача, что снимали, какой результат">${esc(w.desc)}</textarea></label>
+    <div class="actions">${id?'<button type="button" class="btn danger" id="w-del">Удалить</button>':''}<span style="flex:1"></span>
+      <button type="button" class="btn" data-close>Отмена</button><button class="btn rec" id="w-save">Сохранить</button></div>
+  </form></div>`);
+  const cprev=d.querySelector('#w-cprev'),vinfo=d.querySelector('#w-vinfo');
+  d.querySelector('#w-video').onchange=async e=>{
+    const f=e.target.files[0];pend.video=null;if(!f)return;
+    if(f.size>MAX){vinfo.textContent='Файл '+(f.size/1048576).toFixed(1)+' МБ — больше 20 МБ. Сожмите видео или вставьте ссылку.';e.target.value='';return}
+    pend.video=f;vinfo.textContent='Выбрано: '+f.name+' · '+(f.size/1048576).toFixed(1)+' МБ';
+    try{const r=await grabFrame(f);pend.duration=r.duration;if(r.blob){pend.autoCover=r.blob;if(!pend.cover){cprev.src=URL.createObjectURL(r.blob);cprev.hidden=false}}
+      if(r.w&&r.h){const q=r.w/r.h;d.querySelector('#w-fmt').value=q<0.7?'9:16':q<0.9?'4:5':q<1.2?'1:1':'16:9'}
+      vinfo.textContent+=' · '+fmtDur(r.duration)}catch(err){}
+  };
+  d.querySelector('#w-cover').onchange=e=>{const f=e.target.files[0];pend.cover=null;if(!f)return;
+    if(f.size>MAX){toast('Обложка больше 20 МБ');e.target.value='';return}
+    pend.cover=f;cprev.src=URL.createObjectURL(f);cprev.hidden=false};
+  const del=d.querySelector('#w-del');
+  if(del)del.onclick=()=>{if(del.dataset.sure){DATA.works=DATA.works.filter(x=>x.id!==w.id);d.close();save('Работа удалена')}
+    else{del.dataset.sure=1;del.textContent='Точно удалить?'}};
+  d.querySelector('#wf').onsubmit=async e=>{
+    e.preventDefault();
+    const link=d.querySelector('#w-link').value.trim();
+    if(link&&!safeUrl(link)){toast('Ссылка должна начинаться с https://');return}
+    if(!pend.video&&!w.video&&!link&&!pend.cover&&!w.cover){toast('Добавьте видео, ссылку или хотя бы обложку');return}
+    const btn=d.querySelector('#w-save');btn.disabled=true;
+    try{
+      if(pend.video||pend.cover||pend.autoCover){
+        if(!assetsNS)throw{code:'no_assets'};
+        if(pend.video){btn.textContent='Загружаю видео…';w.video=(await assetsNS.upload(pend.video)).id;w.duration=pend.duration||0}
+        const cv=pend.cover||(!w.cover||pend.video?pend.autoCover:null);
+        if(cv){btn.textContent='Загружаю обложку…';w.cover=(await assetsNS.upload(cv)).id}
+      }
+      Object.assign(w,{title:d.querySelector('#w-title').value.trim(),category:d.querySelector('#w-cat').value,format:d.querySelector('#w-fmt').value,
+        client:d.querySelector('#w-client').value.trim(),year:d.querySelector('#w-year').value.trim(),desc:d.querySelector('#w-desc').value.trim(),link});
+      if(!id)DATA.works.unshift(w);
+      btn.textContent='Публикую…';
+      await save('Работа сохранена',true);
+    }catch(err){btn.disabled=false;btn.textContent='Сохранить';toast(errText(err),5000)}
+  };
+}
+function grabFrame(file){
+  return new Promise((res,rej)=>{
+    const v=document.createElement('video');v.muted=true;v.playsInline=true;v.preload='auto';
+    const url=URL.createObjectURL(file);v.src=url;let done=false;
+    const fin=r=>{if(done)return;done=true;URL.revokeObjectURL(url);res(r)};
+    setTimeout(()=>fin({duration:v.duration||0}),8000);
+    v.onloadedmetadata=()=>{v.currentTime=Math.min(1.5,(v.duration||2)/3)};
+    v.onseeked=()=>{try{const c=document.createElement('canvas');const s=Math.min(1,1280/Math.max(v.videoWidth,v.videoHeight));
+      c.width=Math.round(v.videoWidth*s);c.height=Math.round(v.videoHeight*s);c.getContext('2d').drawImage(v,0,0,c.width,c.height);
+      c.toBlob(b=>fin({blob:b,duration:v.duration,w:v.videoWidth,h:v.videoHeight}),'image/jpeg',.85)}catch(e){fin({duration:v.duration})}};
+    v.onerror=()=>{if(!done){done=true;URL.revokeObjectURL(url);rej(new Error('video'))}};
+  });
+}
+function editProfile(){
+  const p=DATA.profile;
+  const d=dialog(`<div class="dlg"><div class="dlg-h"><h3>Профиль и услуги</h3><button class="x" data-close aria-label="Закрыть">×</button></div>
+  <form class="f" id="pf">
+    <div class="row"><label class="l">Имя или название студии<input id="p-name" maxlength="80" value="${esc(p.name)}"></label>
+      <label class="l">Город<input id="p-city" maxlength="60" value="${esc(p.city)}" placeholder="Алматы"></label></div>
+    <label class="l">Короткое описание (под заголовком)<input id="p-tag" maxlength="200" value="${esc(p.tagline)}" placeholder="Снимаю рекламу и Reels для брендов: от идеи до готового ролика"></label>
+    <label class="l">Обо мне<textarea id="p-about" maxlength="1500" placeholder="Опыт, техника, с кем работал">${esc(p.about)}</textarea></label>
+    <div class="row">
+      <label class="l">Телефон<input id="p-phone" value="${esc(p.phone)}" placeholder="+7 7__ ___ __ __"></label>
+      <label class="l">WhatsApp<input id="p-wa" value="${esc(p.whatsapp)}" placeholder="+7 7__ ___ __ __"></label>
+      <label class="l">Telegram<input id="p-tg" value="${esc(p.telegram)}" placeholder="@username"></label>
+      <label class="l">Instagram<input id="p-ig" value="${esc(p.instagram)}" placeholder="@username"></label>
+      <label class="l">Почта<input id="p-mail" type="email" value="${esc(p.email)}"></label>
+    </div>
+    <label class="l">Услуги и цены — по одной в строке, «Название | цена»
+      <textarea id="p-svc" style="min-height:140px" placeholder="Reels под ключ | от 40 000 ₸&#10;Рекламный ролик до 60 сек | от 150 000 ₸&#10;Свадьба, полный день | от 250 000 ₸">${esc(DATA.services.map(s=>s.name+(s.price?' | '+s.price:'')).join('\n'))}</textarea></label>
+    <div class="actions"><button type="button" class="btn" data-close>Отмена</button><button class="btn rec" id="p-save">Сохранить</button></div>
+  </form></div>`);
+  d.querySelector('#pf').onsubmit=async e=>{
+    e.preventDefault();const v=s=>d.querySelector(s).value.trim();
+    Object.assign(DATA.profile,{name:v('#p-name'),city:v('#p-city'),tagline:v('#p-tag'),about:v('#p-about'),phone:v('#p-phone'),whatsapp:v('#p-wa'),telegram:v('#p-tg'),instagram:v('#p-ig'),email:v('#p-mail')});
+    DATA.services=v('#p-svc').split('\n').map(l=>l.trim()).filter(Boolean).map(l=>{const [n,...r]=l.split('|');return{name:n.trim(),price:r.join('|').trim()}});
+    const b=d.querySelector('#p-save');b.disabled=true;b.textContent='Публикую…';
+    try{await save('Профиль сохранён',true)}catch(err){b.disabled=false;b.textContent='Сохранить';toast(errText(err),5000)}
+  };
+}
+
+/* ---------- publish ---------- */
+function buildDoc(){
+  const json=JSON.stringify(DATA).replace(/</g,'\\u003c');
+  const S='<'+'/script>';
+  return SKELETON_HEAD+'<title>Портфолио видеографа</title>\n'
+    +'<meta name="claude:viewport-fit-sides" content="cover">\n'
+    +'<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">\n'
+    +'<style>'+PAGE_STYLE+'</style>\n\n<div id="app"></div>\n\n'
+    +'<script type="application/json" id="portfolio-data">'+json+S+'\n\n'
+    +'<script id="main">'+MAIN_SRC+S+'</body></html>';
+}
+const PAGE_STYLE=(()=>{for(const s of document.querySelectorAll('style')){if(s.textContent.includes('--f-display'))return s.textContent}return''})();
+const MAIN_SRC=document.getElementById('main').textContent;
+async function save(msg,throwErr){
+  if(!artifactNS){const e={code:'no_artifact'};if(throwErr)throw e;toast(errText(e));return}
+  try{try{sessionStorage.setItem('pf-toast',msg);sessionStorage.setItem('pf-edit','1')}catch(e){}
+    await artifactNS.publish(buildDoc());
+  }catch(err){
+    try{sessionStorage.removeItem('pf-toast')}catch(e){}
+    if(err&&err.code==='conflict'){toast('Страницу только что изменили в другом окне — она перезагрузится');return}
+    if(throwErr)throw err;toast(errText(err),5000);render();
+  }
+}
+function errText(e){
+  const c=e&&e.code;
+  if(c==='not_writer'||c==='not_granted'||c==='no_artifact')return'Сохранять может только автор страницы.';
+  if(c==='no_assets')return'Загрузка файлов здесь недоступна. Откройте страницу в claude.ai под своим аккаунтом.';
+  if(c==='too_large')return'Файл слишком большой: максимум 20 МБ.';
+  if(c==='unsupported_type')return'Этот формат не поддерживается. Используйте MP4 для видео и JPG/PNG для обложки.';
+  if(c==='quota_exceeded')return'Место для файлов закончилось. Удалите старые работы или используйте ссылки.';
+  return'Не получилось сохранить'+(e&&e.message?': '+e.message:'')+'. Попробуйте ещё раз.';
+}
+
+/* ---------- timecode ---------- */
+function startTC(){
+  const el=()=>document.getElementById('tc');const t0=performance.now();
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  setInterval(()=>{const e=el();if(!e)return;const ms=performance.now()-t0,f=Math.floor(ms/40)%25,s=Math.floor(ms/1000);
+    e.textContent=[Math.floor(s/3600),Math.floor(s/60)%60,s%60,f].map(n=>String(n).padStart(2,'0')).join(':')},40);
+}
+
+/* ---------- boot ---------- */
+render();startTC();
+try{const m=sessionStorage.getItem('pf-toast');if(m){sessionStorage.removeItem('pf-toast');toast(m)}}catch(e){}
+(async()=>{
+  if(!window.claude||!window.claude.use)return;
+  try{
+    const [user,art,assets]=await Promise.all([claude.use('user'),claude.use('artifact'),claude.use('assets')]);
+    artifactNS=art;assetsNS=assets;
+    canEdit=!!(art&&user&&await user.canEdit());
+    if(canEdit){try{if(sessionStorage.getItem('pf-edit')){editMode=true;sessionStorage.removeItem('pf-edit')}}catch(e){}
+      if(!DATA.works.length&&!DATA.profile.name)editMode=true;render()}
+  }catch(e){}
+})();
+})();
+</script>
