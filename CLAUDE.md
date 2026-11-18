@@ -57,12 +57,14 @@
 | 2. Озвучка | TTS (edge-tts, RU/KZ) | `pipeline/voiceover.py` | `voiceover.mp3` + `timeline.json` (длительность сцен по фразам) |
 | 3. Тайминги слов | edge-tts WordBoundary (запасные: Whisper, оценка) | `pipeline/align.py` | точное время каждого слова, привязанное к тексту сценария |
 | 4. Субтитры | — | `pipeline/subtitles.py` | блоки 2–4 слова, акценты |
+| 4b. Саунд-дизайн | numpy/scipy + FFmpeg | `pipeline/sound.py` | SFX по анимациям, синт-музыка (дроп на первой вспышке, брейки), дакинг, −14 LUFS → `mix.mp3`, `sound-design.md` |
 | 5. Видеоряд | Remotion + HyperFrames | `graphics/` | фон, маскот, заголовок-караоке, HUD; визуалы Chips, Chat, Phone, ToolList, Folder, Steps, Bars, Counter, Cards, Code, CTA |
 | 6. Рендер | Remotion | `pipeline/run_all.sh` | `build/renders/final.mp4` |
 
 - Новый проект: `scripts/new-project.sh <название> [ru|kk]` — копия `templates/reels-project/`.
 - Единый источник правды — `project.config.json` проекта (`script`, `scenes`, `voiceover`, `subtitles`, `theme`); параметры в коде компонентов не хардкодим.
 - Озвучка: edge-tts + обработка `voiceover.fx = announcer` + подрезка тишины `voiceover.trim` (хвост 0,12 с, паузы ≤ 0,38 с). Названия брендов размечай произношением: `Claude{Клод}`, ударения — `зам+ок`. Для живой интонации и верных ударений — `voiceover.engine = elevenlabs` (ключ `ELEVENLABS_API_KEY`, `voiceover.elevenlabs.voice_id`). Бесплатный план ElevenLabs: через API только стандартные голоса (Liam, Adam, Daniel…) и формат 128 kbps; библиотека и Voice Design — платные. Forced alignment работает и на бесплатном — для озвучки, сделанной вручную в приложении.
+- Звук и музыка синтезируются кодом (`audio.music.engine = synth`) — без стоков и лицензий. Свой трек: `audio.music.file`. Сгенерированное на **бесплатном** плане ElevenLabs нельзя использовать коммерчески без атрибуции — для коммерции нужен платный план.
 - Голоса реальных людей (авторов референсов, блогеров, дикторов) не клонируем без их согласия: подбираем похожий по манере голос из библиотеки или создаём новый через Voice Design.
 - Сцена = фраза озвучки + визуал + поза маскота. Длительность сцены задаёт озвучка, а не ручные таймкоды.
 - Стиль по умолчанию (по референсам пользователя): **без склеек** — постоянный фон и кодовый маскот, сверху заголовок = текст озвучки (караоке), в центре UI-карточки. Пресеты `theme.preset`: `night` / `blueprint` / `paper`.

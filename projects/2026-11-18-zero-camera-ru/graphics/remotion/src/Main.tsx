@@ -1,4 +1,4 @@
-// Сборка без склеек: постоянный фон → вспышка-акцент → визуал сцены → заголовок-караоке → маскот → HUD → звук.
+// Сборка без склеек: постоянный фон → вспышка-акцент → визуал сцены → заголовок-караоке → маскот → HUD → звук (микс).
 import "./fonts";
 import { AbsoluteFill, Audio, OffthreadVideo, Sequence, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { config, scenes, timeline, hasVoiceover, theme, flashTime } from "./config";
@@ -9,7 +9,6 @@ import { Mascot } from "./compositions/Mascot";
 import { HUD } from "./compositions/HUD";
 import { Subtitles } from "./compositions/Subtitles";
 
-const db = (v: number) => Math.pow(10, v / 20);
 
 // Вход/выход визуала сцены: rise | pop | slide. Без жёстких склеек — фон и персонаж остаются.
 const Enter: React.FC<{ type: string; frames: number; children: React.ReactNode }> = ({ type, frames, children }) => {
@@ -44,16 +43,13 @@ export const Main = () => (
             )}
           </Enter>
           {config.subtitles.mode === "headline" && <Headline tokens={s.tokens} from={slot.from} frames={slot.frames} flashAt={flashAt} />}
-          {config.audio.sfx_enabled && (s.sfx ?? []).map((x: string) => config.audio.sfx_files[x] && (
-            <Audio key={x} src={staticFile(config.audio.sfx_files[x])} volume={db(config.audio.sfx_volume_db)} />
-          ))}
         </Sequence>
       );
     })}
     <Mascot />
     <HUD />
     {config.subtitles.mode === "bottom" && <Subtitles />}
-    {hasVoiceover && <Audio src={staticFile("voiceover.mp3")} />}
-    {config.audio.music.file && <Audio src={staticFile(config.audio.music.file)} volume={db(config.audio.music.volume_db)} loop />}
+    {/* Готовый микс: голос + музыка + SFX (pipeline/sound.py); без него — только голос */}
+    {hasVoiceover && <Audio src={staticFile("audio.mp3")} />}
   </AbsoluteFill>
 );

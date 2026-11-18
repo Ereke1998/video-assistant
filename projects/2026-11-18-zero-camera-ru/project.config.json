@@ -386,18 +386,24 @@
     "overrides": {}
   },
   "audio": {
+    "$comment": "pipeline/sound.py: SFX по анимациям + синтезированная музыка + сведение в build/audio/mix.mp3. Всё генерируется кодом — без стоков и лицензий.",
     "music": {
+      "engine": "synth",
+      "bpm": 120,
+      "volume_db": -14,
       "file": "",
-      "volume_db": -20
+      "duck": {
+        "threshold": 0.03,
+        "ratio": 6,
+        "attack": 15,
+        "release": 350
+      }
     },
-    "sfx_enabled": false,
-    "sfx_files": {
-      "whoosh": "sfx/whoosh.mp3",
-      "pop": "sfx/pop.mp3",
-      "riser": "sfx/riser.mp3",
-      "impact": "sfx/impact.mp3"
+    "sfx": {
+      "enabled": true,
+      "gain_db": 0
     },
-    "sfx_volume_db": -10
+    "mix_output": "build/audio/mix.mp3"
   },
   "render": {
     "codec": "h264",

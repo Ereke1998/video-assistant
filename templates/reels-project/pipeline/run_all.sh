@@ -7,6 +7,7 @@ python3 generate_script.py
 python3 voiceover.py
 python3 align.py
 python3 subtitles.py
+python3 sound.py            # SFX + музыка + сведение → build/audio/mix.mp3
 # HyperFrames-сцены (если включены). Сверь флаги с `npx hyperframes --help`.
 python3 - <<'PY' | while read -r file out; do (cd .. && npx hyperframes render "$file" -o "$out"); done
 from common import load_config, active_scenes
