@@ -29,7 +29,7 @@ pipeline/             ← скрипты шагов
 | 0. Референсы | `pipeline/fetch_refs.sh URL...` | `references/metrics.json` → `analysis.md` |
 | 1. Сценарий | `python3 pipeline/generate_script.py` | хук по формуле, проверка хронометража → `build/script.json`, `script.md`, `voiceover.md` |
 | 2. Озвучка | `python3 pipeline/voiceover.py` | TTS по сценам → `build/audio/voiceover.mp3`, `build/timeline.json` (длительность сцен = длина фраз) |
-| 3. Тайминги слов | `python3 pipeline/align.py` | Whisper + привязка к тексту сценария → `build/audio/words.json` |
+| 3. Тайминги слов | `python3 pipeline/align.py` | WordBoundary от edge-tts (или Whisper) + привязка к тексту сценария → `build/audio/words.json` |
 | 4. Субтитры | `python3 pipeline/subtitles.py` | блоки 2–4 слова с акцентами → `subtitles/*.srt/json` |
 | 5. Превью | `python3 pipeline/sync_remotion.py && cd graphics/remotion && npm i && npm run studio` | Studio: `Main` и каждая сцена отдельно |
 | 6. Рендер | `pipeline/run_all.sh` (шаги 1–5 + HyperFrames + рендер) | `build/renders/final.mp4` |
@@ -37,4 +37,5 @@ pipeline/             ← скрипты шагов
 Офлайн-превью без сети и Whisper: `voiceover.engine = "preview"` (тишина расчётной длины + оценочные тайминги слов).
 
 ## Зависимости
-`ffmpeg`, `python3`, `node ≥ 18`, `pip install edge-tts faster-whisper yt-dlp`.
+`ffmpeg`, `python3`, `node ≥ 18`, `pip install edge-tts yt-dlp` (`faster-whisper` — по желанию, запасной вариант таймингов).
+За HTTPS-прокси: `voiceover.py` берёт прокси из `https_proxy`, CA — из `SSL_CERT_FILE`.

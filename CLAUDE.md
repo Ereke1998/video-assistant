@@ -55,7 +55,7 @@
 | 0. Референсы | yt-dlp + FFmpeg | `pipeline/fetch_refs.sh` | метрики темпа → `references/analysis.md` |
 | 1. Сценарий | генератор | `pipeline/generate_script.py` | хук по формуле, сцены, проверка хронометража → `script.md`, `voiceover.md` |
 | 2. Озвучка | TTS (edge-tts, RU/KZ) | `pipeline/voiceover.py` | `voiceover.mp3` + `timeline.json` (длительность сцен по фразам) |
-| 3. Тайминги слов | Whisper | `pipeline/align.py` | пословные тайминги, привязанные к тексту сценария |
+| 3. Тайминги слов | edge-tts WordBoundary (запасные: Whisper, оценка) | `pipeline/align.py` | точное время каждого слова, привязанное к тексту сценария |
 | 4. Субтитры | — | `pipeline/subtitles.py` | блоки 2–4 слова, акценты |
 | 5. Видеоряд | Remotion + HyperFrames | `graphics/` | фон, маскот, заголовок-караоке, HUD; визуалы Chips, Chat, Phone, ToolList, Folder, Steps, Bars, Counter, Cards, Code, CTA |
 | 6. Рендер | Remotion | `pipeline/run_all.sh` | `build/renders/final.mp4` |

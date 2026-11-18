@@ -7,6 +7,7 @@
 |---|---|---|---|---|---|
 | 1 | 2026-11-18 | (QA) хукта «0» жеке жолға түсті | заголовок кішірейтілді | `headline.size_px` | auto (66) → 60 |
 | 2 | 2026-11-18 | (QA) хук басынан қызыл | вспышка соңғы сөзге | `scenes[hook].flash` | true → "last" |
+| 3 | 2026-11-18 | «Дауысты сен қосып берші» | нейродауыс kk-KZ-DauletNeural + сөз уақыты TTS-тен | `voiceover.engine`, `alignment.engine` | preview → edge-tts, estimate → tts |
 
 ## Словарь правок → параметры
 

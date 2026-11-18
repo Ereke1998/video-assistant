@@ -1,57 +1,57 @@
 {
- "total_sec": 25.05,
- "total_frames": 751,
+ "total_sec": 28.194,
+ "total_frames": 846,
  "fps": 30,
- "engine": "preview",
+ "engine": "edge-tts",
  "scenes": [
   {
    "id": "hook",
    "start": 0.0,
-   "end": 3.15,
+   "end": 3.582,
    "from": 0,
-   "frames": 94
+   "frames": 107
   },
   {
    "id": "code",
-   "start": 3.15,
-   "end": 6.8,
-   "from": 94,
-   "frames": 110
+   "start": 3.582,
+   "end": 7.884,
+   "from": 107,
+   "frames": 129
   },
   {
    "id": "claude",
-   "start": 6.8,
-   "end": 10.45,
-   "from": 204,
-   "frames": 110
+   "start": 7.884,
+   "end": 11.706,
+   "from": 237,
+   "frames": 115
   },
   {
    "id": "voice",
-   "start": 10.45,
-   "end": 13.1,
-   "from": 314,
-   "frames": 80
+   "start": 11.706,
+   "end": 15.144,
+   "from": 351,
+   "frames": 103
   },
   {
    "id": "tools",
-   "start": 13.1,
-   "end": 17.75,
-   "from": 393,
-   "frames": 140
+   "start": 15.144,
+   "end": 19.83,
+   "from": 454,
+   "frames": 141
   },
   {
    "id": "result",
-   "start": 17.75,
-   "end": 21.4,
-   "from": 532,
-   "frames": 110
+   "start": 19.83,
+   "end": 24.228,
+   "from": 595,
+   "frames": 132
   },
   {
    "id": "cta",
-   "start": 21.4,
-   "end": 25.05,
-   "from": 642,
-   "frames": 110
+   "start": 24.228,
+   "end": 28.194,
+   "from": 727,
+   "frames": 119
   }
  ]
 }

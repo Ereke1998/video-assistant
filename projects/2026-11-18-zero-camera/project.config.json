@@ -47,7 +47,7 @@
     },
     "pace_wps": {
       "ru": 2.3,
-      "kk": 2.0
+      "kk": 1.8
     },
     "max_words_per_scene": 16,
     "output_json": "build/script.json",
@@ -276,7 +276,7 @@
     "CTA": "кнопка + курсор-клик + ник, props: text, icon, handle"
   },
   "voiceover": {
-    "engine": "preview",
+    "engine": "edge-tts",
     "engines_available": [
       "edge-tts",
       "preview"
@@ -293,11 +293,16 @@
     "timeline_json": "build/timeline.json"
   },
   "alignment": {
-    "engine": "faster-whisper",
+    "engine": "tts",
     "fallback": "estimate",
     "model": "large-v3",
     "snap_to_script": true,
-    "output_json": "build/audio/words.json"
+    "output_json": "build/audio/words.json",
+    "engines_available": [
+      "tts",
+      "faster-whisper",
+      "estimate"
+    ]
   },
   "subtitles": {
     "mode": "headline",

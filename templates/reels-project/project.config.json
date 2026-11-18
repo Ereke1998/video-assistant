@@ -47,7 +47,7 @@
     },
     "pace_wps": {
       "ru": 2.3,
-      "kk": 2.0
+      "kk": 1.8
     },
     "max_words_per_scene": 16,
     "output_json": "build/script.json",
@@ -244,11 +244,17 @@
     "timeline_json": "build/timeline.json"
   },
   "alignment": {
-    "engine": "faster-whisper",
+    "engine": "tts",
     "fallback": "estimate",
     "model": "large-v3",
     "snap_to_script": true,
-    "output_json": "build/audio/words.json"
+    "output_json": "build/audio/words.json",
+    "engines_available": [
+      "tts",
+      "faster-whisper",
+      "estimate"
+    ],
+    "$comment": "tts — тайминги слов от edge-tts (WordBoundary), без Whisper; faster-whisper — распознавание готовой озвучки; estimate — по длине слов."
   },
   "subtitles": {
     "mode": "headline",

@@ -1,379 +1,379 @@
 [
  {
-  "start": 0.0,
-  "end": 0.913,
+  "start": 0.119,
+  "end": 0.814,
   "words": [
    {
     "text": "нөл",
     "accent": false,
-    "start": 0.0,
-    "end": 0.326
+    "start": 0.119,
+    "end": 0.281
    },
    {
     "text": "камера",
     "accent": true,
-    "start": 0.326,
-    "end": 0.913
+    "start": 0.305,
+    "end": 0.814
    }
   ]
  },
  {
-  "start": 0.913,
-  "end": 1.957,
+  "start": 0.814,
+  "end": 1.74,
   "words": [
    {
     "text": "нөл",
     "accent": false,
-    "start": 0.913,
-    "end": 1.239
+    "start": 0.814,
+    "end": 1.069
    },
    {
     "text": "микрофон",
     "accent": true,
-    "start": 1.239,
-    "end": 1.957
+    "start": 1.08,
+    "end": 1.74
    }
   ]
  },
  {
-  "start": 1.957,
-  "end": 3.0,
+  "start": 1.786,
+  "end": 2.619,
   "words": [
    {
     "text": "нөл",
     "accent": false,
-    "start": 1.957,
-    "end": 2.283
+    "start": 1.786,
+    "end": 2.006
    },
    {
     "text": "монтажшы",
     "accent": true,
-    "start": 2.283,
-    "end": 3.0
+    "start": 2.006,
+    "end": 2.619
    }
   ]
  },
  {
-  "start": 3.15,
-  "end": 5.304,
+  "start": 3.69,
+  "end": 5.079,
   "words": [
    {
     "text": "Бірақ",
     "accent": false,
-    "start": 3.15,
-    "end": 3.621
+    "start": 3.69,
+    "end": 3.933
    },
    {
     "text": "ролик",
     "accent": false,
-    "start": 3.621,
-    "end": 4.092
+    "start": 3.991,
+    "end": 4.315
    },
    {
     "text": "бәрібір",
     "accent": true,
-    "start": 4.092,
-    "end": 4.698
+    "start": 4.315,
+    "end": 4.674
    },
    {
     "text": "шығады",
     "accent": false,
-    "start": 4.698,
-    "end": 5.304
+    "start": 4.674,
+    "end": 5.079
    }
   ]
  },
  {
-  "start": 5.304,
-  "end": 6.65,
+  "start": 5.885,
+  "end": 6.892,
   "words": [
    {
     "text": "Оны",
     "accent": false,
-    "start": 5.304,
-    "end": 5.64
+    "start": 5.885,
+    "end": 6.07
    },
    {
     "text": "код",
     "accent": false,
-    "start": 5.64,
-    "end": 5.977
+    "start": 6.094,
+    "end": 6.337
    },
    {
     "text": "жинайды",
     "accent": true,
-    "start": 5.977,
-    "end": 6.65
+    "start": 6.337,
+    "end": 6.892
    }
   ]
  },
  {
-  "start": 6.8,
-  "end": 8.667,
+  "start": 7.992,
+  "end": 9.508,
   "words": [
    {
     "text": "Claude",
     "accent": false,
-    "start": 6.8,
-    "end": 7.267
+    "start": 7.992,
+    "end": 8.304
    },
    {
     "text": "сценарий",
     "accent": true,
-    "start": 7.267,
-    "end": 7.85
+    "start": 8.316,
+    "end": 8.848
    },
    {
     "text": "жазады",
     "accent": false,
-    "start": 7.85,
-    "end": 8.317
+    "start": 8.848,
+    "end": 9.265
    },
    {
     "text": "және",
     "accent": false,
-    "start": 8.317,
-    "end": 8.667
+    "start": 9.265,
+    "end": 9.508
    }
   ]
  },
  {
-  "start": 8.667,
-  "end": 10.3,
+  "start": 9.531,
+  "end": 10.758,
   "words": [
    {
     "text": "бүкіл",
     "accent": false,
-    "start": 8.667,
-    "end": 9.075
+    "start": 9.531,
+    "end": 9.797
    },
    {
     "text": "кодты",
     "accent": false,
-    "start": 9.075,
-    "end": 9.483
+    "start": 9.821,
+    "end": 10.145
    },
    {
     "text": "құрастырады",
     "accent": true,
-    "start": 9.483,
-    "end": 10.3
+    "start": 10.156,
+    "end": 10.758
    }
   ]
  },
  {
-  "start": 10.45,
-  "end": 12.382,
+  "start": 11.802,
+  "end": 13.781,
   "words": [
    {
     "text": "Дауысты",
     "accent": false,
-    "start": 10.45,
-    "end": 10.961
+    "start": 11.802,
+    "end": 12.231
    },
    {
     "text": "нейрожелі",
     "accent": true,
-    "start": 10.961,
-    "end": 11.586
+    "start": 12.242,
+    "end": 12.798
    },
    {
     "text": "оқиды",
     "accent": false,
-    "start": 11.586,
-    "end": 11.984
+    "start": 12.798,
+    "end": 13.237
    },
    {
     "text": "қазақ",
     "accent": false,
-    "start": 11.984,
-    "end": 12.382
+    "start": 13.423,
+    "end": 13.781
    }
   ]
  },
  {
-  "start": 12.382,
-  "end": 14.343,
+  "start": 13.781,
+  "end": 16.097,
   "words": [
    {
     "text": "тілінде",
     "accent": true,
-    "start": 12.382,
-    "end": 12.95
+    "start": 13.781,
+    "end": 14.14
    },
    {
     "text": "Whisper",
     "accent": false,
-    "start": 13.1,
-    "end": 13.633
+    "start": 15.252,
+    "end": 15.495
    },
    {
     "text": "әр",
     "accent": false,
-    "start": 13.633,
-    "end": 13.87
+    "start": 15.53,
+    "end": 15.761
    },
    {
     "text": "сөздің",
     "accent": false,
-    "start": 13.87,
-    "end": 14.343
+    "start": 15.761,
+    "end": 16.097
    }
   ]
  },
  {
-  "start": 14.343,
-  "end": 15.409,
+  "start": 16.097,
+  "end": 16.919,
   "words": [
    {
     "text": "уақытын",
     "accent": true,
-    "start": 14.343,
-    "end": 14.876
+    "start": 16.097,
+    "end": 16.456
    },
    {
     "text": "табады",
     "accent": false,
-    "start": 14.876,
-    "end": 15.409
+    "start": 16.456,
+    "end": 16.919
    }
   ]
  },
  {
-  "start": 15.409,
-  "end": 17.6,
+  "start": 16.976,
+  "end": 18.863,
   "words": [
    {
     "text": "ал",
     "accent": false,
-    "start": 15.409,
-    "end": 15.646
+    "start": 16.976,
+    "end": 17.208
    },
    {
     "text": "Remotion",
     "accent": false,
-    "start": 15.646,
-    "end": 16.238
+    "start": 17.208,
+    "end": 17.694
    },
    {
     "text": "бәрін",
     "accent": false,
-    "start": 16.238,
-    "end": 16.653
+    "start": 17.694,
+    "end": 18.03
    },
    {
     "text": "анимациялайды",
     "accent": true,
-    "start": 16.653,
-    "end": 17.6
+    "start": 18.041,
+    "end": 18.863
    }
   ]
  },
  {
-  "start": 17.75,
-  "end": 19.328,
+  "start": 19.95,
+  "end": 21.247,
   "words": [
    {
     "text": "Нәтижесі",
     "accent": true,
-    "start": 17.75,
-    "end": 18.436
+    "start": 19.95,
+    "end": 20.483
    },
    {
     "text": "осы",
     "accent": false,
-    "start": 18.436,
-    "end": 18.779
+    "start": 20.587,
+    "end": 20.876
    },
    {
     "text": "ролик",
     "accent": false,
-    "start": 18.779,
-    "end": 19.328
+    "start": 20.876,
+    "end": 21.247
    }
   ]
  },
  {
-  "start": 19.328,
-  "end": 21.25,
+  "start": 22.075,
+  "end": 23.244,
   "words": [
    {
     "text": "Бір",
     "accent": false,
-    "start": 19.328,
-    "end": 19.672
+    "start": 22.075,
+    "end": 22.214
    },
    {
     "text": "кадр",
     "accent": false,
-    "start": 19.672,
-    "end": 20.083
+    "start": 22.226,
+    "end": 22.55
    },
    {
     "text": "да",
     "accent": false,
-    "start": 20.083,
-    "end": 20.358
+    "start": 22.561,
+    "end": 22.677
    },
    {
     "text": "түсірмедім",
     "accent": true,
-    "start": 20.358,
-    "end": 21.25
+    "start": 22.677,
+    "end": 23.244
    }
   ]
  },
  {
-  "start": 21.4,
-  "end": 22.978,
+  "start": 24.348,
+  "end": 25.147,
   "words": [
    {
     "text": "Нұсқаулық",
     "accent": true,
-    "start": 21.4,
-    "end": 22.155
+    "start": 24.348,
+    "end": 24.753
    },
    {
     "text": "керек",
     "accent": false,
-    "start": 22.155,
-    "end": 22.635
+    "start": 24.8,
+    "end": 25.031
    },
    {
     "text": "пе?",
     "accent": false,
-    "start": 22.635,
-    "end": 22.978
+    "start": 25.043,
+    "end": 25.147
    }
   ]
  },
  {
-  "start": 22.978,
-  "end": 24.9,
+  "start": 26.023,
+  "end": 27.18,
   "words": [
    {
     "text": "Директке",
     "accent": false,
-    "start": 22.978,
-    "end": 23.665
+    "start": 26.023,
+    "end": 26.474
    },
    {
     "text": "«КОД»",
     "accent": true,
-    "start": 23.665,
-    "end": 24.145
+    "start": 26.474,
+    "end": 26.74
    },
    {
     "text": "деп",
     "accent": false,
-    "start": 24.145,
-    "end": 24.488
+    "start": 26.752,
+    "end": 26.891
    },
    {
     "text": "жаз",
     "accent": false,
-    "start": 24.488,
-    "end": 24.9
+    "start": 26.891,
+    "end": 27.18
    }
   ]
  }
