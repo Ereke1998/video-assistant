@@ -48,12 +48,13 @@ def words_of(text: str):
 MARK = {"*": "accent", "~": "strike", "^": "big", "_": "kicker"}
 
 
+STRESS = re.compile(r"\+([аеёиоуыэюяАЕЁИОУЫЭЮЯ])")  # зам+ок → «замо́к» в озвучке, «замок» на экране
 SAY = re.compile(r"^(.*?)\{([^}]+)\}(.*)$")  # 0{нөл} — на экране «0», в озвучке «нөл»
 
 
 def tokenize(voice: str, offset: int = 0):
     """Разметка заголовка: *акцент* ~зачёркнуто~ ^КРУПНО^ _подводка_, « | » — перенос строки,
-    текст{произношение} — показать одно, озвучить другое (цифры, аббревиатуры).
+    текст{произношение} — показать одно, озвучить другое (цифры, аббревиатуры), зам+ок — ударение.
     Возвращает (tokens, plain): tokens для Remotion (wi — индекс слова в общей озвучке), plain — чистый текст для TTS."""
     tokens, style, wi = [], "normal", offset
     for raw in voice.split():
@@ -67,8 +68,12 @@ def tokenize(voice: str, offset: int = 0):
             t = t[:-1]
         say = None
         m = SAY.match(t)
-        if m:
+        if m:                                   # 0{нөл}: экран «0», голос «нөл»
             t, say = m.group(1) + m.group(3), m.group(2) + m.group(3)
+        acute = lambda x: STRESS.sub(lambda g: g.group(1) + "\u0301", x)
+        if STRESS.search(say or t):             # зам+ок: ударение только в озвучке
+            say = acute(say or t)
+        t = STRESS.sub(r"\1", t)
         is_word = any(ch.isalnum() for ch in t)
         tok = {"text": t, "style": s, "wi": wi if is_word else None}
         if say:

@@ -229,6 +229,7 @@
   "voiceover": {
     "engine": "edge-tts",
     "engines_available": [
+      "elevenlabs",
       "edge-tts",
       "preview"
     ],
@@ -266,7 +267,17 @@
       "max_pause_sec": 0.38,
       "$comment": "срезает тишину TTS: хвост фразы и паузы длиннее max_pause_sec"
     },
-    "pad_after_sec": 0.15
+    "pad_after_sec": 0.15,
+    "elevenlabs": {
+      "$comment": "Ключ: ELEVENLABS_API_KEY. voice_id — из Voice Library (голос-рассказчик) или Voice Design. stability ниже → больше эмоций; style выше → выразительнее.",
+      "voice_id": "",
+      "model_id": "eleven_multilingual_v2",
+      "stability": 0.35,
+      "similarity_boost": 0.8,
+      "style": 0.45,
+      "use_speaker_boost": true,
+      "speed": 1.05
+    }
   },
   "alignment": {
     "engine": "tts",

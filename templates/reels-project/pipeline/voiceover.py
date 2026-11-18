@@ -27,6 +27,32 @@ FX = {
 fx = FX.get(vo.get("fx", "none"), "")
 
 
+def elevenlabs(text, out, prev_text="", next_text=""):
+    """ElevenLabs: живая интонация и ударения. Возвращает [(слово, start, end)] из посимвольного выравнивания.
+    Ключ: ELEVENLABS_API_KEY (в облачной сессии заголовок xi-api-key подставляет прокси)."""
+    import base64, ssl, urllib.request
+    el = vo["elevenlabs"]
+    body = {"text": text, "model_id": el["model_id"], "previous_text": prev_text, "next_text": next_text,
+            "voice_settings": {k: el[k] for k in ("stability", "similarity_boost", "style", "use_speaker_boost", "speed") if k in el}}
+    req = urllib.request.Request(f"https://api.elevenlabs.io/v1/text-to-speech/{el['voice_id']}/with-timestamps?output_format=mp3_44100_192",
+                                 data=json.dumps(body).encode(), method="POST",
+                                 headers={"Content-Type": "application/json", "xi-api-key": os.environ.get("ELEVENLABS_API_KEY", "set-by-proxy")})
+    ctx = ssl.create_default_context(cafile=os.environ.get("SSL_CERT_FILE") or ("/root/.ccr/ca-bundle.crt" if os.path.exists("/root/.ccr/ca-bundle.crt") else None))
+    with urllib.request.urlopen(req, context=ctx, timeout=120) as r:
+        res = json.loads(r.read())
+    open(out, "wb").write(base64.b64decode(res["audio_base64"]))
+    al = res.get("alignment") or res.get("normalized_alignment")
+    words, cur, s0, e0 = [], "", None, None
+    for ch, a, b in zip(al["characters"], al["character_start_times_seconds"], al["character_end_times_seconds"]):
+        if ch.isspace():
+            if cur.strip(): words.append((cur, s0, e0))
+            cur, s0 = "", None; continue
+        if s0 is None: s0 = a
+        cur += ch; e0 = b
+    if cur.strip(): words.append((cur, s0, e0))
+    return [w for w in words if any(c.isalnum() for c in w[0])]
+
+
 async def tts(text, out):
     """Синтез + WordBoundary. Возвращает [(слово, start, end)] в секундах от начала фразы."""
     import edge_tts  # pip install edge-tts
@@ -69,7 +95,12 @@ def tighten(raw, words, wav):
 parts, timeline, bounds, t = [], [], [], 0.0
 for i, s in enumerate(script["scenes"]):
     raw, wav = tmp / f"{i:02}_{s['id']}.mp3", tmp / f"{i:02}_{s['id']}.wav"
-    if vo["engine"] == "edge-tts" and s["voice_plain"].strip():
+    if vo["engine"] == "elevenlabs" and s["voice_plain"].strip():
+        sc = script["scenes"]
+        ws = elevenlabs(s["voice_plain"], raw, sc[i - 1]["voice_plain"] if i else "", sc[i + 1]["voice_plain"] if i + 1 < len(sc) else "")
+        ws = tighten(raw, ws, wav)
+        bounds += [{"word": w, "start": round(t + a, 3), "end": round(t + b, 3), "scene": s["id"]} for w, a, b in ws]
+    elif vo["engine"] == "edge-tts" and s["voice_plain"].strip():
         for attempt in range(3):
             try:
                 ws = asyncio.run(tts(s["voice_plain"], raw)); break
