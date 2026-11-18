@@ -269,14 +269,15 @@
     },
     "pad_after_sec": 0.15,
     "elevenlabs": {
-      "$comment": "Ключ: ELEVENLABS_API_KEY. voice_id — из Voice Library (голос-рассказчик) или Voice Design. stability ниже → больше эмоций; style выше → выразительнее.",
+      "$comment": "Ключ: ELEVENLABS_API_KEY. voice_id — из Voice Library (голос-рассказчик) или Voice Design. stability ниже → больше эмоций; style выше → выразительнее. output_format: mp3_44100_128 (бесплатно), mp3_44100_192 — от тарифа Creator. На бесплатном плане через API доступны только стандартные голоса.",
       "voice_id": "",
       "model_id": "eleven_multilingual_v2",
       "stability": 0.35,
       "similarity_boost": 0.8,
       "style": 0.45,
       "use_speaker_boost": true,
-      "speed": 1.05
+      "speed": 1.05,
+      "output_format": "mp3_44100_128"
     }
   },
   "alignment": {

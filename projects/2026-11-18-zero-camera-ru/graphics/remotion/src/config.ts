@@ -40,6 +40,7 @@ const tokenize = (voice: string, offset: number): Token[] => {
     if (MARK[t[0]]) { s = MARK[t[0]]; style = s; t = t.slice(1); }
     const close = MARK[t[t.length - 1]] && MARK[t[t.length - 1]] === s ? true : false;
     if (close) t = t.slice(0, -1);
+    t = t.replace(/\+([аеёиоуыэюяАЕЁИОУЫЭЮЯ])/g, "$1"); // зам+ок: ударение только для озвучки
     const say = t.match(/^(.*?)\{([^}]+)\}(.*)$/); if (say) t = say[1] + say[3]; // 0{нөл}: экран «0», голос «нөл»
     const isWord = /[\p{L}\p{N}]/u.test(t);
     out.push({ text: t, style: s, wi: isWord ? wi++ : null });

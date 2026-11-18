@@ -30,16 +30,19 @@ fx = FX.get(vo.get("fx", "none"), "")
 def elevenlabs(text, out, prev_text="", next_text=""):
     """ElevenLabs: живая интонация и ударения. Возвращает [(слово, start, end)] из посимвольного выравнивания.
     Ключ: ELEVENLABS_API_KEY (в облачной сессии заголовок xi-api-key подставляет прокси)."""
-    import base64, ssl, urllib.request
+    import base64, ssl, urllib.error, urllib.request
     el = vo["elevenlabs"]
     body = {"text": text, "model_id": el["model_id"], "previous_text": prev_text, "next_text": next_text,
             "voice_settings": {k: el[k] for k in ("stability", "similarity_boost", "style", "use_speaker_boost", "speed") if k in el}}
-    req = urllib.request.Request(f"https://api.elevenlabs.io/v1/text-to-speech/{el['voice_id']}/with-timestamps?output_format=mp3_44100_192",
+    req = urllib.request.Request(f"https://api.elevenlabs.io/v1/text-to-speech/{el['voice_id']}/with-timestamps?output_format={el.get('output_format', 'mp3_44100_128')}",
                                  data=json.dumps(body).encode(), method="POST",
                                  headers={"Content-Type": "application/json", "xi-api-key": os.environ.get("ELEVENLABS_API_KEY", "set-by-proxy")})
     ctx = ssl.create_default_context(cafile=os.environ.get("SSL_CERT_FILE") or ("/root/.ccr/ca-bundle.crt" if os.path.exists("/root/.ccr/ca-bundle.crt") else None))
-    with urllib.request.urlopen(req, context=ctx, timeout=120) as r:
-        res = json.loads(r.read())
+    try:
+        with urllib.request.urlopen(req, context=ctx, timeout=120) as r:
+            res = json.loads(r.read())
+    except urllib.error.HTTPError as e:  # показать причину от ElevenLabs (тариф, права ключа, голос)
+        raise SystemExit(f"ElevenLabs {e.code}: {e.read().decode(errors='replace')[:400]}")
     open(out, "wb").write(base64.b64decode(res["audio_base64"]))
     al = res.get("alignment") or res.get("normalized_alignment")
     words, cur, s0, e0 = [], "", None, None

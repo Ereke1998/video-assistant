@@ -1,379 +1,379 @@
 [
  {
-  "start": 0.05,
-  "end": 0.875,
+  "start": 0.0,
+  "end": 0.778,
   "words": [
    {
     "text": "Ноль",
     "accent": false,
-    "start": 0.05,
-    "end": 0.487
+    "start": 0.0,
+    "end": 0.302
    },
    {
     "text": "камер",
     "accent": true,
-    "start": 0.487,
-    "end": 0.875
+    "start": 0.337,
+    "end": 0.778
    }
   ]
  },
  {
-  "start": 1.142,
-  "end": 1.992,
+  "start": 0.975,
+  "end": 1.869,
   "words": [
    {
     "text": "ноль",
     "accent": false,
-    "start": 1.142,
-    "end": 1.349
+    "start": 0.975,
+    "end": 1.207
    },
    {
     "text": "микрофонов",
     "accent": true,
-    "start": 1.349,
-    "end": 1.992
+    "start": 1.231,
+    "end": 1.869
    }
   ]
  },
  {
-  "start": 2.162,
-  "end": 3.096,
+  "start": 1.904,
+  "end": 2.833,
   "words": [
    {
     "text": "ноль",
     "accent": false,
-    "start": 2.162,
-    "end": 2.404
+    "start": 1.904,
+    "end": 2.101
    },
    {
     "text": "монтажёров",
     "accent": true,
-    "start": 2.404,
-    "end": 3.096
+    "start": 2.136,
+    "end": 2.833
    }
   ]
  },
  {
-  "start": 3.416,
-  "end": 4.508,
+  "start": 2.983,
+  "end": 3.877,
   "words": [
    {
     "text": "И",
     "accent": false,
-    "start": 3.416,
-    "end": 3.634
+    "start": 2.983,
+    "end": 3.087
    },
    {
     "text": "всё",
     "accent": false,
-    "start": 3.634,
-    "end": 3.853
+    "start": 3.134,
+    "end": 3.308
    },
    {
     "text": "равно",
     "accent": true,
-    "start": 3.853,
-    "end": 4.181
+    "start": 3.355,
+    "end": 3.587
    },
    {
     "text": "ролик",
     "accent": false,
-    "start": 4.181,
-    "end": 4.508
+    "start": 3.645,
+    "end": 3.877
    }
   ]
  },
  {
-  "start": 4.508,
-  "end": 6.903,
+  "start": 3.935,
+  "end": 6.048,
   "words": [
    {
     "text": "выходит",
     "accent": false,
-    "start": 4.508,
-    "end": 5.127
+    "start": 3.935,
+    "end": 4.504
    },
    {
     "text": "Его",
     "accent": false,
-    "start": 5.507,
-    "end": 5.956
+    "start": 4.666,
+    "end": 4.852
    },
    {
     "text": "собирает",
     "accent": true,
-    "start": 5.956,
-    "end": 6.49
+    "start": 4.899,
+    "end": 5.305
    },
    {
     "text": "код",
     "accent": false,
-    "start": 6.49,
-    "end": 6.903
+    "start": 5.363,
+    "end": 6.048
    }
   ]
  },
  {
-  "start": 7.222,
-  "end": 8.666,
+  "start": 6.198,
+  "end": 7.568,
   "words": [
    {
     "text": "Клод",
     "accent": false,
-    "start": 7.222,
-    "end": 7.623
+    "start": 6.198,
+    "end": 6.511
    },
    {
     "text": "пишет",
     "accent": false,
-    "start": 7.623,
-    "end": 7.95
+    "start": 6.581,
+    "end": 6.918
    },
    {
     "text": "сценарий",
     "accent": true,
-    "start": 7.95,
-    "end": 8.533
+    "start": 6.964,
+    "end": 7.463
    },
    {
     "text": "и",
     "accent": false,
-    "start": 8.533,
-    "end": 8.666
+    "start": 7.522,
+    "end": 7.568
    }
   ]
  },
  {
-  "start": 8.666,
-  "end": 9.831,
+  "start": 7.638,
+  "end": 9.681,
   "words": [
    {
     "text": "собирает",
     "accent": true,
-    "start": 8.666,
-    "end": 9.152
+    "start": 7.638,
+    "end": 8.148
    },
    {
     "text": "весь",
     "accent": false,
-    "start": 9.152,
-    "end": 9.419
+    "start": 8.218,
+    "end": 8.474
    },
    {
     "text": "код",
     "accent": false,
-    "start": 9.419,
-    "end": 9.831
+    "start": 8.532,
+    "end": 9.681
    }
   ]
  },
  {
-  "start": 10.151,
-  "end": 11.996,
+  "start": 9.831,
+  "end": 11.178,
   "words": [
    {
     "text": "Голос",
     "accent": false,
-    "start": 10.151,
-    "end": 10.818
+    "start": 9.831,
+    "end": 10.179
    },
    {
     "text": "который",
     "accent": true,
-    "start": 10.988,
-    "end": 11.352
+    "start": 10.203,
+    "end": 10.47
    },
    {
     "text": "вы",
     "accent": false,
-    "start": 11.352,
-    "end": 11.45
+    "start": 10.504,
+    "end": 10.597
    },
    {
     "text": "слышите",
     "accent": false,
-    "start": 11.45,
-    "end": 11.996
+    "start": 10.632,
+    "end": 11.178
    }
   ]
  },
  {
-  "start": 12.238,
-  "end": 14.135,
+  "start": 11.468,
+  "end": 13.973,
   "words": [
    {
     "text": "нейросеть",
     "accent": true,
-    "start": 12.238,
-    "end": 12.906
+    "start": 11.468,
+    "end": 12.257
    },
    {
     "text": "Заметили?",
     "accent": false,
-    "start": 13.286,
-    "end": 14.135
+    "start": 12.637,
+    "end": 13.973
    }
   ]
  },
  {
-  "start": 14.456,
-  "end": 16.81,
+  "start": 14.123,
+  "end": 15.388,
   "words": [
    {
     "text": "Тайминг",
-    "accent": false,
-    "start": 14.456,
-    "end": 14.99
+    "accent": true,
+    "start": 14.123,
+    "end": 14.564
    },
    {
     "text": "каждого",
     "accent": false,
-    "start": 14.99,
-    "end": 15.378
+    "start": 14.645,
+    "end": 15.005
    },
    {
     "text": "слова",
     "accent": false,
-    "start": 15.378,
-    "end": 15.767
-   },
-   {
-    "text": "автоматически",
-    "accent": true,
-    "start": 15.949,
-    "end": 16.81
+    "start": 15.052,
+    "end": 15.388
    }
   ]
  },
  {
-  "start": 17.029,
-  "end": 18.582,
+  "start": 15.768,
+  "end": 17.428,
   "words": [
+   {
+    "text": "автоматически",
+    "accent": true,
+    "start": 15.768,
+    "end": 16.604
+   },
    {
     "text": "а",
     "accent": false,
-    "start": 17.029,
-    "end": 17.162
+    "start": 16.65,
+    "end": 16.708
    },
    {
     "text": "Ремоушн",
     "accent": false,
-    "start": 17.162,
-    "end": 17.684
+    "start": 16.755,
+    "end": 17.219
    },
    {
     "text": "всё",
     "accent": false,
-    "start": 17.684,
-    "end": 17.915
-   },
-   {
-    "text": "анимирует",
-    "accent": true,
-    "start": 17.915,
-    "end": 18.582
+    "start": 17.254,
+    "end": 17.428
    }
   ]
  },
  {
-  "start": 18.902,
-  "end": 20.383,
+  "start": 17.486,
+  "end": 19.981,
   "words": [
+   {
+    "text": "анимирует",
+    "accent": true,
+    "start": 17.486,
+    "end": 18.589
+   },
    {
     "text": "Итог",
     "accent": false,
-    "start": 18.902,
-    "end": 19.424
+    "start": 18.739,
+    "end": 19.111
    },
    {
     "text": "этот",
     "accent": false,
-    "start": 19.642,
-    "end": 19.921
+    "start": 19.261,
+    "end": 19.459
    },
    {
     "text": "ролик",
-    "accent": true,
-    "start": 19.921,
-    "end": 20.383
+    "accent": false,
+    "start": 19.528,
+    "end": 19.981
    }
   ]
  },
  {
-  "start": 20.763,
-  "end": 22.389,
+  "start": 20.144,
+  "end": 21.711,
   "words": [
    {
     "text": "Ни",
     "accent": false,
-    "start": 20.763,
-    "end": 21.042
+    "start": 20.144,
+    "end": 20.248
    },
    {
     "text": "одного",
     "accent": false,
-    "start": 21.042,
-    "end": 21.406
+    "start": 20.283,
+    "end": 20.573
    },
    {
     "text": "снятого",
     "accent": true,
-    "start": 21.406,
-    "end": 21.891
+    "start": 20.608,
+    "end": 21.003
    },
    {
     "text": "кадра",
     "accent": false,
-    "start": 21.891,
-    "end": 22.389
+    "start": 21.061,
+    "end": 21.711
    }
   ]
  },
  {
-  "start": 22.709,
-  "end": 24.226,
+  "start": 21.861,
+  "end": 22.825,
   "words": [
    {
     "text": "Нужна",
     "accent": false,
-    "start": 22.709,
-    "end": 23.255
+    "start": 21.861,
+    "end": 22.14
    },
    {
     "text": "инструкция?",
     "accent": true,
-    "start": 23.255,
-    "end": 24.226
+    "start": 22.163,
+    "end": 22.825
    }
   ]
  },
  {
-  "start": 24.606,
-  "end": 26.584,
+  "start": 23.138,
+  "end": 24.74,
   "words": [
    {
     "text": "Напиши",
     "accent": false,
-    "start": 24.606,
-    "end": 25.237
+    "start": 23.138,
+    "end": 23.568
    },
    {
     "text": "«КОД»",
     "accent": true,
-    "start": 25.468,
-    "end": 25.795
+    "start": 23.602,
+    "end": 23.939
    },
    {
     "text": "в",
     "accent": false,
-    "start": 25.965,
-    "end": 26.074
+    "start": 23.962,
+    "end": 23.997
    },
    {
     "text": "директ",
     "accent": false,
-    "start": 26.074,
-    "end": 26.584
+    "start": 24.067,
+    "end": 24.74
    }
   ]
  }

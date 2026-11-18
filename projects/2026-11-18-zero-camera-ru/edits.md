@@ -8,6 +8,7 @@
 | 1 | 2026-11-18 | «Давай на русском, дикторский голос, правдоподобный» | русская версия, голос Dmitry + обработка announcer | `project.language`, `voiceover.fx` | kk → ru, none → announcer |
 | 2 | 2026-11-18 | (QA) тишина TTS ~0,9 с после каждой фразы | подрезка хвостов и пауз | `voiceover.trim` | 34,4 с → 26,9 с |
 | 3 | 2026-11-18 | (QA) хук не влезал по ширине | автоподгонка кегля + неразрывные крупные строки | `Headline.tsx` | — |
+| 4 | 2026-11-18 | «Произношение, ударения, нет эмоций» → «Первый голос» | ElevenLabs, голос Liam, multilingual v2 | `voiceover.engine`, `voiceover.elevenlabs.voice_id`, `voiceover.fx` | edge-tts/Dmitry → elevenlabs/Liam, announcer → none |
 
 ## Словарь правок → параметры
 

@@ -52,7 +52,7 @@ tts_words = p("build/audio/tts_words.json")
 if cfg["voiceover"]["engine"] == "preview" or al["engine"] == "estimate":
     words, used = estimate(), "estimate"
 elif al["engine"] == "tts" and tts_words.exists():
-    words, used = snap(json.loads(tts_words.read_text(encoding="utf-8"))), "tts WordBoundary"
+    words, used = snap(json.loads(tts_words.read_text(encoding="utf-8"))), "тайминги от TTS"
 else:
     try:
         words, used = snap(whisper()), "faster-whisper"
