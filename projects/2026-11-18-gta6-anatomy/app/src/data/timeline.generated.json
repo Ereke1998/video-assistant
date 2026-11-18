@@ -1,0 +1,2972 @@
+{
+ "generatedAt": "2026-11-18T23:49:15.924Z",
+ "estimated": false,
+ "fps": 30,
+ "width": 1080,
+ "height": 1920,
+ "duration": 77.707,
+ "music": "audio/music.mp3",
+ "footage": {},
+ "acts": [
+  {
+   "id": 1,
+   "roman": "I",
+   "title": "НУЛЕВОЙ ПАЦИЕНТ",
+   "start": 0,
+   "end": 15.756,
+   "voiceStart": 1.3,
+   "audio": "audio/act1.mp3",
+   "plannedStart": 0,
+   "plannedEnd": 18,
+   "firstWord": 0,
+   "lastWord": 46
+  },
+  {
+   "id": 2,
+   "roman": "II",
+   "title": "ЦЕНА ВОПРОСА",
+   "start": 15.756,
+   "end": 42.143,
+   "voiceStart": 15.906,
+   "audio": "audio/act2.mp3",
+   "plannedStart": 18,
+   "plannedEnd": 38,
+   "firstWord": 47,
+   "lastWord": 105
+  },
+  {
+   "id": 3,
+   "roman": "III",
+   "title": "ТЕХНОЛОГИИ",
+   "start": 42.143,
+   "end": 60.093,
+   "voiceStart": 42.293,
+   "audio": "audio/act3.mp3",
+   "plannedStart": 38,
+   "plannedEnd": 55,
+   "firstWord": 106,
+   "lastWord": 154
+  },
+  {
+   "id": 4,
+   "roman": "IV",
+   "title": "ЭКОНОМИКА ХАЙПА",
+   "start": 60.093,
+   "end": 77.707,
+   "voiceStart": 60.243,
+   "audio": "audio/act4.mp3",
+   "plannedStart": 55,
+   "plannedEnd": 75,
+   "firstWord": 155,
+   "lastWord": 196
+  }
+ ],
+ "scenes": [
+  {
+   "id": "countdown",
+   "type": "Countdown",
+   "act": 1,
+   "start": 0,
+   "end": 1.22,
+   "props": {
+    "from": 3
+   },
+   "marks": {}
+  },
+  {
+   "id": "hook",
+   "type": "Hook",
+   "act": 1,
+   "start": 1.22,
+   "end": 3.342,
+   "props": {
+    "title": "GTA 6",
+    "accent": "ВЫШЛА",
+    "sub": "13 ЛЕТ ОЖИДАНИЯ"
+   },
+   "marks": {}
+  },
+  {
+   "id": "years",
+   "type": "YearsJump",
+   "act": 1,
+   "start": 3.342,
+   "end": 6.497,
+   "props": {
+    "from": 2013,
+    "to": 2026,
+    "label": "ЛЕТ ОЖИДАНИЯ"
+   },
+   "marks": {
+    "big": 2.343
+   }
+  },
+  {
+   "id": "generations",
+   "type": "Generations",
+   "act": 1,
+   "start": 6.497,
+   "end": 8.027,
+   "props": {
+    "label": "2 ПОКОЛЕНИЯ КОНСОЛЕЙ",
+    "items": [
+     {
+      "name": "PS3 / X360",
+      "year": "2013",
+      "old": true
+     },
+     {
+      "name": "PS4 / XBOX ONE",
+      "year": "2013+"
+     },
+     {
+      "name": "PS5 / SERIES",
+      "year": "2020+"
+     }
+    ]
+   },
+   "marks": {}
+  },
+  {
+   "id": "crowd",
+   "type": "Crowd",
+   "act": 1,
+   "start": 8.027,
+   "end": 9.59,
+   "props": {
+    "label": "ЦЕЛОЕ ПОКОЛЕНИЕ ГЕЙМЕРОВ",
+    "clip": "crowd"
+   },
+   "marks": {}
+  },
+  {
+   "id": "office",
+   "type": "OfficeClosed",
+   "act": 1,
+   "start": 9.59,
+   "end": 13.643,
+   "props": {
+    "company": "LOGITECH",
+    "note": "ВЫХОДНОЙ — ЧТОБЫ ИГРАТЬ",
+    "clip": "office"
+   },
+   "marks": {
+    "stamp": 2.205
+   }
+  },
+  {
+   "id": "question",
+   "type": "Question",
+   "act": 1,
+   "start": 13.643,
+   "end": 15.756,
+   "props": {
+    "text": "ЧТО СКРЫВАЕТСЯ",
+    "accent": "ЗА ДАТОЙ?"
+   },
+   "marks": {}
+  },
+  {
+   "id": "title2",
+   "type": "ActTitle",
+   "act": 2,
+   "start": 15.756,
+   "end": 17.821,
+   "props": {
+    "title": "ЦЕНА ВОПРОСА"
+   },
+   "marks": {}
+  },
+  {
+   "id": "budget",
+   "type": "BigNumber",
+   "act": 2,
+   "start": 17.821,
+   "end": 20.765,
+   "props": {
+    "prefix": "$",
+    "value": 2000000000,
+    "label": "БЮДЖЕТ РАЗРАБОТКИ",
+    "note": "оценка СМИ",
+    "format": "full"
+   },
+   "marks": {
+    "land": 1.583
+   }
+  },
+  {
+   "id": "bars",
+   "type": "BudgetBars",
+   "act": 2,
+   "start": 20.765,
+   "end": 24.407,
+   "props": {
+    "unit": "млн $",
+    "note": "бюджеты производства, оценки СМИ",
+    "items": [
+     {
+      "label": "МСТИТЕЛИ: ФИНАЛ",
+      "value": 356
+     },
+     {
+      "label": "АВАТАР: ПУТЬ ВОДЫ",
+      "value": 400
+     },
+     {
+      "label": "GTA VI",
+      "value": 2000,
+      "highlight": true
+     }
+    ]
+   },
+   "marks": {
+    "hero": 2.481
+   }
+  },
+  {
+   "id": "size",
+   "type": "BigNumber",
+   "act": 2,
+   "start": 24.407,
+   "end": 27.193,
+   "props": {
+    "value": 212,
+    "suffix": " ГБ",
+    "label": "НА ДИСКЕ",
+    "bar": true
+   },
+   "marks": {
+    "land": 1.393
+   }
+  },
+  {
+   "id": "price",
+   "type": "PriceTags",
+   "act": 2,
+   "start": 27.193,
+   "end": 30.455,
+   "props": {
+    "items": [
+     {
+      "price": "$79.99",
+      "label": "STANDARD"
+     },
+     {
+      "price": "$99.99",
+      "label": "ULTIMATE"
+     }
+    ]
+   },
+   "marks": {
+    "second": 1.837
+   }
+  },
+  {
+   "id": "record",
+   "type": "RecordBadge",
+   "act": 2,
+   "start": 30.455,
+   "end": 34.698,
+   "props": {
+    "title": "МИРОВОЙ РЕКОРД",
+    "sub": "ПРЕДЗАКАЗОВ",
+    "note": "ЗА 24 ЧАСА ДО СТАРТА"
+   },
+   "marks": {
+    "land": 1.921
+   }
+  },
+  {
+   "id": "platforms",
+   "type": "Platforms",
+   "act": 2,
+   "start": 34.698,
+   "end": 42.143,
+   "props": {
+    "items": [
+     {
+      "name": "PS5",
+      "ok": true
+     },
+     {
+      "name": "XBOX SERIES",
+      "ok": true
+     },
+     {
+      "name": "ПК",
+      "ok": false
+     }
+    ]
+   },
+   "marks": {
+    "pc": 2.48,
+    "consoles": 3.947
+   }
+  },
+  {
+   "id": "title3",
+   "type": "ActTitle",
+   "act": 3,
+   "start": 42.143,
+   "end": 44.356,
+   "props": {
+    "title": "ТЕХНОЛОГИИ"
+   },
+   "marks": {}
+  },
+  {
+   "id": "engine",
+   "type": "Engine",
+   "act": 3,
+   "start": 44.356,
+   "end": 46.456,
+   "props": {
+    "name": "RAGE 9",
+    "tag": "ПЕРЕПИСАН С НУЛЯ"
+   },
+   "marks": {
+    "tag": 1.351
+   }
+  },
+  {
+   "id": "cops",
+   "type": "CopsAI",
+   "act": 3,
+   "start": 46.456,
+   "end": 50.508,
+   "props": {
+    "title": "УМНЫЙ ИИ КОПОВ"
+   },
+   "marks": {
+    "cams": 2.966,
+    "witnesses": 3.303
+   }
+  },
+  {
+   "id": "split",
+   "type": "SplitScreen",
+   "act": 3,
+   "start": 50.508,
+   "end": 53.696,
+   "props": {
+    "caption": "ФИЗИКА ВОДЫ И ТОЛПЫ",
+    "left": {
+     "title": "GTA V",
+     "year": "2013",
+     "clip": "gta5"
+    },
+    "right": {
+     "title": "GTA VI",
+     "year": "2026",
+     "clip": "gta6"
+    }
+   },
+   "marks": {
+    "crowd": 0.655
+   }
+  },
+  {
+   "id": "leonida",
+   "type": "MapPin",
+   "act": 3,
+   "start": 53.696,
+   "end": 55.976,
+   "props": {
+    "title": "LEONIDA",
+    "sub": "≈ ФЛОРИДА",
+    "city": "VICE CITY"
+   },
+   "marks": {}
+  },
+  {
+   "id": "chaos",
+   "type": "ChaosTags",
+   "act": 3,
+   "start": 55.976,
+   "end": 60.093,
+   "props": {
+    "items": [
+     "ШТУРМ МАГАЗИНОВ",
+     "БЕЗУМИЕ НА БОЛОТАХ",
+     "АЛЛИГАТОРЫ"
+    ]
+   },
+   "marks": {
+    "a": 0.38,
+    "b": 1.879,
+    "c": 2.586
+   }
+  },
+  {
+   "id": "title4",
+   "type": "ActTitle",
+   "act": 4,
+   "start": 60.093,
+   "end": 62.538,
+   "props": {
+    "title": "ЭКОНОМИКА ХАЙПА",
+    "question": "КТО ПОДНИМЕТ НА РЕЛИЗЕ?"
+   },
+   "marks": {}
+  },
+  {
+   "id": "demand",
+   "type": "Demand",
+   "act": 4,
+   "start": 62.538,
+   "end": 65.018,
+   "props": {
+    "label": "ПОСЛЕДНИЕ ДЕНЬГИ",
+    "sub": "НА КОНСОЛИ"
+   },
+   "marks": {}
+  },
+  {
+   "id": "stocks",
+   "type": "StockChart",
+   "act": 4,
+   "start": 65.018,
+   "end": 67.425,
+   "props": {
+    "ticker": "TAKE-TWO",
+    "label": "АКЦИИ",
+    "tag": "ДЕФИЦИТ ЖЕЛЕЗА"
+   },
+   "marks": {
+    "tag": 1.224
+   }
+  },
+  {
+   "id": "views",
+   "type": "Views",
+   "act": 4,
+   "start": 67.425,
+   "end": 69.768,
+   "props": {
+    "value": 1000000,
+    "label": "ПРОСМОТРОВ",
+    "tag": "РАЗБОР ПАСХАЛОК"
+   },
+   "marks": {}
+  },
+  {
+   "id": "poll",
+   "type": "FinalPoll",
+   "act": 4,
+   "start": 69.768,
+   "end": 77.707,
+   "props": {
+    "headline": "МИР РАЗДЕЛИЛСЯ",
+    "question": "А ТЫ В КАКОМ ЛАГЕРЕ?",
+    "a": {
+     "icon": "pad",
+     "label": "ИГРАЮ НА КОНСОЛИ"
+    },
+    "b": {
+     "icon": "pc",
+     "label": "ЖДУ ПОРТ НА ПК"
+    },
+    "cta": "ПИШИ В КОММЕНТАРИЯХ"
+   },
+   "marks": {
+    "question": 1.129,
+    "a": 2.385,
+    "b": 3.514,
+    "cta": 4.337
+   }
+  }
+ ],
+ "words": [
+  {
+   "text": "Этот",
+   "norm": "этот",
+   "start": 1.3,
+   "end": 1.511,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "день",
+   "norm": "день",
+   "start": 1.532,
+   "end": 1.691,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "остановил",
+   "norm": "остановил",
+   "start": 1.712,
+   "end": 1.975,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "планету.",
+   "norm": "планету",
+   "start": 1.996,
+   "end": 2.366,
+   "act": 1,
+   "keyword": true
+  },
+  {
+   "text": "Между",
+   "norm": "между",
+   "start": 2.493,
+   "end": 2.683,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "выходом",
+   "norm": "выходом",
+   "start": 2.704,
+   "end": 2.936,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "пятой",
+   "norm": "пятой",
+   "start": 2.978,
+   "end": 3.179,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "части",
+   "norm": "части",
+   "start": 3.21,
+   "end": 3.4,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "в",
+   "norm": "в",
+   "start": 3.422,
+   "end": 3.443,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "13-м",
+   "norm": "13 м",
+   "start": 3.475,
+   "end": 3.802,
+   "act": 1,
+   "keyword": true
+  },
+  {
+   "text": "году",
+   "norm": "году",
+   "start": 3.855,
+   "end": 4.065,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "и",
+   "norm": "и",
+   "start": 4.139,
+   "end": 4.171,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "релизом",
+   "norm": "релизом",
+   "start": 4.203,
+   "end": 4.508,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "шестой",
+   "norm": "шестой",
+   "start": 4.561,
+   "end": 4.91,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "прошло",
+   "norm": "прошло",
+   "start": 5.153,
+   "end": 5.501,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "ровно",
+   "norm": "ровно",
+   "start": 5.543,
+   "end": 5.733,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "13",
+   "norm": "13",
+   "start": 5.765,
+   "end": 6.113,
+   "act": 1,
+   "keyword": true
+  },
+  {
+   "text": "лет.",
+   "norm": "лет",
+   "start": 6.145,
+   "end": 6.387,
+   "act": 1,
+   "keyword": true
+  },
+  {
+   "text": "Сменилось",
+   "norm": "сменилось",
+   "start": 6.577,
+   "end": 6.968,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "два",
+   "norm": "два",
+   "start": 6.989,
+   "end": 7.158,
+   "act": 1,
+   "keyword": true
+  },
+  {
+   "text": "поколения",
+   "norm": "поколения",
+   "start": 7.179,
+   "end": 7.495,
+   "act": 1,
+   "keyword": true
+  },
+  {
+   "text": "консолей,",
+   "norm": "консолей",
+   "start": 7.527,
+   "end": 7.981,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "выросло",
+   "norm": "выросло",
+   "start": 8.107,
+   "end": 8.445,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "целое",
+   "norm": "целое",
+   "start": 8.498,
+   "end": 8.688,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "поколение",
+   "norm": "поколение",
+   "start": 8.709,
+   "end": 9.015,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "геймеров,",
+   "norm": "геймеров",
+   "start": 9.057,
+   "end": 9.448,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "а",
+   "norm": "а",
+   "start": 9.575,
+   "end": 9.617,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "компании",
+   "norm": "компании",
+   "start": 9.67,
+   "end": 9.997,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "вроде",
+   "norm": "вроде",
+   "start": 10.018,
+   "end": 10.197,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "Logitech",
+   "norm": "logitech",
+   "start": 10.24,
+   "end": 10.598,
+   "act": 1,
+   "keyword": true
+  },
+  {
+   "text": "официально",
+   "norm": "официально",
+   "start": 10.788,
+   "end": 11.264,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "дали",
+   "norm": "дали",
+   "start": 11.305,
+   "end": 11.443,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "сотрудникам",
+   "norm": "сотрудникам",
+   "start": 11.475,
+   "end": 11.855,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "выходной,",
+   "norm": "выходной",
+   "start": 11.875,
+   "end": 12.351,
+   "act": 1,
+   "keyword": true
+  },
+  {
+   "text": "просто",
+   "norm": "просто",
+   "start": 12.594,
+   "end": 12.857,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "чтобы",
+   "norm": "чтобы",
+   "start": 12.889,
+   "end": 13.036,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "те",
+   "norm": "те",
+   "start": 13.068,
+   "end": 13.121,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "играли.",
+   "norm": "играли",
+   "start": 13.143,
+   "end": 13.48,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "Но",
+   "norm": "но",
+   "start": 13.723,
+   "end": 13.796,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "что",
+   "norm": "что",
+   "start": 13.818,
+   "end": 13.892,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "на",
+   "norm": "на",
+   "start": 13.924,
+   "end": 13.965,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "самом",
+   "norm": "самом",
+   "start": 13.997,
+   "end": 14.135,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "деле",
+   "norm": "деле",
+   "start": 14.176,
+   "end": 14.314,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "скрывается",
+   "norm": "скрывается",
+   "start": 14.335,
+   "end": 14.705,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "за",
+   "norm": "за",
+   "start": 14.725,
+   "end": 14.778,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "этой",
+   "norm": "этой",
+   "start": 14.81,
+   "end": 14.905,
+   "act": 1,
+   "keyword": false
+  },
+  {
+   "text": "датой?",
+   "norm": "датой",
+   "start": 14.936,
+   "end": 15.359,
+   "act": 1,
+   "keyword": true
+  },
+  {
+   "text": "Акт",
+   "norm": "акт",
+   "start": 15.906,
+   "end": 16.138,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "второй:",
+   "norm": "второй",
+   "start": 16.16,
+   "end": 16.655,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "цена",
+   "norm": "цена",
+   "start": 16.771,
+   "end": 17.035,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "вопроса.",
+   "norm": "вопроса",
+   "start": 17.088,
+   "end": 17.605,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "Бюджет",
+   "norm": "бюджет",
+   "start": 17.901,
+   "end": 18.291,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "разработки",
+   "norm": "разработки",
+   "start": 18.333,
+   "end": 18.871,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "перевалил",
+   "norm": "перевалил",
+   "start": 18.914,
+   "end": 19.315,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "за",
+   "norm": "за",
+   "start": 19.379,
+   "end": 19.452,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "$2 млрд",
+   "norm": "$2 млрд",
+   "start": 19.484,
+   "end": 20.402,
+   "act": 2,
+   "keyword": true
+  },
+  {
+   "text": "это",
+   "norm": "это",
+   "start": 20.845,
+   "end": 20.961,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "дороже",
+   "norm": "дороже",
+   "start": 21.004,
+   "end": 21.31,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "любых",
+   "norm": "любых",
+   "start": 21.362,
+   "end": 21.701,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "«Мстителей»",
+   "norm": "мстителей",
+   "start": 21.721,
+   "end": 22.408,
+   "act": 2,
+   "keyword": true
+  },
+  {
+   "text": "и",
+   "norm": "и",
+   "start": 22.534,
+   "end": 22.619,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "«Аватаров»",
+   "norm": "аватаров",
+   "start": 22.64,
+   "end": 23.252,
+   "act": 2,
+   "keyword": true
+  },
+  {
+   "text": "вместе",
+   "norm": "вместе",
+   "start": 23.326,
+   "end": 23.685,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "взятых.",
+   "norm": "взятых",
+   "start": 23.716,
+   "end": 24.191,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "Игра",
+   "norm": "игра",
+   "start": 24.487,
+   "end": 24.824,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "весит",
+   "norm": "весит",
+   "start": 24.888,
+   "end": 25.141,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "чудовищные",
+   "norm": "чудовищные",
+   "start": 25.173,
+   "end": 25.838,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "212 ГБ,",
+   "norm": "212 гб",
+   "start": 25.88,
+   "end": 27.062,
+   "act": 2,
+   "keyword": true
+  },
+  {
+   "text": "стоит",
+   "norm": "стоит",
+   "start": 27.273,
+   "end": 27.559,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "$80",
+   "norm": "$80",
+   "start": 27.601,
+   "end": 28.361,
+   "act": 2,
+   "keyword": true
+  },
+  {
+   "text": "за",
+   "norm": "за",
+   "start": 28.392,
+   "end": 28.445,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "базу",
+   "norm": "базу",
+   "start": 28.487,
+   "end": 28.772,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "и",
+   "norm": "и",
+   "start": 28.962,
+   "end": 29.047,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "$100",
+   "norm": "$100",
+   "start": 29.11,
+   "end": 29.321,
+   "act": 2,
+   "keyword": true
+  },
+  {
+   "text": "за",
+   "norm": "за",
+   "start": 29.437,
+   "end": 29.574,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "ультимейт-версию.",
+   "norm": "ультимейт версию",
+   "start": 29.638,
+   "end": 30.292,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "При",
+   "norm": "при",
+   "start": 30.535,
+   "end": 30.682,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "этом",
+   "norm": "этом",
+   "start": 30.735,
+   "end": 30.851,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "предзаказы",
+   "norm": "предзаказы",
+   "start": 30.883,
+   "end": 31.316,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "побили",
+   "norm": "побили",
+   "start": 31.358,
+   "end": 31.664,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "абсолютный",
+   "norm": "абсолютный",
+   "start": 31.706,
+   "end": 32.161,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "мировой",
+   "norm": "мировой",
+   "start": 32.181,
+   "end": 32.434,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "рекорд",
+   "norm": "рекорд",
+   "start": 32.456,
+   "end": 32.699,
+   "act": 2,
+   "keyword": true
+  },
+  {
+   "text": "индустрии",
+   "norm": "индустрии",
+   "start": 32.73,
+   "end": 33.152,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "ещё",
+   "norm": "еще",
+   "start": 33.395,
+   "end": 33.68,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "за",
+   "norm": "за",
+   "start": 33.743,
+   "end": 33.807,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "сутки",
+   "norm": "сутки",
+   "start": 33.849,
+   "end": 34.081,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "до",
+   "norm": "до",
+   "start": 34.123,
+   "end": 34.176,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "старта.",
+   "norm": "старта",
+   "start": 34.197,
+   "end": 34.588,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "Но",
+   "norm": "но",
+   "start": 34.778,
+   "end": 34.872,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "купить",
+   "norm": "купить",
+   "start": 34.904,
+   "end": 35.179,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "полбеды.",
+   "norm": "полбеды",
+   "start": 35.295,
+   "end": 35.77,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "Полноценного",
+   "norm": "полноценного",
+   "start": 36.161,
+   "end": 36.793,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "порта",
+   "norm": "порта",
+   "start": 36.868,
+   "end": 37.121,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "на",
+   "norm": "на",
+   "start": 37.152,
+   "end": 37.205,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "ПК",
+   "norm": "пк",
+   "start": 37.258,
+   "end": 37.574,
+   "act": 2,
+   "keyword": true
+  },
+  {
+   "text": "нет",
+   "norm": "нет",
+   "start": 37.733,
+   "end": 37.923,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "и",
+   "norm": "и",
+   "start": 37.944,
+   "end": 37.965,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "в",
+   "norm": "в",
+   "start": 37.986,
+   "end": 38.007,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "помине:",
+   "norm": "помине",
+   "start": 38.039,
+   "end": 38.482,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "играют",
+   "norm": "играют",
+   "start": 38.725,
+   "end": 39.052,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "только",
+   "norm": "только",
+   "start": 39.084,
+   "end": 39.284,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "владельцы",
+   "norm": "владельцы",
+   "start": 39.305,
+   "end": 39.749,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "PS5",
+   "norm": "ps5",
+   "start": 39.781,
+   "end": 40.572,
+   "act": 2,
+   "keyword": true
+  },
+  {
+   "text": "и",
+   "norm": "и",
+   "start": 40.603,
+   "end": 40.625,
+   "act": 2,
+   "keyword": false
+  },
+  {
+   "text": "Xbox Series.",
+   "norm": "xbox series",
+   "start": 40.741,
+   "end": 41.743,
+   "act": 2,
+   "keyword": true
+  },
+  {
+   "text": "Акт",
+   "norm": "акт",
+   "start": 42.293,
+   "end": 42.536,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "третий:",
+   "norm": "третий",
+   "start": 42.557,
+   "end": 43.053,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "технологии.",
+   "norm": "технологии",
+   "start": 43.179,
+   "end": 43.823,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "Rockstar",
+   "norm": "rockstar",
+   "start": 44.436,
+   "end": 44.773,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "переписали",
+   "norm": "переписали",
+   "start": 44.816,
+   "end": 45.196,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "движок",
+   "norm": "движок",
+   "start": 45.228,
+   "end": 45.523,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "RAGE",
+   "norm": "rage",
+   "start": 45.597,
+   "end": 45.755,
+   "act": 3,
+   "keyword": true
+  },
+  {
+   "text": "с",
+   "norm": "с",
+   "start": 45.787,
+   "end": 45.808,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "нуля.",
+   "norm": "нуля",
+   "start": 45.86,
+   "end": 46.24,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "Полиция",
+   "norm": "полиция",
+   "start": 46.536,
+   "end": 46.863,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "теперь",
+   "norm": "теперь",
+   "start": 46.895,
+   "end": 47.106,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "не",
+   "norm": "не",
+   "start": 47.127,
+   "end": 47.169,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "просто",
+   "norm": "просто",
+   "start": 47.201,
+   "end": 47.359,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "стреляет",
+   "norm": "стреляет",
+   "start": 47.38,
+   "end": 47.771,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "она",
+   "norm": "она",
+   "start": 48.319,
+   "end": 48.457,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "анализирует",
+   "norm": "анализирует",
+   "start": 48.478,
+   "end": 48.9,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "твои",
+   "norm": "твои",
+   "start": 48.921,
+   "end": 49.048,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "действия",
+   "norm": "действия",
+   "start": 49.079,
+   "end": 49.343,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "по",
+   "norm": "по",
+   "start": 49.386,
+   "end": 49.47,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "камерам",
+   "norm": "камерам",
+   "start": 49.502,
+   "end": 49.766,
+   "act": 3,
+   "keyword": true
+  },
+  {
+   "text": "и",
+   "norm": "и",
+   "start": 49.798,
+   "end": 49.818,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "свидетелям,",
+   "norm": "свидетелям",
+   "start": 49.839,
+   "end": 50.346,
+   "act": 3,
+   "keyword": true
+  },
+  {
+   "text": "а",
+   "norm": "а",
+   "start": 50.588,
+   "end": 50.652,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "физика",
+   "norm": "физика",
+   "start": 50.705,
+   "end": 50.979,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "воды",
+   "norm": "воды",
+   "start": 51,
+   "end": 51.169,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "и",
+   "norm": "и",
+   "start": 51.19,
+   "end": 51.211,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "поведение",
+   "norm": "поведение",
+   "start": 51.243,
+   "end": 51.591,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "толпы",
+   "norm": "толпы",
+   "start": 51.634,
+   "end": 51.918,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "выглядят",
+   "norm": "выглядят",
+   "start": 51.992,
+   "end": 52.309,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "пугающе",
+   "norm": "пугающе",
+   "start": 52.362,
+   "end": 52.784,
+   "act": 3,
+   "keyword": true
+  },
+  {
+   "text": "реально.",
+   "norm": "реально",
+   "start": 52.826,
+   "end": 53.164,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "Штат",
+   "norm": "штат",
+   "start": 53.776,
+   "end": 53.966,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "Леонида,",
+   "norm": "леонида",
+   "start": 54.008,
+   "end": 54.293,
+   "act": 3,
+   "keyword": true
+  },
+  {
+   "text": "вдохновлённый",
+   "norm": "вдохновленный",
+   "start": 54.314,
+   "end": 54.684,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "Флоридой,",
+   "norm": "флоридой",
+   "start": 54.705,
+   "end": 55.158,
+   "act": 3,
+   "keyword": true
+  },
+  {
+   "text": "живёт",
+   "norm": "живет",
+   "start": 55.401,
+   "end": 55.591,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "своей",
+   "norm": "своей",
+   "start": 55.612,
+   "end": 55.728,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "жизнью:",
+   "norm": "жизнью",
+   "start": 55.771,
+   "end": 56.035,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "пока",
+   "norm": "пока",
+   "start": 56.056,
+   "end": 56.235,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "одни",
+   "norm": "одни",
+   "start": 56.267,
+   "end": 56.404,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "штурмуют",
+   "norm": "штурмуют",
+   "start": 56.436,
+   "end": 56.699,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "магазины,",
+   "norm": "магазины",
+   "start": 56.731,
+   "end": 57.228,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "другие",
+   "norm": "другие",
+   "start": 57.354,
+   "end": 57.587,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "устраивают",
+   "norm": "устраивают",
+   "start": 57.608,
+   "end": 57.903,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "безумие",
+   "norm": "безумие",
+   "start": 57.935,
+   "end": 58.188,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "на",
+   "norm": "на",
+   "start": 58.219,
+   "end": 58.262,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "болотах",
+   "norm": "болотах",
+   "start": 58.293,
+   "end": 58.558,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "с",
+   "norm": "с",
+   "start": 58.589,
+   "end": 58.61,
+   "act": 3,
+   "keyword": false
+  },
+  {
+   "text": "аллигаторами.",
+   "norm": "аллигаторами",
+   "start": 58.642,
+   "end": 59.687,
+   "act": 3,
+   "keyword": true
+  },
+  {
+   "text": "Акт",
+   "norm": "акт",
+   "start": 60.243,
+   "end": 60.465,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "четвёртый:",
+   "norm": "четвертый",
+   "start": 60.486,
+   "end": 61.024,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "кто",
+   "norm": "кто",
+   "start": 61.088,
+   "end": 61.235,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "зарабатывает",
+   "norm": "зарабатывает",
+   "start": 61.309,
+   "end": 61.773,
+   "act": 4,
+   "keyword": true
+  },
+  {
+   "text": "на",
+   "norm": "на",
+   "start": 61.826,
+   "end": 61.868,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "релизе?",
+   "norm": "релизе",
+   "start": 61.91,
+   "end": 62.375,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "Пока",
+   "norm": "пока",
+   "start": 62.618,
+   "end": 62.903,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "одни",
+   "norm": "одни",
+   "start": 62.924,
+   "end": 63.178,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "отдают",
+   "norm": "отдают",
+   "start": 63.219,
+   "end": 63.494,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "последние",
+   "norm": "последние",
+   "start": 63.526,
+   "end": 63.968,
+   "act": 4,
+   "keyword": true
+  },
+  {
+   "text": "деньги",
+   "norm": "деньги",
+   "start": 64.011,
+   "end": 64.233,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "за",
+   "norm": "за",
+   "start": 64.275,
+   "end": 64.328,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "консоли,",
+   "norm": "консоли",
+   "start": 64.37,
+   "end": 64.939,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "другие",
+   "norm": "другие",
+   "start": 65.098,
+   "end": 65.478,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "делают",
+   "norm": "делают",
+   "start": 65.52,
+   "end": 65.784,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "состояния",
+   "norm": "состояния",
+   "start": 65.827,
+   "end": 66.217,
+   "act": 4,
+   "keyword": true
+  },
+  {
+   "text": "на",
+   "norm": "на",
+   "start": 66.238,
+   "end": 66.291,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "дефиците",
+   "norm": "дефиците",
+   "start": 66.322,
+   "end": 66.692,
+   "act": 4,
+   "keyword": true
+  },
+  {
+   "text": "железа",
+   "norm": "железа",
+   "start": 66.745,
+   "end": 67.157,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "и",
+   "norm": "и",
+   "start": 67.368,
+   "end": 67.441,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "роликах-миллионниках",
+   "norm": "роликах миллионниках",
+   "start": 67.505,
+   "end": 68.37,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "с",
+   "norm": "с",
+   "start": 68.402,
+   "end": 68.423,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "разбором",
+   "norm": "разбором",
+   "start": 68.455,
+   "end": 68.771,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "пасхалок.",
+   "norm": "пасхалок",
+   "start": 68.803,
+   "end": 69.32,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "Мир",
+   "norm": "мир",
+   "start": 69.848,
+   "end": 70.069,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "разделился.",
+   "norm": "разделился",
+   "start": 70.122,
+   "end": 70.766,
+   "act": 4,
+   "keyword": true
+  },
+  {
+   "text": "А",
+   "norm": "а",
+   "start": 70.977,
+   "end": 71.04,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "ты",
+   "norm": "ты",
+   "start": 71.103,
+   "end": 71.156,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "в",
+   "norm": "в",
+   "start": 71.178,
+   "end": 71.198,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "каком",
+   "norm": "каком",
+   "start": 71.24,
+   "end": 71.451,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "лагере?",
+   "norm": "лагере",
+   "start": 71.494,
+   "end": 71.895,
+   "act": 4,
+   "keyword": true
+  },
+  {
+   "text": "Уже",
+   "norm": "уже",
+   "start": 72.233,
+   "end": 72.433,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "запускаешь",
+   "norm": "запускаешь",
+   "start": 72.465,
+   "end": 72.929,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "шестёрку",
+   "norm": "шестерку",
+   "start": 72.95,
+   "end": 73.341,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "или",
+   "norm": "или",
+   "start": 73.362,
+   "end": 73.426,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "ждёшь",
+   "norm": "ждешь",
+   "start": 73.457,
+   "end": 73.637,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "порт",
+   "norm": "порт",
+   "start": 73.668,
+   "end": 73.805,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "на",
+   "norm": "на",
+   "start": 73.837,
+   "end": 73.879,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "ПК?",
+   "norm": "пк",
+   "start": 73.911,
+   "end": 74.164,
+   "act": 4,
+   "keyword": true
+  },
+  {
+   "text": "Пиши",
+   "norm": "пиши",
+   "start": 74.185,
+   "end": 74.344,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "в",
+   "norm": "в",
+   "start": 74.365,
+   "end": 74.386,
+   "act": 4,
+   "keyword": false
+  },
+  {
+   "text": "комментариях!",
+   "norm": "комментариях",
+   "start": 74.418,
+   "end": 75.061,
+   "act": 4,
+   "keyword": true
+  }
+ ],
+ "chunks": [
+  {
+   "start": 1.3,
+   "end": 2.493,
+   "words": [
+    0,
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "start": 2.493,
+   "end": 3.422,
+   "words": [
+    4,
+    5,
+    6,
+    7
+   ]
+  },
+  {
+   "start": 3.422,
+   "end": 4.203,
+   "words": [
+    8,
+    9,
+    10,
+    11
+   ]
+  },
+  {
+   "start": 4.203,
+   "end": 5.765,
+   "words": [
+    12,
+    13,
+    14,
+    15
+   ]
+  },
+  {
+   "start": 5.765,
+   "end": 6.577,
+   "words": [
+    16,
+    17
+   ]
+  },
+  {
+   "start": 6.577,
+   "end": 8.107,
+   "words": [
+    18,
+    19,
+    20,
+    21
+   ]
+  },
+  {
+   "start": 8.107,
+   "end": 9.575,
+   "words": [
+    22,
+    23,
+    24,
+    25
+   ]
+  },
+  {
+   "start": 9.575,
+   "end": 10.788,
+   "words": [
+    26,
+    27,
+    28,
+    29
+   ]
+  },
+  {
+   "start": 10.788,
+   "end": 11.875,
+   "words": [
+    30,
+    31,
+    32
+   ]
+  },
+  {
+   "start": 11.875,
+   "end": 13.143,
+   "words": [
+    33,
+    34,
+    35,
+    36
+   ]
+  },
+  {
+   "start": 13.143,
+   "end": 13.723,
+   "words": [
+    37
+   ]
+  },
+  {
+   "start": 13.723,
+   "end": 14.176,
+   "words": [
+    38,
+    39,
+    40,
+    41
+   ]
+  },
+  {
+   "start": 14.176,
+   "end": 14.936,
+   "words": [
+    42,
+    43,
+    44,
+    45
+   ]
+  },
+  {
+   "start": 14.936,
+   "end": 15.609,
+   "words": [
+    46
+   ]
+  },
+  {
+   "start": 15.906,
+   "end": 16.771,
+   "words": [
+    47,
+    48
+   ]
+  },
+  {
+   "start": 16.771,
+   "end": 17.855,
+   "words": [
+    49,
+    50
+   ]
+  },
+  {
+   "start": 17.901,
+   "end": 19.379,
+   "words": [
+    51,
+    52,
+    53
+   ]
+  },
+  {
+   "start": 19.379,
+   "end": 21.362,
+   "words": [
+    54,
+    55,
+    56,
+    57
+   ]
+  },
+  {
+   "start": 21.362,
+   "end": 23.326,
+   "words": [
+    58,
+    59,
+    60,
+    61
+   ]
+  },
+  {
+   "start": 23.326,
+   "end": 24.441,
+   "words": [
+    62,
+    63
+   ]
+  },
+  {
+   "start": 24.487,
+   "end": 27.273,
+   "words": [
+    64,
+    65,
+    66,
+    67
+   ]
+  },
+  {
+   "start": 27.273,
+   "end": 28.962,
+   "words": [
+    68,
+    69,
+    70,
+    71
+   ]
+  },
+  {
+   "start": 28.962,
+   "end": 30.535,
+   "words": [
+    72,
+    73,
+    74,
+    75
+   ]
+  },
+  {
+   "start": 30.535,
+   "end": 31.706,
+   "words": [
+    76,
+    77,
+    78,
+    79
+   ]
+  },
+  {
+   "start": 31.706,
+   "end": 33.395,
+   "words": [
+    80,
+    81,
+    82,
+    83
+   ]
+  },
+  {
+   "start": 33.395,
+   "end": 34.197,
+   "words": [
+    84,
+    85,
+    86,
+    87
+   ]
+  },
+  {
+   "start": 34.197,
+   "end": 34.778,
+   "words": [
+    88
+   ]
+  },
+  {
+   "start": 34.778,
+   "end": 36.02,
+   "words": [
+    89,
+    90,
+    91
+   ]
+  },
+  {
+   "start": 36.161,
+   "end": 37.733,
+   "words": [
+    92,
+    93,
+    94,
+    95
+   ]
+  },
+  {
+   "start": 37.733,
+   "end": 38.725,
+   "words": [
+    96,
+    97,
+    98,
+    99
+   ]
+  },
+  {
+   "start": 38.725,
+   "end": 40.603,
+   "words": [
+    100,
+    101,
+    102,
+    103
+   ]
+  },
+  {
+   "start": 40.603,
+   "end": 41.993,
+   "words": [
+    104,
+    105
+   ]
+  },
+  {
+   "start": 42.293,
+   "end": 43.179,
+   "words": [
+    106,
+    107
+   ]
+  },
+  {
+   "start": 43.179,
+   "end": 44.073,
+   "words": [
+    108
+   ]
+  },
+  {
+   "start": 44.436,
+   "end": 45.787,
+   "words": [
+    109,
+    110,
+    111,
+    112
+   ]
+  },
+  {
+   "start": 45.787,
+   "end": 46.49,
+   "words": [
+    113,
+    114
+   ]
+  },
+  {
+   "start": 46.536,
+   "end": 47.38,
+   "words": [
+    115,
+    116,
+    117,
+    118
+   ]
+  },
+  {
+   "start": 47.38,
+   "end": 48.021,
+   "words": [
+    119
+   ]
+  },
+  {
+   "start": 48.319,
+   "end": 49.386,
+   "words": [
+    120,
+    121,
+    122,
+    123
+   ]
+  },
+  {
+   "start": 49.386,
+   "end": 50.588,
+   "words": [
+    124,
+    125,
+    126,
+    127
+   ]
+  },
+  {
+   "start": 50.588,
+   "end": 51.243,
+   "words": [
+    128,
+    129,
+    130,
+    131
+   ]
+  },
+  {
+   "start": 51.243,
+   "end": 52.826,
+   "words": [
+    132,
+    133,
+    134,
+    135
+   ]
+  },
+  {
+   "start": 52.826,
+   "end": 53.414,
+   "words": [
+    136
+   ]
+  },
+  {
+   "start": 53.776,
+   "end": 54.314,
+   "words": [
+    137,
+    138
+   ]
+  },
+  {
+   "start": 54.314,
+   "end": 55.401,
+   "words": [
+    139,
+    140
+   ]
+  },
+  {
+   "start": 55.401,
+   "end": 56.056,
+   "words": [
+    141,
+    142,
+    143
+   ]
+  },
+  {
+   "start": 56.056,
+   "end": 57.354,
+   "words": [
+    144,
+    145,
+    146,
+    147
+   ]
+  },
+  {
+   "start": 57.354,
+   "end": 58.293,
+   "words": [
+    148,
+    149,
+    150,
+    151
+   ]
+  },
+  {
+   "start": 58.293,
+   "end": 59.937,
+   "words": [
+    152,
+    153,
+    154
+   ]
+  },
+  {
+   "start": 60.243,
+   "end": 61.088,
+   "words": [
+    155,
+    156
+   ]
+  },
+  {
+   "start": 61.088,
+   "end": 62.618,
+   "words": [
+    157,
+    158,
+    159,
+    160
+   ]
+  },
+  {
+   "start": 62.618,
+   "end": 64.011,
+   "words": [
+    161,
+    162,
+    163,
+    164
+   ]
+  },
+  {
+   "start": 64.011,
+   "end": 65.098,
+   "words": [
+    165,
+    166,
+    167
+   ]
+  },
+  {
+   "start": 65.098,
+   "end": 66.322,
+   "words": [
+    168,
+    169,
+    170,
+    171
+   ]
+  },
+  {
+   "start": 66.322,
+   "end": 68.402,
+   "words": [
+    172,
+    173,
+    174,
+    175
+   ]
+  },
+  {
+   "start": 68.402,
+   "end": 69.57,
+   "words": [
+    176,
+    177,
+    178
+   ]
+  },
+  {
+   "start": 69.848,
+   "end": 70.977,
+   "words": [
+    179,
+    180
+   ]
+  },
+  {
+   "start": 70.977,
+   "end": 71.494,
+   "words": [
+    181,
+    182,
+    183,
+    184
+   ]
+  },
+  {
+   "start": 71.494,
+   "end": 72.145,
+   "words": [
+    185
+   ]
+  },
+  {
+   "start": 72.233,
+   "end": 73.457,
+   "words": [
+    186,
+    187,
+    188,
+    189
+   ]
+  },
+  {
+   "start": 73.457,
+   "end": 74.185,
+   "words": [
+    190,
+    191,
+    192,
+    193
+   ]
+  },
+  {
+   "start": 74.185,
+   "end": 75.311,
+   "words": [
+    194,
+    195,
+    196
+   ]
+  }
+ ],
+ "sfx": [
+  {
+   "name": "tick",
+   "file": "sfx/tick.mp3",
+   "time": 0,
+   "volume": 0.8
+  },
+  {
+   "name": "tick",
+   "file": "sfx/tick.mp3",
+   "time": 0.42,
+   "volume": 0.8
+  },
+  {
+   "name": "tick",
+   "file": "sfx/tick.mp3",
+   "time": 0.84,
+   "volume": 0.8
+  },
+  {
+   "name": "impact",
+   "file": "sfx/impact.mp3",
+   "time": 1.22,
+   "volume": 1
+  },
+  {
+   "name": "whoosh",
+   "file": "sfx/whoosh.mp3",
+   "time": 3.342,
+   "volume": 0.8
+  },
+  {
+   "name": "impact",
+   "file": "sfx/impact.mp3",
+   "time": 5.685,
+   "volume": 0.8
+  },
+  {
+   "name": "whoosh",
+   "file": "sfx/whoosh.mp3",
+   "time": 6.497,
+   "volume": 0.8
+  },
+  {
+   "name": "pop",
+   "file": "sfx/pop.mp3",
+   "time": 6.747,
+   "volume": 0.8
+  },
+  {
+   "name": "pop",
+   "file": "sfx/pop.mp3",
+   "time": 6.997,
+   "volume": 0.8
+  },
+  {
+   "name": "pop",
+   "file": "sfx/pop.mp3",
+   "time": 7.247,
+   "volume": 0.8
+  },
+  {
+   "name": "whoosh",
+   "file": "sfx/whoosh.mp3",
+   "time": 8.027,
+   "volume": 0.8
+  },
+  {
+   "name": "whoosh",
+   "file": "sfx/whoosh.mp3",
+   "time": 9.59,
+   "volume": 0.8
+  },
+  {
+   "name": "impact",
+   "file": "sfx/impact.mp3",
+   "time": 11.795,
+   "volume": 0.7
+  },
+  {
+   "name": "glitch",
+   "file": "sfx/glitch.mp3",
+   "time": 13.643,
+   "volume": 0.8
+  },
+  {
+   "name": "riser",
+   "file": "sfx/riser.mp3",
+   "time": 14.156,
+   "volume": 0.6
+  },
+  {
+   "name": "impact",
+   "file": "sfx/impact.mp3",
+   "time": 15.756,
+   "volume": 0.8
+  },
+  {
+   "name": "whoosh",
+   "file": "sfx/whoosh.mp3",
+   "time": 17.821,
+   "volume": 0.8
+  },
+  {
+   "name": "cash",
+   "file": "sfx/cash.mp3",
+   "time": 19.404,
+   "volume": 0.8
+  },
+  {
+   "name": "pop",
+   "file": "sfx/pop.mp3",
+   "time": 20.765,
+   "volume": 0.8
+  },
+  {
+   "name": "pop",
+   "file": "sfx/pop.mp3",
+   "time": 21.065,
+   "volume": 0.8
+  },
+  {
+   "name": "impact",
+   "file": "sfx/impact.mp3",
+   "time": 23.246,
+   "volume": 0.8
+  },
+  {
+   "name": "whoosh",
+   "file": "sfx/whoosh.mp3",
+   "time": 24.407,
+   "volume": 0.8
+  },
+  {
+   "name": "impact",
+   "file": "sfx/impact.mp3",
+   "time": 25.8,
+   "volume": 0.7
+  },
+  {
+   "name": "cash",
+   "file": "sfx/cash.mp3",
+   "time": 27.193,
+   "volume": 0.8
+  },
+  {
+   "name": "cash",
+   "file": "sfx/cash.mp3",
+   "time": 29.03,
+   "volume": 0.6
+  },
+  {
+   "name": "whoosh",
+   "file": "sfx/whoosh.mp3",
+   "time": 30.455,
+   "volume": 0.8
+  },
+  {
+   "name": "impact",
+   "file": "sfx/impact.mp3",
+   "time": 32.376,
+   "volume": 0.8
+  },
+  {
+   "name": "whoosh",
+   "file": "sfx/whoosh.mp3",
+   "time": 34.698,
+   "volume": 0.8
+  },
+  {
+   "name": "glitch",
+   "file": "sfx/glitch.mp3",
+   "time": 37.653,
+   "volume": 0.7
+  },
+  {
+   "name": "pop",
+   "file": "sfx/pop.mp3",
+   "time": 39.701,
+   "volume": 0.8
+  },
+  {
+   "name": "pop",
+   "file": "sfx/pop.mp3",
+   "time": 40.661,
+   "volume": 0.8
+  },
+  {
+   "name": "riser",
+   "file": "sfx/riser.mp3",
+   "time": 40.543,
+   "volume": 0.6
+  },
+  {
+   "name": "impact",
+   "file": "sfx/impact.mp3",
+   "time": 42.143,
+   "volume": 0.8
+  },
+  {
+   "name": "glitch",
+   "file": "sfx/glitch.mp3",
+   "time": 44.356,
+   "volume": 0.8
+  },
+  {
+   "name": "impact",
+   "file": "sfx/impact.mp3",
+   "time": 45.707,
+   "volume": 0.6
+  },
+  {
+   "name": "siren",
+   "file": "sfx/siren.mp3",
+   "time": 46.456,
+   "volume": 0.35
+  },
+  {
+   "name": "scan",
+   "file": "sfx/scan.mp3",
+   "time": 49.422,
+   "volume": 0.8
+  },
+  {
+   "name": "scan",
+   "file": "sfx/scan.mp3",
+   "time": 49.759,
+   "volume": 0.8
+  },
+  {
+   "name": "whoosh",
+   "file": "sfx/whoosh.mp3",
+   "time": 50.508,
+   "volume": 0.8
+  },
+  {
+   "name": "impact",
+   "file": "sfx/impact.mp3",
+   "time": 50.608,
+   "volume": 0.5
+  },
+  {
+   "name": "whoosh",
+   "file": "sfx/whoosh.mp3",
+   "time": 53.696,
+   "volume": 0.8
+  },
+  {
+   "name": "pop",
+   "file": "sfx/pop.mp3",
+   "time": 53.996,
+   "volume": 0.8
+  },
+  {
+   "name": "pop",
+   "file": "sfx/pop.mp3",
+   "time": 56.356,
+   "volume": 0.8
+  },
+  {
+   "name": "pop",
+   "file": "sfx/pop.mp3",
+   "time": 57.855,
+   "volume": 0.8
+  },
+  {
+   "name": "impact",
+   "file": "sfx/impact.mp3",
+   "time": 58.562,
+   "volume": 0.6
+  },
+  {
+   "name": "riser",
+   "file": "sfx/riser.mp3",
+   "time": 58.493,
+   "volume": 0.6
+  },
+  {
+   "name": "impact",
+   "file": "sfx/impact.mp3",
+   "time": 60.093,
+   "volume": 0.8
+  },
+  {
+   "name": "whoosh",
+   "file": "sfx/whoosh.mp3",
+   "time": 62.538,
+   "volume": 0.8
+  },
+  {
+   "name": "cash",
+   "file": "sfx/cash.mp3",
+   "time": 62.938,
+   "volume": 0.8
+  },
+  {
+   "name": "riser",
+   "file": "sfx/riser.mp3",
+   "time": 65.018,
+   "volume": 0.4
+  },
+  {
+   "name": "cash",
+   "file": "sfx/cash.mp3",
+   "time": 66.242,
+   "volume": 0.6
+  },
+  {
+   "name": "whoosh",
+   "file": "sfx/whoosh.mp3",
+   "time": 67.425,
+   "volume": 0.8
+  },
+  {
+   "name": "pop",
+   "file": "sfx/pop.mp3",
+   "time": 68.025,
+   "volume": 0.8
+  },
+  {
+   "name": "impact",
+   "file": "sfx/impact.mp3",
+   "time": 69.768,
+   "volume": 0.8
+  },
+  {
+   "name": "pop",
+   "file": "sfx/pop.mp3",
+   "time": 72.153,
+   "volume": 0.8
+  },
+  {
+   "name": "pop",
+   "file": "sfx/pop.mp3",
+   "time": 73.282,
+   "volume": 0.8
+  },
+  {
+   "name": "whoosh",
+   "file": "sfx/whoosh.mp3",
+   "time": 74.105,
+   "volume": 0.8
+  }
+ ]
+}

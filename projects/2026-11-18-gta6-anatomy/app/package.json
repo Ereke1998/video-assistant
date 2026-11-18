@@ -1,0 +1,31 @@
+{
+  "name": "gta6-anatomy",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "voice": "node scripts/generate-voiceover.mjs",
+    "sfx": "node scripts/generate-sfx.mjs",
+    "timeline": "node scripts/build-timeline.mjs",
+    "studio": "npm run timeline && remotion studio src/index.ts",
+    "render": "node scripts/render.mjs",
+    "build": "npm run voice && npm run sfx && npm run render && npm run docs",
+    "typecheck": "tsc --noEmit",
+    "docs": "node scripts/export-docs.mjs"
+  },
+  "dependencies": {
+    "@fontsource/montserrat": "^5.3.0",
+    "@fontsource/unbounded": "^5.3.0",
+    "@remotion/bundler": "^4.0.545",
+    "@remotion/cli": "^4.0.545",
+    "@remotion/fonts": "^4.0.545",
+    "@remotion/media-utils": "^4.0.545",
+    "@remotion/renderer": "^4.0.545",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "remotion": "^4.0.545"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "typescript": "^7.0.2"
+  }
+}
