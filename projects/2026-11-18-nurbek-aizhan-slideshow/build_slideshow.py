@@ -26,11 +26,11 @@ FPS = 25
 # отъезд=True — камера начинает с лиц крупно и плавно отъезжает.
 ACTS = [
     # 1. Он и она
-    [(31, "К", .52, .30, False), (22, "С", .48, .24, False), (34, "С", .58, .26, False)],
+    [(2, "О", .48, .29, False), (22, "С", .48, .24, False), (34, "С", .58, .26, False)],
     # 2. Белая серия
     [(1, "О", .48, .28, False), (5, "С", .50, .30, True), (3, "К", .50, .55, False),
-     (2, "О", .48, .29, False), (4, "С", .50, .30, True),
-     (18, "С", .50, .26, False), (29, "О", .52, .25, False), (23, "С", .58, .28, True),
+     (18, "С", .50, .26, False), (4, "С", .50, .30, True), (31, "К", .52, .30, False),
+     (29, "О", .52, .25, False), (23, "С", .58, .28, True),
      (36, "С", .50, .22, False), (6, "К", .40, .27, True), (39, "С", .48, .25, False)],
     # 3. Розовая серия
     [(21, "О", .52, .30, False), (19, "С", .62, .42, True), (25, "С", .53, .38, False),
@@ -52,10 +52,12 @@ ACTS = [
 
 INTRO_CUT = 10.3      # конец вступительного титра (вход вокала/инструментов)
 OUTRO_CUT = 160.8     # переход в финальный титр (конец последнего припева)
-XF = 0.8              # длительность обычного перехода, с
-XF_ACT = 1.4          # переход между сериями, с
+XF = 1.0              # длительность обычного перехода, с
+XF_ACT = 1.6          # переход между сериями, с
 PHOTO_SCALE = 1.15    # фото выше экрана на 15% -> шире по краям, сверху/снизу срезается фон
 PULL_ZOOM = 1.6       # стартовый зум отъезда с лиц
+USE_PULL = False      # отъезды выключены: всё движение мягкое
+KB_ZOOM = 0.045       # амплитуда обычного наезда/отъезда
 
 
 def load(n):
@@ -161,7 +163,7 @@ def build_timeline(beats):
             act_start.append(si == 0 and ai > 0)
     wts = []
     for s in slides:
-        w = 1.12 if s[4] else 1.0          # отъезду чуть больше времени
+        w = 1.12 if (USE_PULL and s[4]) else 1.0          # отъезду чуть больше времени
         if s[0] == 16:
             w = 2.2                         # силуэт — кульминация
         wts.append(w)
@@ -201,7 +203,7 @@ class Renderer:
             if kind == "slide":
                 self.cache[key] = compose(self.slides[i], self.CW, self.CH)
             elif kind == "intro":
-                self.cache[key] = (grade(blurred_bg(load(31), self.CW, self.CH, dark=0.33)), mid)
+                self.cache[key] = (grade(blurred_bg(load(2), self.CW, self.CH, dark=0.33)), mid)
             else:
                 self.cache[key] = (grade(blurred_bg(load(16), self.CW, self.CH, dark=0.30)), mid)
         return self.cache[key]
@@ -214,14 +216,14 @@ class Renderer:
         p = np.clip((t - a0) / max(b0 - a0, 1e-6), 0, 1)
         CW, CH = self.CW, self.CH
         canvas, (fx, fy) = self.canvas((kind, i))
-        pull = kind == "slide" and self.slides[i][4]
+        pull = USE_PULL and kind == "slide" and self.slides[i][4]
         if pull:
             # отъезд с лиц: быстрый старт, мягкое замедление
             e = 1 - (1 - p) ** 2.2
             z = 1.0 + (PULL_ZOOM - 1.0) * (1 - e)
         elif kind == "slide":
             # обычный: чётные — наезд, нечётные — отъезд
-            z = 1.0 + 0.07 * (p if si % 2 == 0 else 1 - p)
+            z = 1.0 + KB_ZOOM * (p if si % 2 == 0 else 1 - p)
         else:
             z = 1.0 + 0.05 * p
         # центр окна тянется к лицам по мере приближения
