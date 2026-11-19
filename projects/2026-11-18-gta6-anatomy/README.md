@@ -1,6 +1,6 @@
 # GTA 6 — «Анатомия главного релиза десятилетия»
 
-Вертикальный ролик 9:16 (1080×1920, 30 fps), ~1:49. Автосборка: **Remotion + Piper TTS (русский голос) + ElevenLabs (выравнивание, SFX) + FFmpeg**.
+Вертикальный ролик 9:16 (1080×1920, 30 fps), ~1:27. Автосборка: **Remotion + ElevenLabs (eleven_v3, русский голос Mark Rubins, SFX) + FFmpeg**.
 
 ## Файлы проекта
 
@@ -18,10 +18,10 @@
 ```bash
 cd app
 npm install
-pip install piper-tts   # локальный русский TTS (модель скачается сама в app/models/)
+pip install piper-tts   # только для запасного бесплатного движка provider: 'piper'
 
-npm run voice     # озвучка 4 актов: Piper + forced alignment ElevenLabs → public/audio/actN.mp3
-npm run sfx       # 9 SFX + музыкальный луп (ElevenLabs Sound Effects) → public/sfx, public/audio/music.mp3
+npm run voice     # озвучка 4 актов (ElevenLabs eleven_v3 + теги эмоций, with-timestamps) → public/audio/actN.mp3
+npm run sfx       # 17 SFX + музыкальный луп (ElevenLabs Sound Effects) → public/sfx, public/audio/music.mp3
 npm run render    # → out/gta6_documentary.mp4 (H.264 CRF 16, AAC 320k, −14 LUFS)
 
 npm run studio    # интерактивный превью-редактор Remotion
@@ -35,7 +35,7 @@ node scripts/export-docs.mjs                 # пересобрать subtitles.
 ## Как устроена синхронизация
 
 ```
-src/data/script.ts ──► generate-voiceover.mjs ──► Piper → actN.mp3 → forced alignment → таймстемпы символов
+src/data/script.ts ──► generate-voiceover.mjs ──► actN.mp3 + таймстемпы символов
         │                                                 │
         └──────────────► build-timeline.mjs ◄─────────────┘
                                 │

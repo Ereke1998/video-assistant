@@ -33,7 +33,15 @@ export type SfxName =
   | 'cash'
   | 'glitch'
   | 'scan'
-  | 'siren';
+  | 'siren'
+  | 'bassdrop'
+  | 'crowd'
+  | 'coins'
+  | 'typing'
+  | 'notify'
+  | 'stamp'
+  | 'water'
+  | 'heartbeat';
 
 export type SfxCue = {
   name: SfxName;
@@ -127,7 +135,7 @@ export const ACTS: ActDef[] = [
       ]},
       {id: 'hook', type: 'Hook', cue: 'этот день',
         props: {title: 'GTA 6', accent: 'ВЫШЛА', sub: '13 ЛЕТ ОЖИДАНИЯ'},
-        sfx: [{name: 'impact', volume: 1}]},
+        sfx: [{name: 'impact', volume: 1}, {name: 'bassdrop', volume: 0.9}]},
       {id: 'years', type: 'YearsJump', cue: 'в 13-м',
         props: {from: 2013, to: 2026, label: 'ЛЕТ ОЖИДАНИЯ'},
         marks: {big: '13 лет'},
@@ -141,14 +149,14 @@ export const ACTS: ActDef[] = [
         sfx: [{name: 'whoosh'}, {name: 'pop', offset: 0.25}, {name: 'pop', offset: 0.5}, {name: 'pop', offset: 0.75}]},
       {id: 'crowd', type: 'Crowd', cue: 'выросло',
         props: {label: 'ЦЕЛОЕ ПОКОЛЕНИЕ ГЕЙМЕРОВ', clip: 'crowd'},
-        sfx: [{name: 'whoosh'}]},
+        sfx: [{name: 'whoosh'}, {name: 'crowd', offset: 0.1, volume: 0.45}, {name: 'notify', offset: 0.4, volume: 0.5}]},
       {id: 'office', type: 'OfficeClosed', cue: 'компании',
         props: {company: 'LOGITECH', note: 'ВЫХОДНОЙ — ЧТОБЫ ИГРАТЬ', clip: 'office'},
         marks: {stamp: 'выходной'},
-        sfx: [{name: 'whoosh'}, {name: 'impact', cue: 'выходной', volume: 0.7}]},
+        sfx: [{name: 'whoosh'}, {name: 'stamp', cue: 'выходной', volume: 0.9}, {name: 'impact', cue: 'выходной', volume: 0.5}]},
       {id: 'question', type: 'Question', cue: 'но что',
         props: {text: 'ЧТО СКРЫВАЕТСЯ', accent: 'ЗА ДАТОЙ?'},
-        sfx: [{name: 'glitch'}]},
+        sfx: [{name: 'glitch'}, {name: 'heartbeat', offset: 0.2, volume: 0.6}]},
     ],
   },
   {
@@ -174,7 +182,7 @@ export const ACTS: ActDef[] = [
       {id: 'budget', type: 'BigNumber', cue: 'бюджет',
         props: {prefix: '$', value: 2000000000, label: 'БЮДЖЕТ РАЗРАБОТКИ', note: 'оценка СМИ', format: 'full'},
         marks: {land: '$2 млрд'},
-        sfx: [{name: 'whoosh'}, {name: 'cash', cue: '$2 млрд'}]},
+        sfx: [{name: 'whoosh'}, {name: 'cash', cue: '$2 млрд'}, {name: 'coins', cue: '$2 млрд', offset: 0.1, volume: 0.6}]},
       {id: 'bars', type: 'BudgetBars', cue: 'это дороже',
         props: {unit: 'млн $', note: 'бюджеты производства, оценки СМИ', items: [
           {label: 'МСТИТЕЛИ: ФИНАЛ', value: 356},
@@ -223,7 +231,7 @@ export const ACTS: ActDef[] = [
       {id: 'engine', type: 'Engine', cue: 'rockstar',
         props: {name: 'RAGE 9', tag: 'ПЕРЕПИСАН С НУЛЯ'},
         marks: {tag: 'с нуля'},
-        sfx: [{name: 'glitch'}, {name: 'impact', cue: 'с нуля', volume: 0.6}]},
+        sfx: [{name: 'glitch'}, {name: 'typing', offset: 0.15, volume: 0.5}, {name: 'impact', cue: 'с нуля', volume: 0.6}]},
       {id: 'cops', type: 'CopsAI', cue: 'полиция',
         props: {title: 'УМНЫЙ ИИ КОПОВ'},
         marks: {cams: 'камерам', witnesses: 'свидетелям'},
@@ -235,7 +243,7 @@ export const ACTS: ActDef[] = [
           right: {title: 'GTA VI', year: '2026', clip: 'gta6'},
         },
         marks: {crowd: 'поведение толпы'},
-        sfx: [{name: 'whoosh'}, {name: 'impact', offset: 0.1, volume: 0.5}]},
+        sfx: [{name: 'whoosh'}, {name: 'impact', offset: 0.1, volume: 0.5}, {name: 'water', offset: 0.2, volume: 0.45}]},
       {id: 'leonida', type: 'MapPin', cue: 'штат',
         props: {title: 'LEONIDA', sub: '≈ ФЛОРИДА', city: 'VICE CITY'},
         sfx: [{name: 'whoosh'}, {name: 'pop', offset: 0.3}]},
@@ -266,14 +274,14 @@ export const ACTS: ActDef[] = [
         sfx: [{name: 'riser', offset: -1.6, volume: 0.6}, {name: 'impact'}]},
       {id: 'demand', type: 'Demand', cue: 'пока одни',
         props: {label: 'ПОСЛЕДНИЕ ДЕНЬГИ', sub: 'НА КОНСОЛИ'},
-        sfx: [{name: 'whoosh'}, {name: 'cash', offset: 0.4}]},
+        sfx: [{name: 'whoosh'}, {name: 'coins', offset: 0.3, volume: 0.6}, {name: 'stamp', offset: 1.6, volume: 0.8}]},
       {id: 'stocks', type: 'StockChart', cue: 'другие делают',
         props: {ticker: 'TAKE-TWO', label: 'АКЦИИ', tag: 'ДЕФИЦИТ ЖЕЛЕЗА'},
         marks: {tag: 'дефиците'},
         sfx: [{name: 'riser', volume: 0.4}, {name: 'cash', cue: 'дефиците', volume: 0.6}]},
       {id: 'views', type: 'Views', cue: 'роликах',
         props: {value: 1000000, label: 'ПРОСМОТРОВ', tag: 'РАЗБОР ПАСХАЛОК'},
-        sfx: [{name: 'whoosh'}, {name: 'pop', offset: 0.6}]},
+        sfx: [{name: 'whoosh'}, {name: 'notify', offset: 0.3, volume: 0.6}, {name: 'notify', offset: 0.9, volume: 0.45}, {name: 'pop', offset: 1.4}]},
       {id: 'poll', type: 'FinalPoll', cue: 'мир разделился',
         props: {
           headline: 'МИР РАЗДЕЛИЛСЯ',
@@ -283,7 +291,7 @@ export const ACTS: ActDef[] = [
           cta: 'ПИШИ В КОММЕНТАРИЯХ',
         },
         marks: {question: 'а ты', a: 'уже запускаешь', b: 'или ждешь', cta: 'пиши'},
-        sfx: [{name: 'impact'}, {name: 'pop', cue: 'уже запускаешь'}, {name: 'pop', cue: 'или ждешь'},
+        sfx: [{name: 'impact'}, {name: 'bassdrop', volume: 0.7}, {name: 'pop', cue: 'уже запускаешь'}, {name: 'pop', cue: 'или ждешь'},
           {name: 'whoosh', cue: 'пиши'}]},
     ],
   },
@@ -296,9 +304,9 @@ export const VOICE = {
    * elevenlabs — ElevenLabs TTS. На free-тарифе доступны только англоязычные premade-голоса (акцент!);
    *              русские голоса из библиотеки (Mark Rubins – Facts, Nikolay, Alexandr Vlasov) — с тарифа Starter.
    */
-  provider: 'piper' as 'piper' | 'elevenlabs',
+  provider: 'elevenlabs' as 'piper' | 'elevenlabs',
   /** ускорение ffmpeg atempo без смены тона; 1 — естественный темп */
-  tempo: 1.0,
+  tempo: 1.15,
   piper: {
     model: 'ru-irinia-medium',
     url: 'https://github.com/rhasspy/piper/releases/download/v0.0.2/voice-ru-irinia-medium.tar.gz',
@@ -312,9 +320,12 @@ export const VOICE = {
     pauseColon: 0.22,
   },
   elevenlabs: {
-    voiceId: 'nPczCjzI2devNBz1zQrb',
-    modelId: 'eleven_multilingual_v2',
-    settings: {stability: 0.42, similarity_boost: 0.8, style: 0.35, use_speaker_boost: true, speed: 1.0},
+    // Mark Rubins – Facts and Life Hacks (русский, с тарифа Starter). Альтернативы:
+    // Nikolay 3EuKHIEZbSzrHGNmdYsx, Alexandr Vlasov txnCCHHGKmYIwrn7HfHQ
+    voiceId: 'LmV7j80HF5QYSKe3sDtR',
+    // eleven_v3 понимает теги эмоций {excited} и т.п.; stability: 0 = Creative (макс. эмоции), 0.5 = Natural
+    modelId: 'eleven_v3',
+    settings: {stability: 0.0, similarity_boost: 0.8, speed: 1.15},
   },
 };
 
@@ -329,6 +340,14 @@ export const SFX_PROMPTS: Record<SfxName | 'music', {prompt: string; duration: n
   glitch: {prompt: 'short digital glitch stutter, data corruption sound', duration: 0.7},
   scan: {prompt: 'futuristic UI scanning beep sweep, short', duration: 0.8},
   siren: {prompt: 'distant american police siren whoop, short', duration: 1.5},
+  bassdrop: {prompt: 'massive 808 bass drop sub boom, trap style, deep', duration: 2},
+  crowd: {prompt: 'huge stadium crowd cheering and screaming with excitement', duration: 3},
+  coins: {prompt: 'pile of gold coins falling and jingling', duration: 1.5},
+  typing: {prompt: 'fast mechanical keyboard typing burst, hacker', duration: 1.5},
+  notify: {prompt: 'short bright smartphone notification ping', duration: 0.5},
+  stamp: {prompt: 'heavy rubber stamp slam on desk, punchy', duration: 0.6},
+  water: {prompt: 'ocean wave splash, short and clean', duration: 2},
+  heartbeat: {prompt: 'two deep tense heartbeats, cinematic', duration: 1.5},
   music: {
     prompt: 'dark synthwave trap instrumental beat loop, 100 bpm, punchy drums, deep 808 bass, retro 80s synth pads, no vocals',
     duration: 22,

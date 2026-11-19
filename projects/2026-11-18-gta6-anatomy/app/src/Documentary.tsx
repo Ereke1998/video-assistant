@@ -42,9 +42,14 @@ const musicVolume = (frame: number, fps: number) => {
   const base = inVoice
     ? MUSIC_UNDER_VOICE + (MUSIC_OPEN - MUSIC_UNDER_VOICE) * (1 - k) * 0.5
     : MUSIC_OPEN - (MUSIC_OPEN - MUSIC_UNDER_VOICE) * (1 - k) * 0.5;
+  // music stop: музыка уходит под riser перед титулом акта и возвращается на impact
+  let stop = 1;
+  for (const a of TL.acts.slice(1)) {
+    if (t > a.start - 1.4 && t < a.start) stop = Math.min(stop, interpolate(t, [a.start - 1.4, a.start - 1.1], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}));
+  }
   const fadeIn = interpolate(t, [0, 0.6], [0, 1], {extrapolateRight: 'clamp'});
   const fadeOut = interpolate(t, [TL.duration - 1.8, TL.duration], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
-  return base * fadeIn * fadeOut;
+  return base * fadeIn * fadeOut * stop;
 };
 
 export const Documentary: React.FC = () => {
@@ -92,7 +97,7 @@ export const Documentary: React.FC = () => {
       {/* SFX */}
       {TL.sfx.map((s, i) => (
         <Sequence key={`sfx${i}`} from={sec(s.time)} name={`sfx ${s.name}`} layout="none">
-          <Audio src={staticFile(s.file)} volume={s.volume * 0.55} />
+          <Audio src={staticFile(s.file)} volume={Math.min(1, s.volume * 0.7)} />
         </Sequence>
       ))}
     </AbsoluteFill>
