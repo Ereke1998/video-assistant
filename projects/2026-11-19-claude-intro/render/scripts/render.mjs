@@ -1,5 +1,5 @@
 // Покадровый рендер canvas → ffmpeg (H.264, 1080×1920).
-//   node scripts/render.mjs [--fps=30|60] [--workers=4] [--out=out/video.mp4] [--from=0 --to=38]
+//   node scripts/render.mjs [--fps=30|60] [--workers=4] [--out=out/video.mp4] [--from=0 --to=40]
 //   node scripts/render.mjs --stills=0.5,2.8,6.9   → PNG-кадры в build/stills/ (для проверки)
 //   --safe  — нарисовать поверх безопасные зоны
 // Видео получается без звука; звук подмешивает scripts/mix-audio.mjs (или npm run build).

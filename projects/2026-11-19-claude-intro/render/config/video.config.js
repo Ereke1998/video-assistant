@@ -5,7 +5,7 @@ export const VIDEO = {
   width: 1080,
   height: 1920,
   fps: 30,          // 30 или 60 (переопределяется флагом --fps при рендере)
-  duration: 38,     // секунд, ровно
+  duration: 40,     // секунд, ровно
 };
 
 // Безопасная зона Reels / Shorts / TikTok (9:16, 1080×1920).

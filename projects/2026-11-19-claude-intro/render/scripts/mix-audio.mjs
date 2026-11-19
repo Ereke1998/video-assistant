@@ -70,7 +70,7 @@ console.log(`Микс: ${mix}`);
 const fps = +arg('fps', VIDEO.fps);
 const video = join(ROOT, arg('video', `build/video-${fps}fps.mp4`));
 if (existsSync(video)) {
-  const out = join(ROOT, arg('out', `out/claude-intro-38s-1080x1920-${fps}fps.mp4`));
+  const out = join(ROOT, arg('out', `out/claude-intro-40s-1080x1920-${fps}fps.mp4`));
   mkdirSync(dirname(out), { recursive: true });
   execFileSync('ffmpeg', ['-y', '-v', 'error', '-i', video, '-i', mix, '-map', '0:v', '-map', '1:a', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-t', String(D), '-movflags', '+faststart', out], { stdio: 'inherit' });
   console.log(`Готово: ${out}`);
