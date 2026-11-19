@@ -1,31 +1,28 @@
-duration=18.000 s
+duration=18.000 s; проявления: 1 4 7 10 13 16 (шторка 0.7 с)
 == Стемы ==
-  wind.wav: -17.6 → -23 LUFS (-5.40 dB)
-  city.wav: -21.1 → -31 LUFS (-9.90 dB)
-  sub.wav: пик −15 dBFS @ 2.8 с (42→55 Гц)
-  drone.wav: -11.3 → -24 LUFS (-12.70 dB)
-  site.wav: -15.5 → -30 LUFS (-14.50 dB)
-  voice.wav: -18.7 → -16 LUFS (2.70 dB)
-  voice.wav: ИСХОДНИК ← /tmp/work/out/reel_src_audio.wav (highpass 80, afftdn, dynaudnorm, компрессор 3:1); фон приглушается под него
-  bus_site.wav: стройка; в 12.0 с — lowpass 1.5 кГц (24 дБ/окт), −6 дБ, кроссфейд 30 мс
-  whoosh.wav: 10.3–11.95 с, полоса 400→3200→900 Гц, пик −13 dBFS
-  revverb.wav: reverse-reverb (RT60 2.8 с) 9.4→12.0 с, пик −15 dBFS
-  pad.wav: 0.6 → -20 LUFS (-20.60 dB)
-  steps.wav: -19.8 → -26 LUFS (-6.20 dB)
-  insert.wav: синтез «воздух зала» (A5/E6), 100 % wet, RT60 2.8 с
-  insert.wav: 4.9 → -32 LUFS (-36.90 dB)
+  wind.wav: -17.6 → -24 LUFS
+  city.wav: -19.4 → -31 LUFS
+  site.wav: -15.2 → -30 LUFS
+  bus_site.wav: «ДО» сухая стройка → «ПОСЛЕ» LP 1.5 кГц −6 дБ (по огибающей M)
+  whoosh ×6 (пик −16 dBFS, 500→3500→1000 Гц), «динь» ×6 в конце шторки (пик −22 dBFS)
+  pad.wav: 1.0 → -21 LUFS
+  air.wav: 4.0 → -33 LUFS
+  pad.wav (Am7, реверб 1.8 с) и air.wav (зал, RT60 2.8 с) звучат только в «ПОСЛЕ»
+  voice.wav: -22.8 → -16 LUFS
+  voice.wav: ИСХОДНИК ← /tmp/work/out/reel_src_audio.wav (adeclick, полоса 80 Гц–9 кГц, afftdn −15 дБ, dynaudnorm ≤×3, гейт пауз −12 дБ, компрессор 3:1, де-эссер), фон приглушается под голос
 == Сведение ==
-  premix -16.0 LUFS → мастер-гейн 2.30 dB, alimiter −2 dBFS на 4× оверсемплинге (≈ true peak)
+  premix -16.7 LUFS → мастер-гейн 3.40 dB, EQ под тон референса, alimiter −2 dBFS на 4× оверсемплинге
 == Проверка: /tmp/work/out/reel_pip_final.mp4 ==
-  Integrated: -14.1 LUFS (цель −14 ±1)   True peak: -2.0 dBTP (цель ≤ −1)   LRA: 3.5 LU
+  Integrated: -14.3 LUFS (цель −14 ±1)   True peak: -1.2 dBTP (цель ≤ −1)   LRA: 4.9 LU
   РЕЗУЛЬТАТ: PASS
-  участок 0–3 с: -12.6 LUFS
-  участок 3–9 с: -14.8 LUFS
-  участок 9–12 с: -12.8 LUFS
-  участок 12–18 с: -14.9 LUFS
-== Референс: /root/.claude/uploads/adfba517-ee47-538d-9587-757c73a3bffc/4ba7a096-9115463577967884462.MP4 ==
-  Integrated: -14.1 LUFS   True peak: -2.8 dBTP   LRA: 4.1 LU
-  полоса low<150: реф RMS -27.201261 dB / наш -27.939567 dB
-  полоса mid: реф RMS -20.924319 dB / наш -20.026571 dB
-  полоса high>2.5k: реф RMS -34.062701 dB / наш -32.650789 dB
-готово: /tmp/work/out/reel_pip_final.mp4, /tmp/work/out/spectrogram.png, отчёт /tmp/work/out/sound_report.txt
+  план 1 (0–3 с): -12.5 LUFS
+  план 2 (3–6 с): -17.5 LUFS
+  план 3 (6–9 с): -15.8 LUFS
+  план 4 (9–12 с): -13.8 LUFS
+  план 5 (12–15 с): -13.2 LUFS
+  план 6 (15–18 с): -14.4 LUFS
+== Референс: 4ba7a096-9115463577967884462.MP4 — Integrated -14.1 LUFS, TP -2.8 dBTP, LRA 4.1 LU ==
+  полоса low<150: реф -27.2 dB / наш -27.2 dB
+  полоса mid: реф -20.9 dB / наш -20.2 dB
+  полоса high>2.5k: реф -34.1 dB / наш -34.2 dB
+готово: /tmp/work/out/reel_pip_final.mp4
