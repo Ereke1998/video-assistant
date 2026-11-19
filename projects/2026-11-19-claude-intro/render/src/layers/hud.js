@@ -1,12 +1,37 @@
-import { VIDEO, SAFE, LAYOUT, COLORS, FONT } from '../../config/video.config.js';
+import { VIDEO, SAFE, LAYOUT, COLORS, FONT, BRAND } from '../../config/video.config.js';
 import { font, rrect } from '../lib/draw.js';
 import { prog, ease } from '../lib/easing.js';
 
-/** Плашка репортажа: ● РАЗБОР  00:12 / 00:37 + тонкий прогресс-бар. В верхней безопасной зоне. */
+/** Иконка Instagram (контур): скруглённый квадрат, круг, точка */
+function igIcon(ctx, cx, cy, s, color) {
+  ctx.save(); ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = s * 0.1;
+  rrect(ctx, cx - s / 2, cy - s / 2, s, s, s * 0.3); ctx.stroke();
+  ctx.beginPath(); ctx.arc(cx, cy, s * 0.22, 0, Math.PI * 2); ctx.stroke();
+  ctx.beginPath(); ctx.arc(cx + s * 0.27, cy - s * 0.27, s * 0.06, 0, Math.PI * 2); ctx.fill();
+  ctx.restore();
+}
+
+/** Плашка аккаунта автора — видна с первого до последнего кадра, правый верхний угол безопасной зоны */
+function drawHandle(ctx, y) {
+  ctx.save();
+  ctx.font = font(32, FONT.bold);
+  const tw = ctx.measureText(BRAND.handle).width;
+  const H = 58, W = tw + 94, x = VIDEO.width - SAFE.left - W;
+  rrect(ctx, x, y - H / 2, W, H, H / 2);
+  ctx.fillStyle = 'rgba(0,0,0,0.45)'; ctx.fill();
+  ctx.strokeStyle = 'rgba(255,255,255,0.16)'; ctx.lineWidth = 2; ctx.stroke();
+  igIcon(ctx, x + 36, y, 30, COLORS.white);
+  ctx.fillStyle = COLORS.white; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+  ctx.fillText(BRAND.handle, x + 66, y + 1);
+  ctx.restore();
+}
+
+/** HUD: ● РАЗБОР слева, @аккаунт справа, тонкий прогресс-бар. В верхней безопасной зоне. */
 export function drawHud(ctx, t) {
+  const y = LAYOUT.hud;
+  drawHandle(ctx, y);                       // аккаунт — всегда, без анимации входа
   const a = ease.outCubic(prog(t, 0.25, 0.6));
   if (a <= 0) return;
-  const y = LAYOUT.hud;
   ctx.save();
   ctx.globalAlpha = a;
 
@@ -25,13 +50,6 @@ export function drawHud(ctx, t) {
   ctx.fillStyle = COLORS.white; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
   ctx.fillText(label, x + 60, y + 1);
   ctx.letterSpacing = '0px';
-
-  // таймер справа
-  const mmss = (s) => `00:${String(Math.min(VIDEO.duration, Math.floor(s))).padStart(2, '0')}`;
-  ctx.font = font(32, FONT.semi);
-  ctx.textAlign = 'right';
-  ctx.fillStyle = COLORS.muted;
-  ctx.fillText(`${mmss(t)} / ${mmss(VIDEO.duration)}`, VIDEO.width - SAFE.left, y + 1);
 
   // прогресс-бар на всю длину ролика
   const by = y + 50, bw = VIDEO.width - SAFE.left * 2;

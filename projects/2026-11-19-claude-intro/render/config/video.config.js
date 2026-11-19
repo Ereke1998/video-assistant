@@ -50,3 +50,9 @@ export const FONT = {
   bold: 800,
   semi: 600,
 };
+
+// Аккаунт автора: постоянно в правом верхнем углу (HUD) + упоминание в финальном CTA.
+export const BRAND = {
+  handle: '@ekasymoff',
+  platform: 'instagram',
+};
