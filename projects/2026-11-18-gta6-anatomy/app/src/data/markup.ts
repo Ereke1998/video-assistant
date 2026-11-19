@@ -25,6 +25,11 @@ export type ParsedText = {
 };
 
 const WORDLIKE = /[\p{L}\p{N}]/u;
+/** теги эмоций в тексте сценария: {excited}, {dramatic pause} */
+const EMO_TAG = /\{([a-z][a-z ]*)\}/g;
+/** теги в тексте для TTS: [excited] (вместе с пробелами после) */
+export const TTS_TAG = /\[[a-z][a-z ]*\]\s*/g;
+export const stripTags = (s: string) => s.replace(TTS_TAG, '');
 const DROP_PUNCT = /^[—–-]+$/;
 
 export const normalize = (s: string): string =>
@@ -49,9 +54,10 @@ export function parseMarkup(text: string): ParsedText {
   }
   if (last < text.length) segs.push({plain: true, text: text.slice(last)});
 
-  // ttsText — для синтеза (с ударениями «+»), spoken — чистый текст для выравнивания и таймингов
-  const ttsText = segs.map((s) => (s.plain ? s.text : s.spoken)).join('');
-  const spoken = ttsText.replace(/\+/g, '');
+  // ttsText — для синтеза: ударения «+» и теги эмоций {excited} → [excited] (eleven_v3);
+  // spoken — чистый текст без тегов и «+», по нему считаются тайминги и субтитры
+  const ttsText = segs.map((s) => (s.plain ? s.text : s.spoken)).join('').replace(EMO_TAG, (_, t) => `[${t}]`);
+  const spoken = stripTags(ttsText).replace(/\+/g, '');
 
   const spokenWords: ParsedText['spokenWords'] = [];
   const wre = /\S+/g;
@@ -67,6 +73,7 @@ export function parseMarkup(text: string): ParsedText {
 
   for (const seg of segs) {
     if (seg.plain) {
+      seg.text = seg.text.replace(/\{[a-z][a-z ]*\}\s*/g, '');
       // посимвольно: пунктуация, прилипшая к предыдущему токену (напр. "]."), присоединяется к нему
       const parts = seg.text.split(/(\s+)/);
       for (const p of parts) {

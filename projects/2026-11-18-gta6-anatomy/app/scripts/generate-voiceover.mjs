@@ -28,7 +28,7 @@ import crypto from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import {ACTS, VOICE} from '../src/data/script.ts';
-import {parseMarkup} from '../src/data/markup.ts';
+import {parseMarkup, stripTags, TTS_TAG} from '../src/data/markup.ts';
 import {buildTimeline} from './build-timeline.mjs';
 import {loudnormFile} from './audio-norm.mjs';
 
@@ -57,7 +57,7 @@ const el = {
 };
 
 async function elevenTts(text, previousText, nextText, outFile) {
-  const url = `${API}/text-to-speech/${el.voiceId}/with-timestamps?output_format=mp3_44100_128`;
+  const url = `${API}/text-to-speech/${el.voiceId}/with-timestamps?output_format=mp3_44100_128`; // 192 kbps — с тарифа Creator
   for (let attempt = 1; attempt <= 3; attempt++) {
     const res = await fetch(url, {
       method: 'POST',
@@ -66,8 +66,8 @@ async function elevenTts(text, previousText, nextText, outFile) {
         text,
         model_id: el.modelId,
         voice_settings: el.settings,
-        previous_text: previousText || undefined,
-        next_text: nextText || undefined,
+        // eleven_v3 не поддерживает контекст соседних фрагментов
+        ...(el.modelId === 'eleven_v3' ? {} : {previous_text: previousText || undefined, next_text: nextText || undefined}),
       }),
     });
     if (res.ok) {
@@ -80,6 +80,21 @@ async function elevenTts(text, previousText, nextText, outFile) {
     if (attempt === 3 || res.status < 500) throw new Error(`ElevenLabs ${res.status}: ${body}`);
     await new Promise((r) => setTimeout(r, 1500 * attempt));
   }
+}
+
+/** Убираем из выравнивания символы тегов эмоций [excited] — они не звучат и не попадают в субтитры */
+function stripAlignmentTags(al) {
+  const text = al.characters.join('');
+  const drop = new Set();
+  for (const m of text.matchAll(new RegExp(TTS_TAG.source, 'g'))) {
+    for (let i = m.index; i < m.index + m[0].length; i++) drop.add(i);
+  }
+  const keep = (arr) => arr.filter((_, i) => !drop.has(i));
+  return {
+    characters: keep(al.characters),
+    character_start_times_seconds: keep(al.character_start_times_seconds),
+    character_end_times_seconds: keep(al.character_end_times_seconds),
+  };
 }
 
 // ---------------------------------------------------------------- Piper (локально)
@@ -222,7 +237,7 @@ for (let i = 0; i < parsedActs.length; i++) {
     let alignment;
     if (provider === 'piper') {
       console.log(`Акт ${act.roman}: Piper ${VOICE.piper.model}, ${parsed.spoken.length} симв.…`);
-      piperTts(parsed.ttsText, rawAudio, piperModel);
+      piperTts(stripTags(parsed.ttsText), rawAudio, piperModel); // теги эмоций Piper не понимает
       process.stdout.write('  forced alignment… ');
       alignment = await forcedAlign(rawAudio, parsed.spoken);
       console.log('ок');
@@ -230,7 +245,14 @@ for (let i = 0; i < parsedActs.length; i++) {
       console.log(`Акт ${act.roman}: ElevenLabs ${el.voiceId}, ${parsed.spoken.length} симв.…`);
       const prevText = parsedActs[i - 1]?.parsed.spoken.slice(-300);
       const nextText = parsedActs[i + 1]?.parsed.spoken.slice(0, 300);
-      alignment = await elevenTts(parsed.spoken, prevText, nextText, rawAudio);
+      const text = parsed.ttsText.replace(/\+/g, ''); // «+» — разметка ударений для Piper
+      alignment = stripAlignmentTags(await elevenTts(text, prevText, nextText, rawAudio));
+      if (alignment.characters.join('') !== parsed.spoken) {
+        // ElevenLabs иногда нормализует текст — тогда выравниваем по готовому аудио
+        process.stdout.write('  текст выравнивания отличается → forced alignment… ');
+        alignment = await forcedAlign(rawAudio, parsed.spoken);
+        console.log('ок');
+      }
     }
     fs.writeFileSync(rawAlign, JSON.stringify({hash, ...params, text: parsed.spoken, alignment}));
     generated++;
