@@ -13,6 +13,7 @@ sfx += [('whoosh', T['scen'] - .15, .6), ('blip', T['scen'], .6), ('blip', T['s4
         ('riser', T['kod'] - 2.5, .7), ('impact', T['kod'] + .3, .8), ('blip', T['s6'], .6), ('charge', T['s6'] + .2, .5),
         ('ding', T['s6b'] - .1, .8), ('blip', T['s6b'], .5),
         ('pop', T['s6b'] + .3, .6), ('pop', T['s6b'] + .8, .6), ('pop', T['s6b'] + 1.3, .6),
+        ('whoosh', T['st'], .6), ('ding', T['s7'] - .5, .5),
         ('whoosh', T['s7'], .7)]
 sfx += [('pop', T['s7'] + .3 + k * .25, .5) for k in range(3)] + [('pop', T['pik'], .6)]
 

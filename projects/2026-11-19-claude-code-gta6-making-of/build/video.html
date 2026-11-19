@@ -73,6 +73,7 @@ canvas.full{position:absolute;inset:0}
     <div class="hb" id="h4"><div class="pre">Қадам 03 —</div><div class="main"><span class="pl">ДАУЫС</span></div></div>
     <div class="hb" id="h5"><div class="pre">Ең қызығы —</div><div class="main">ГРАФИКА = <span class="pl" id="kod">КОД</span></div></div>
     <div class="hb" id="h6"><div class="pre">Қадам 05 —</div><div class="main">ВИДЕО <span class="pl">ДАЙЫН</span></div></div>
+    <div class="hb" id="ht"><div class="pre">Барлығы —</div><div class="main">10–15<br><span class="pl">МИНУТ</span></div></div>
     <div class="hb" id="h7"><div class="pre">Келесі ролик —</div><div class="main">ТАҚЫРЫБЫН<br><span class="pl">СЕН</span> ТАҢДА</div></div>
   </div>
 
@@ -116,6 +117,8 @@ canvas.full{position:absolute;inset:0}
     <div class="chip" id="c1" style="left:120px;top:760px"><span class="ck">✓</span>Субтитр</div>
     <div class="chip" id="c2" style="left:640px;top:1000px"><span class="ck">✓</span>Дыбыс</div>
     <div class="chip" id="c3" style="left:150px;top:1240px"><span class="ck">✓</span>Видео дайын</div>
+    <!-- time -->
+    <div class="sc" id="stime" style="left:240px;top:620px"><canvas id="clock" width="600" height="600"></canvas></div>
     <!-- S7 topics -->
     <div class="sc" id="s7" style="left:0;top:0;width:1080px;height:1920px">
       <div class="topic" id="t0" style="left:110px;top:720px"><div class="ic">🏛️</div>ТАРИХ</div>
@@ -137,7 +140,7 @@ const eb=x=>{const c=1.7;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)};
 const $=id=>document.getElementById(id);
 
 // scene timeline (from voiceover alignment)
-const T={s1: 3.6, s1b: 5.36, s2: 7.52, s3: 10.72, scen: 13.2, s4: 14.48, s5: 18.4, kod: 24.2, s6: 25.12, s6b: 26.72, s7: 29.76, pik: 32.16, end: 35.94};
+const T={s1: 3.6, s1b: 5.2, s2: 7.2, s3: 10.32, scen: 12.76, s4: 14.04, s5: 17.76, kod: 23.4, s6: 24.24, s6b: 25.88, st: 28.64, s7: 31.2, pik: 33.64, end: 37.3};
 
 // ---------- background stars ----------
 let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
@@ -233,8 +236,19 @@ function drawRetro(t){const c=$('retro').getContext('2d');const w=700,h=560,hz=3
     const v=Math.floor(2000000000*eo(a6));c.fillText('$'+v.toLocaleString('ru-RU').replace(/ /g,' '),w/2,480);c.restore();}
 }
 
+// ---------- clock ----------
+function drawClock(t){const c=$('clock').getContext('2d');c.clearRect(0,0,600,600);const cx=300,cy=300;
+  c.fillStyle='rgba(8,16,31,.94)';c.beginPath();c.arc(cx,cy,252,0,7);c.fill();
+  c.lineWidth=26;c.strokeStyle='#16233c';c.beginPath();c.arc(cx,cy,230,0,7);c.stroke();
+  const f=eo(p(t,T.st+.2,T.s7-.5));const a0=-Math.PI/2;
+  c.strokeStyle='#ff7a1a';c.shadowColor='#ff7a1a';c.shadowBlur=30;c.lineCap='round';c.beginPath();c.arc(cx,cy,230,a0,a0+f*Math.PI*2*0.25);c.stroke();c.shadowBlur=0;
+  c.strokeStyle='#2b3d62';c.lineWidth=6;for(let k=0;k<12;k++){const a=k/12*Math.PI*2;c.beginPath();c.moveTo(cx+Math.cos(a)*185,cy+Math.sin(a)*185);c.lineTo(cx+Math.cos(a)*200,cy+Math.sin(a)*200);c.stroke();}
+  const ha=a0+f*Math.PI*2*0.25;c.strokeStyle='#fff';c.lineWidth=10;c.beginPath();c.moveTo(cx,cy);c.lineTo(cx+Math.cos(ha)*150,cy+Math.sin(ha)*150);c.stroke();
+  c.fillStyle='#ff7a1a';c.beginPath();c.arc(cx,cy,16,0,7);c.fill();
+  c.font='700 34px "JetBrains Mono"';c.textAlign='center';c.fillStyle='#8a97b5';c.fillText('00:'+String(Math.round(15*f)).padStart(2,'0')+':00',cx,cy+110);}
+
 // ---------- header switch ----------
-const HEAD=[['h0',0,T.s1],['h1a',T.s1,T.s1b],['h1b',T.s1b,T.s2],['h2',T.s2,T.s3],['h3',T.s3,T.s4],['h4',T.s4,T.s5],['h5',T.s5,T.s6],['h6',T.s6,T.s7],['h7',T.s7,99]];
+const HEAD=[['h0',0,T.s1],['h1a',T.s1,T.s1b],['h1b',T.s1b,T.s2],['h2',T.s2,T.s3],['h3',T.s3,T.s4],['h4',T.s4,T.s5],['h5',T.s5,T.s6],['h6',T.s6,T.st],['ht',T.st,T.s7],['h7',T.s7,99]];
 function vis(t,a,b,fi=.3,fo=.25){return Math.min(eo(p(t,a,a+fi)),1-p(t,b-fo,b));}
 function headers(t){for(const [id,a,b] of HEAD){const v=vis(t,a,b,.3,.2);const e=$(id);e.style.opacity=v;e.style.transform=`translateY(${(1-eo(p(t,a,a+.35)))*40}px)`;}}
 function chip(id,t,a,b=99){const e=$(id);const v=vis(t,a,b,.25,.2);e.style.opacity=v;e.style.transform=`scale(${.6+.4*eb(p(t,a,a+.3))})`;}
@@ -270,8 +284,9 @@ function setTime(t){
     $('kod').style.transform=`scale(${t>=T.kod?1+.35*(1-eo(k)):1})`;$('kod').style.display='inline-block';$('kod').style.opacity=t>=T.kod-.1?1:.25;}
   // S6 render
   {const e=$('s6a');e.style.opacity=vis(t,T.s6,T.s6b+.2,.3,.3);const r=eo(p(t,T.s6+.2,T.s6b-.1));$('rbar').style.width=r*100+'%';$('rp').textContent=Math.round(r*100)+'%';
-    const f=$('s6b');f.style.opacity=vis(t,T.s6b,T.s7,.3,.25);f.style.transform=`scale(${.85+.15*eb(p(t,T.s6b,T.s6b+.45))})`;f.style.transformOrigin='540px 980px';drawPhone('ph1',Bf,t-T.s6b);}
-  chip('c1',t,T.s6b+.3,T.s7);chip('c2',t,T.s6b+.8,T.s7);chip('c3',t,T.s6b+1.3,T.s7);
+    const f=$('s6b');f.style.opacity=vis(t,T.s6b,T.st,.3,.25);f.style.transform=`scale(${.85+.15*eb(p(t,T.s6b,T.s6b+.45))})`;f.style.transformOrigin='540px 980px';drawPhone('ph1',Bf,t-T.s6b);}
+  chip('c1',t,T.s6b+.3,T.st);chip('c2',t,T.s6b+.8,T.st);chip('c3',t,T.s6b+1.3,T.st);
+  {const e=$('stime');e.style.opacity=vis(t,T.st,T.s7,.3,.25);e.style.transform=`scale(${.8+.2*eb(p(t,T.st,T.st+.45))})`;drawClock(t);}
   // S7 topics
   {const e=$('s7');e.style.opacity=vis(t,T.s7,99,.2,.2);
     for(let k=0;k<3;k++){const a=T.s7+.3+k*.25;const v=eb(p(t,a,a+.45));const el=$('t'+k);el.style.opacity=cl(v);el.style.transform=`translateY(${(1-cl(v))*120}px) rotate(${(k-1)*6}deg) scale(${k==1?1+.04*Math.sin(t*4):1})`;}
