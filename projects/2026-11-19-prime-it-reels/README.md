@@ -14,6 +14,7 @@
 npm install                      # зависимости (Node 18+; проверено на Node 22)
 npx remotion studio              # превью в браузере
 npx remotion render ReelsVideo out/prime_it_reels.mp4 --codec=h264   # = npm run render
+ffmpeg -i out/prime_it_reels.mp4 -c:v copy -af loudnorm=I=-14:TP=-1 -c:a aac -b:a 192k out/final.mp4   # громкость под соцсети
 npm run stills                   # контрольные кадры 0,180,600,1100,1500,1800,1919 -> out/stills/
 npm run srt                      # out/subtitles.srt из src/data/script.ts
 npm run timings                  # пересчитать предварительные тайминги слов
