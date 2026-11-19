@@ -1,4 +1,3 @@
 node_modules/
 build/
-out/*-60fps.mp4
 assets/music/*.placeholder.wav

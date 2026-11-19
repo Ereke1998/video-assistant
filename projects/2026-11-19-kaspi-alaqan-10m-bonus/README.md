@@ -8,7 +8,7 @@
 | Файл | Что это |
 |---|---|
 | `render/out/kaspi-alaqan-10m-40s-1080x1920-30fps.mp4` | готовый ролик (голос ElevenLabs, SFX- и музыкальные **заглушки**) |
-| `render/out/…-60fps.mp4` | то же в 60 fps (не в git, собирается `npm run build:60`) |
+| `render/out/kaspi-alaqan-10m-40s-1080x1920-60fps.mp4` | то же в 60 fps |
 | `script.md` | сценарий по сценам |
 | `voiceover.md` | текст диктора, хронометраж, что сокращено и почему |
 | `subtitles.md` / `subtitles.srt` | субтитры 3–5 слов, тайминги по реальной озвучке |
