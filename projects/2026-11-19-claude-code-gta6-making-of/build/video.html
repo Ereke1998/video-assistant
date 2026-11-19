@@ -87,12 +87,12 @@ canvas.full{position:absolute;inset:0}
       <div id="think" style="opacity:0;margin-top:18px"><span class="or">●</span> Іздеп жатырмын<span id="dots"></span></div></div></div></div>
     <!-- S3 facts -->
     <div class="sc" id="s3" style="left:0;top:0;width:1080px;height:1920px">
-      <div class="fact" id="f0">13 ЖЫЛ</div><div class="fact" id="f1">212 ГБ</div><div class="fact" id="f2">90 МЛН</div>
-      <div class="fact" id="f3">$79.99</div><div class="fact" id="f4">19.11.2026</div><div class="fact" id="f5">LEONIDA</div>
+      <div class="fact" id="f0">13 ЖЫЛ</div><div class="fact" id="f1">$2 МЛРД</div><div class="fact" id="f2">RAGE 9</div>
+      <div class="fact" id="f3">$79.99</div><div class="fact" id="f4">PS5 · XBOX</div><div class="fact" id="f5">LEONIDA</div>
       <div class="card" id="scen" style="left:240px;top:700px;width:600px;height:380px;opacity:0;padding:40px">
         <div style="font:700 26px 'JetBrains Mono';color:var(--mut)">scenario.md</div>
         <div style="font:900 64px Montserrat;margin-top:16px">СЦЕНАРИЙ <span style="color:var(--or)">✓</span></div>
-        <div style="font:600 34px Montserrat;color:#c9d4ea;margin-top:20px">7 факт · 82 секунд</div>
+        <div style="font:600 34px Montserrat;color:#c9d4ea;margin-top:20px">4 акт · 80 секунд</div>
         <div style="height:12px;width:420px;background:#1e2c48;border-radius:6px;margin-top:30px"></div>
         <div style="height:12px;width:330px;background:#1e2c48;border-radius:6px;margin-top:16px"></div>
       </div>
@@ -101,7 +101,7 @@ canvas.full{position:absolute;inset:0}
     <div class="sc" id="s4" style="left:190px;top:640px"><div class="card" style="position:relative;width:700px;height:460px;padding:40px">
       <div style="font:700 26px 'JetBrains Mono';color:var(--mut)">dauys.mp3</div>
       <canvas id="wave" width="620" height="230" style="margin-top:30px"></canvas>
-      <div style="display:flex;justify-content:space-between;font:600 28px 'JetBrains Mono';color:#c9d4ea;margin-top:20px"><span id="vt">00:00</span><span>01:22</span></div></div></div>
+      <div style="display:flex;justify-content:space-between;font:600 28px 'JetBrains Mono';color:#c9d4ea;margin-top:20px"><span id="vt">00:00</span><span>01:20</span></div></div></div>
     <!-- S5 code -> graphics -->
     <div class="sc" id="s5" style="left:190px;top:560px">
       <div class="card" style="position:relative;width:700px;height:330px;padding:26px 30px;overflow:hidden"><div class="code" id="code"></div></div>
@@ -137,7 +137,7 @@ const eb=x=>{const c=1.7;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)};
 const $=id=>document.getElementById(id);
 
 // scene timeline (from voiceover alignment)
-const T={s1:3.88,s1b:5.6,s2:7.6,s3:10.72,scen:12.7,s4:14.44,s5:18.12,kod:23.56,s6:24.32,s6b:26.5,s7:28.84,end:35};
+const T={s1: 3.6, s1b: 5.36, s2: 7.52, s3: 10.72, scen: 13.2, s4: 14.48, s5: 18.4, kod: 24.2, s6: 25.12, s6b: 26.72, s7: 29.76, pik: 32.16, end: 35.94};
 
 // ---------- background stars ----------
 let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
@@ -199,8 +199,8 @@ function drawWave(t){const c=$('wave').getContext('2d');c.clearRect(0,0,620,230)
   const prog=p(t,T.s4+.2,T.s5-.3);
   for(let i=0;i<62;i++){const x=i*10;const amp=(Math.abs(Math.sin(i*1.7)*Math.cos(i*.37+1))*.8+.2)*(.6+.4*Math.sin(t*9+i));
     const h=Math.max(8,amp*200);c.fillStyle=i/62<prog?'#ff7a1a':'#24365a';c.fillRect(x,115-h/2,6,h);}
-  $('vt').textContent='00:'+String(Math.floor(prog*82)%60).padStart(2,'0');
-  if(prog*82>=60)$('vt').textContent='01:'+String(Math.floor(prog*82)-60).padStart(2,'0');}
+  $('vt').textContent='00:'+String(Math.floor(prog*80)%60).padStart(2,'0');
+  if(prog*80>=60)$('vt').textContent='01:'+String(Math.floor(prog*80)-60).padStart(2,'0');}
 
 // ---------- code + retro ----------
 const CODE=[
@@ -210,7 +210,7 @@ const CODE=[
  '<span class="f">grid</span>({ perspective: <span class="s">0.7</span> })',
  '<span class="f">skyline</span>(<span class="s">"vice-city"</span>)',
  '<span class="f">neon</span>(<span class="s">"GTA 6"</span>)',
- '<span class="f">counter</span>(<span class="s">90421000</span>)'];
+ '<span class="f">counter</span>(<span class="s">2000000000</span>)'];
 function drawCode(t){const n=Math.floor(cl((t-(T.s5+.3))/.75,0,CODE.length));$('code').innerHTML=CODE.slice(0,Math.max(1,n+1)).join('\n');}
 const bld=[...Array(16)].map((_,i)=>({x:i*46-10,w:40+rnd()*16,h:50+rnd()*110}));
 function drawRetro(t){const c=$('retro').getContext('2d');const w=700,h=560,hz=330;const t0=T.s5+.3;
@@ -229,8 +229,8 @@ function drawRetro(t){const c=$('retro').getContext('2d');const w=700,h=560,hz=3
       c.fillStyle='rgba(255,210,120,.7)';for(let wy=hz-bh+10;wy<hz-8;wy+=18)for(let wx=b.x+8;wx<b.x+b.w-6;wx+=14)if((wx*7+wy*3)%5<2)c.fillRect(wx,wy,4,5);c.fillStyle='#0a0614';}}
   const a5=eo(p(t,t0+3.4,t0+3.9));if(a5>0){c.save();c.globalAlpha=a5;c.font='900 120px Montserrat';c.textAlign='center';
     c.shadowColor='#ff4fa3';c.shadowBlur=40;c.fillStyle='#ffd1ec';c.fillText('GTA 6',w/2,170+(1-a5)*30);c.restore();}
-  const a6=p(t,t0+4,t0+5.1);if(a6>0){c.save();c.font='900 64px Montserrat';c.textAlign='center';c.shadowColor='#ffd23f';c.shadowBlur=24;c.fillStyle='#fff2b0';
-    const v=Math.floor(90421000*eo(a6));c.fillText(v.toLocaleString('ru-RU').replace(/ /g,' '),w/2,480);c.restore();}
+  const a6=p(t,t0+4,t0+5.1);if(a6>0){c.save();c.font='900 54px Montserrat';c.textAlign='center';c.shadowColor='#ffd23f';c.shadowBlur=24;c.fillStyle='#fff2b0';
+    const v=Math.floor(2000000000*eo(a6));c.fillText('$'+v.toLocaleString('ru-RU').replace(/ /g,' '),w/2,480);c.restore();}
 }
 
 // ---------- header switch ----------
@@ -245,7 +245,7 @@ function setTime(t){
   $('tc').textContent='00:'+String(Math.floor(t)).padStart(2,'0');
   $('rec').style.opacity=(Math.floor(t*2)%2)?.3:1;
   headers(t);
-  $('cnt').textContent=Math.round(82*eo(p(t,.15,1.8)));
+  $('cnt').textContent=Math.round(80*eo(p(t,.15,1.8)));
   $('strk').style.width=(eo(p(t,T.s1+.35,T.s1+.75))*440)+'px';
   // S0/S1 phone
   {const v=vis(t,0,T.s2,.25,.3);const e=$('s0');e.style.opacity=v;e.style.transform=`scale(${.85+.15*eo(p(t,0,.5))}) translateY(${(1-eo(p(t,0,.5)))*80}px)`;e.style.transformOrigin='540px 980px';
@@ -253,7 +253,7 @@ function setTime(t){
   chip('c0',t,T.s1b+.1,T.s2);
   // S2 terminal
   {const v=vis(t,T.s2,T.s3+.6,.3,.3);const e=$('s2');e.style.opacity=v;e.style.transform=`translateY(${(1-eo(p(t,T.s2,T.s2+.4)))*60}px)`;
-    const txt='GTA 6 туралы 7 факт тап, сценарий жаса';const n=Math.floor(txt.length*p(t,T.s2+.4,T.s2+2.2));$('typed').textContent=txt.slice(0,n);
+    const txt='GTA 6 туралы факт тап, 4 актілік сценарий жаса';const n=Math.floor(txt.length*p(t,T.s2+.4,T.s2+2.2));$('typed').textContent=txt.slice(0,n);
     $('cur').style.opacity=(Math.floor(t*3)%2)?0:1;$('think').style.opacity=eo(p(t,T.s2+2.6,T.s2+2.9));$('dots').textContent='.'.repeat(1+Math.floor(t*3)%3);}
   // S3 facts
   {const e=$('s3');e.style.opacity=vis(t,T.s3,T.s4,.1,.25);
@@ -275,7 +275,7 @@ function setTime(t){
   // S7 topics
   {const e=$('s7');e.style.opacity=vis(t,T.s7,99,.2,.2);
     for(let k=0;k<3;k++){const a=T.s7+.3+k*.25;const v=eb(p(t,a,a+.45));const el=$('t'+k);el.style.opacity=cl(v);el.style.transform=`translateY(${(1-cl(v))*120}px) rotate(${(k-1)*6}deg) scale(${k==1?1+.04*Math.sin(t*4):1})`;}
-    const c4=$('c4');const a=T.s7+1.2;c4.style.opacity=eo(p(t,a,a+.3));const pulse=t>31.3?1+.08*Math.max(0,Math.sin((t-31.3)*6)):1;c4.style.transform=`scale(${pulse})`;}
+    const c4=$('c4');const a=T.s7+1.2;c4.style.opacity=eo(p(t,a,a+.3));const pulse=t>T.pik?1+.08*Math.max(0,Math.sin((t-T.pik)*6)):1;c4.style.transform=`scale(${pulse})`;}
   // steps bar
   const st=[[T.s2,1],[T.s3,2],[T.s4,3],[T.s5,4],[T.s6,5]];let cur=0;for(const [a,n] of st)if(t>=a)cur=n;
   $('stp').textContent=t>=T.s7?'КЕЛЕСІ →':cur===0?'СТАРТ':`ҚАДАМ ${String(cur).padStart(2,'0')} / 05`;
