@@ -1,6 +1,6 @@
 # GTA 6 — «Анатомия главного релиза десятилетия»
 
-Вертикальный ролик 9:16 (1080×1920, 30 fps), ~1:18. Автосборка: **Remotion + ElevenLabs + FFmpeg**.
+Вертикальный ролик 9:16 (1080×1920, 30 fps), ~1:49. Автосборка: **Remotion + Piper TTS (русский голос) + ElevenLabs (выравнивание, SFX) + FFmpeg**.
 
 ## Файлы проекта
 
@@ -18,8 +18,9 @@
 ```bash
 cd app
 npm install
+pip install piper-tts   # локальный русский TTS (модель скачается сама в app/models/)
 
-npm run voice     # озвучка 4 актов (ElevenLabs with-timestamps) → public/audio/actN.mp3
+npm run voice     # озвучка 4 актов: Piper + forced alignment ElevenLabs → public/audio/actN.mp3
 npm run sfx       # 9 SFX + музыкальный луп (ElevenLabs Sound Effects) → public/sfx, public/audio/music.mp3
 npm run render    # → out/gta6_documentary.mp4 (H.264 CRF 16, AAC 320k, −14 LUFS)
 
@@ -34,7 +35,7 @@ node scripts/export-docs.mjs                 # пересобрать subtitles.
 ## Как устроена синхронизация
 
 ```
-src/data/script.ts ──► generate-voiceover.mjs ──► actN.mp3 + таймстемпы символов
+src/data/script.ts ──► generate-voiceover.mjs ──► Piper → actN.mp3 → forced alignment → таймстемпы символов
         │                                                 │
         └──────────────► build-timeline.mjs ◄─────────────┘
                                 │
@@ -53,8 +54,10 @@ src/data/script.ts ──► generate-voiceover.mjs ──► actN.mp3 + тай�
 
 ## Подгонка хронометража
 
-- `VOICE.settings.speed` (ElevenLabs, ≤ 1.2) и `VOICE.tempo` (ffmpeg atempo, без смены тона) в `script.ts`.
-- `VOICE_TEMPO=1.15 npm run voice` — без новых запросов к API (используется кэш `actN.raw.mp3`).
+- `VOICE.piper.lengthScale` (0.8 быстрее … 1.0 медленнее) и паузы в `script.ts`; `VOICE.tempo` — atempo без смены тона.
+- `VOICE_TEMPO=1.1 npm run voice` — без повторного синтеза (используется кэш `actN.raw.*`).
+- Движок: `VOICE.provider` = `piper` (бесплатно, нативный русский) или `elevenlabs` (русские голоса — с тарифа Starter).
+- Ударения: «+» перед ударной гласной в тексте озвучки — `ст+оит`, `[Xbox Series|иксбокс с+ириес]`.
 - `ALIGN_TO_PLAN=1` — акты не начинаются раньше плановых точек ТЗ (0:18 / 0:38 / 0:55).
 
 ## B-roll

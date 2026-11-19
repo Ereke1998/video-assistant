@@ -15,8 +15,10 @@ export type DisplayToken = {
 };
 
 export type ParsedText = {
-  /** текст, отправляемый в TTS */
+  /** текст без разметки ударений (по нему считаются тайминги) */
   spoken: string;
+  /** текст для TTS: с ударениями «+» перед ударной гласной */
+  ttsText: string;
   /** произносимые слова с позициями символов в spoken */
   spokenWords: {text: string; charStart: number; charEnd: number}[];
   tokens: DisplayToken[];
@@ -47,7 +49,9 @@ export function parseMarkup(text: string): ParsedText {
   }
   if (last < text.length) segs.push({plain: true, text: text.slice(last)});
 
-  const spoken = segs.map((s) => (s.plain ? s.text : s.spoken)).join('');
+  // ttsText — для синтеза (с ударениями «+»), spoken — чистый текст для выравнивания и таймингов
+  const ttsText = segs.map((s) => (s.plain ? s.text : s.spoken)).join('');
+  const spoken = ttsText.replace(/\+/g, '');
 
   const spokenWords: ParsedText['spokenWords'] = [];
   const wre = /\S+/g;
@@ -72,7 +76,8 @@ export function parseMarkup(text: string): ParsedText {
           tokens[tokens.length - 1].display += p;
           continue;
         }
-        tokens.push({display: p, norm: normalize(p), spokenStart: spokenIdx, spokenEnd: spokenIdx});
+        const d = p.replace(/\+/g, '');
+        tokens.push({display: d, norm: normalize(d), spokenStart: spokenIdx, spokenEnd: spokenIdx});
         spokenIdx++;
       }
     } else {
@@ -92,7 +97,7 @@ export function parseMarkup(text: string): ParsedText {
       `parseMarkup: рассинхрон слов (${spokenIdx} в токенах vs ${spokenWords.length} в тексте): ${text.slice(0, 60)}…`,
     );
   }
-  return {spoken, spokenWords, tokens};
+  return {spoken, ttsText, spokenWords, tokens};
 }
 
 /** Найти индекс токена, с которого начинается фраза cue, начиная с from */
