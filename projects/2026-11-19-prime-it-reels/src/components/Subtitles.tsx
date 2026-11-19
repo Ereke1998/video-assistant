@@ -6,9 +6,9 @@ import {WORDS} from '../data/script';
 import {COLORS} from '../lib/colors';
 import {FONT_FAMILY, FONT_NAME} from './font';
 
-const BASE_SIZE = 150;
+const BASE_SIZE = 170;
 const MAX_WIDTH = 960;
-const STROKE = 14;
+const STROKE = 12;
 
 export const isAccent = (w: string) => {
   const letters = w.replace(/[^\p{L}]/gu, '');
@@ -27,7 +27,7 @@ export const Subtitles: React.FC<{centerY?: number}> = ({centerY = 0.58}) => {
   const scale = interpolate(prog, [0, 0.55, 1], [0.6, 1.15, 1.0]);
   const opacity = interpolate(local, [0, 2], [0, 1], {extrapolateRight: 'clamp'});
 
-  const {width} = measureText({text: word.text, fontFamily: FONT_NAME, fontWeight: '800', fontSize: BASE_SIZE, letterSpacing: '0px'});
+  const {width} = measureText({text: word.text, fontFamily: FONT_NAME, fontWeight: '700', fontSize: BASE_SIZE, letterSpacing: '0px'});
   const fontSize = Math.min(BASE_SIZE, (BASE_SIZE * MAX_WIDTH) / (width + STROKE * 2));
   const color = isAccent(word.text) ? COLORS.accent : COLORS.white;
 
@@ -47,7 +47,7 @@ export const Subtitles: React.FC<{centerY?: number}> = ({centerY = 0.58}) => {
       <div
         style={{
           fontFamily: FONT_FAMILY,
-          fontWeight: 800,
+          fontWeight: 700,
           fontSize,
           lineHeight: 1,
           color,
@@ -57,7 +57,8 @@ export const Subtitles: React.FC<{centerY?: number}> = ({centerY = 0.58}) => {
           transform: `scale(${scale})`,
           opacity,
           whiteSpace: 'nowrap',
-          letterSpacing: 0,
+          letterSpacing: 1,
+          textTransform: "none",
         }}
       >
         {word.text}

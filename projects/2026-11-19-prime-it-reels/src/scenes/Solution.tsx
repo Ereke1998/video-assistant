@@ -49,6 +49,7 @@ export const Solution: React.FC = () => {
         fx={{bloom: 0.85 + glint * 0.8, vignette: 0.65, flash: flashIn * 0.6, flashColor: '#bff6ff'}}
         light={{rim: 4.5, rimColor: COLORS.cool, key: 2.6, env: (f > 110 && f < 380 ? 1.3 : 0.6) + glint}}
         tint={COLORS.cool}
+        grid={0.5}
       >
         <Laptop3D
           time={t}
@@ -56,7 +57,8 @@ export const Solution: React.FC = () => {
           caseVisible={f < 120 ? 1 : caseVisible}
           coolerLift={coolerLift}
           chipHeat={0.5 * (1 - cool)}
-          heat={0.15 * (1 - cool)}
+          heat={0}
+          sweep={f < 80 ? range(f, 4, 72) : -1}
           fanAngle={t * 55}
           screen={{cool: 1, hot: 1 - cool}}
           paste={{stone: 1, crack: 1, wipe, drop}}

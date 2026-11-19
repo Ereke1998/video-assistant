@@ -1,5 +1,9 @@
 # PRIME IT — 3D Reels (Remotion + React Three Fiber)
 
+**Версия 2:** голографический (wireframe) 3D-стиль, шрифт Oswald Bold, палитра
+графит `#121316` / оранжевый `#FF6A00` (жар) / синий `#2F6BFF` (решение) / янтарный `#FFB800` (акцент).
+Раскадровка — `storyboard.md`.
+
 Вертикальный рекламный ролик сервиса ремонта ноутбуков PRIME IT.
 **1080×1920 (9:16), 60 fps, 32 с (1920 кадров), H.264 MP4.**
 
@@ -27,20 +31,20 @@ src/
   ReelsVideo.tsx           сборка сцен + субтитры + звук
   scenes/                  Hook, DustProblem, ThermalProblem, Solution, Brand
   components/
-    Laptop3D.tsx           процедурный ноутбук: корпус, крышка, экран, решётка, плата,
-                           CPU/GPU, VRAM, термопаста (камень + трещины Вороного), прокладки,
-                           тепловые трубки, радиатор, вентилятор, рентген (fresnel)
+    Laptop3D.tsx           процедурный ноутбук-голограмма: светящиеся рёбра + полупрозрачные грани,
+                           скан-полосы, «прорисовка», перекраска синий↔оранжевый; плата, CPU/GPU, VRAM,
+                           термопаста (камень + трещины Вороного), прокладки, трубки, радиатор, вентилятор
     Dust.tsx               комья пыли (instanced, рост/выдувание)
     Effects3D.tsx          волны жара/потока (шейдер), стрелки горячего воздуха, частицы-линии
-    Stage.tsx              ThreeCanvas, свет, окружение, bloom, глитч (RGB-сдвиг, scanlines), марево
+    Stage.tsx              ThreeCanvas, свет, окружение, сетка-пол, bloom, глитч (RGB-сдвиг, scanlines), марево
     Gauge.tsx              термометр-циферблат со стрелкой
     FpsGraph.tsx           график FPS + иконка критического перегрева
     Subtitles.tsx          пословные субтитры
     SoundTrack.tsx         озвучка / музыка / SFX и уровни микса
-    font.ts                Montserrat ExtraBold
+    font.ts                Oswald Bold
   data/script.ts           сценарий, окна сцен, пословные тайминги WORDS
 public/audio/              voiceover.mp3, music.mp3, sfx/*.wav
-public/fonts/              Montserrat 800 (woff2 из Google Fonts)
+public/fonts/              Oswald (woff2 из Google Fonts)
 scripts/                   gen_audio.py, build-timings.mjs, export-srt.mjs, stills.mjs
 ```
 
@@ -76,13 +80,13 @@ whisper public/audio/voiceover.mp3 --language ru --word_timestamps True --output
 Перенесите пословные `start`/`end` (секунды × 60 = кадры) в массив `WORDS` в `src/data/script.ts`,
 поставьте `TIMINGS_ARE_PRELIMINARY = false`, затем `npm run srt` и `npm run render`.
 
-Стиль: Montserrat ExtraBold ~150 px (длинные слова автоматически ужимаются до ширины 960 px),
-белый, чёрная обводка 14 px (`paint-order: stroke fill`), мягкая тень, центр на 58 % высоты,
-pop-in 0.6 → 1.15 → 1.0 за 8 кадров (spring), слова ЗАГЛАВНЫМИ — `#FFD600`.
+Стиль: Oswald Bold ~170 px (длинные слова автоматически ужимаются до ширины 960 px),
+белый, чёрная обводка 12 px (`paint-order: stroke fill`), мягкая тень, центр на 58 % высоты,
+pop-in 0.6 → 1.15 → 1.0 за 8 кадров (spring), слова ЗАГЛАВНЫМИ — `#FFB800`.
 
 ## Шрифт
 
-Montserrat ExtraBold 800 (кириллица + латиница) подключается из `public/fonts/` — это те же woff2-файлы
+Oswald Bold 700 (кириллица + латиница) подключается из `public/fonts/` — это те же woff2-файлы
 Google Fonts. Так сделано потому, что headless-Chromium в среде рендера не смог скачать их с
 fonts.gstatic.com (ошибка сертификата прокси). Загрузка напрямую через `@remotion/google-fonts`:
 

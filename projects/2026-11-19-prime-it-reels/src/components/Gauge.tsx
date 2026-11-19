@@ -82,7 +82,7 @@ export const Gauge: React.FC<{value: number; opacity?: number; x?: number; y?: n
           y={82}
           textAnchor="middle"
           fontFamily={FONT_FAMILY}
-          fontWeight={800}
+          fontWeight={700}
           fontSize={52}
           fill={blink > 0.5 ? '#ffffff' : col}
           style={{paintOrder: 'stroke'}}

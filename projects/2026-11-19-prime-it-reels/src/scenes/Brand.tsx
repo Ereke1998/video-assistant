@@ -20,8 +20,8 @@ export const Brand: React.FC = () => {
   const lid = lerp(-0.28, Math.PI / 2 - 0.035, easeInOut(range(f, 8, 78)));
   const cam = camPath(f, [
     {f: 0, pos: [4.3, 2.7, 6.2], target: [0.3, -0.4, -0.35], fov: 44},
-    {f: 110, pos: [0.0, 3.4, 7.4], target: [0, -0.3, 0], fov: 42},
-    {f: FREEZE_AT, pos: [0.0, 3.25, 7.1], target: [0, -0.3, 0], fov: 42},
+    {f: 110, pos: [0.0, 3.9, 8.6], target: [0, -0.15, 0], fov: 42},
+    {f: FREEZE_AT, pos: [0.0, 3.75, 8.3], target: [0, -0.15, 0], fov: 42},
   ]);
 
   const logo = spring({frame: f - LOGO_AT, fps, config: {damping: 14, stiffness: 120, mass: 0.8}});
@@ -38,7 +38,7 @@ export const Brand: React.FC = () => {
         fx={{bloom: 0.8, vignette: 0.8, flash: flashIn * 0.6, flashColor: '#bff6ff'}}
         light={{rim: 5 + glow * 3, rimColor: COLORS.cool, key: 3.6, env: 1.1, ambient: 0.5}}
         tint={COLORS.cool}
-        grid={smoothstep(20, 90, f)}
+        grid={0.4 + 0.6 * smoothstep(20, 90, f)}
       >
         <Laptop3D time={t} lid={lid} screen={{cool: 1, on: 1 - smoothstep(55, 78, f)}} fanAngle={t * 20} />
         {/* неоновая подсветка под ноутбуком */}
@@ -49,20 +49,20 @@ export const Brand: React.FC = () => {
       </Stage>
 
       {/* логотип поднимается из-за ноутбука: маска обрезает его по верхней кромке корпуса */}
-      <div style={{position: 'absolute', left: 0, right: 0, top: 0, height: 760, overflow: 'hidden'}}>
+      <div style={{position: 'absolute', left: 0, right: 0, top: 0, height: 780, overflow: 'hidden'}}>
         <div
           style={{
             position: 'absolute',
             left: 0,
             right: 0,
-            top: 400,
+            top: 300,
             textAlign: 'center',
             transform: `translateY(${(1 - logo) * 360}px) scale(${0.85 + 0.15 * logo})`,
             fontFamily: FONT_FAMILY,
-            fontWeight: 800,
-            fontSize: 190,
+            fontWeight: 700,
+            fontSize: 240,
             lineHeight: 1,
-            letterSpacing: 4,
+            letterSpacing: 8,
             color: '#ffffff',
             textShadow: `0 0 ${18 * glow}px ${COLORS.cool}, 0 0 ${50 * glow}px ${COLORS.cool}aa, 0 0 ${110 * glow}px ${COLORS.cool}66`,
             WebkitTextStroke: `3px ${COLORS.cool}`,
@@ -73,11 +73,11 @@ export const Brand: React.FC = () => {
         </div>
       </div>
       {/* плашка */}
-      <div style={{position: 'absolute', left: 0, right: 0, top: 640, display: 'flex', justifyContent: 'center', opacity: plate, transform: `translateY(${(1 - plate) * 40}px)`}}>
+      <div style={{position: 'absolute', left: 0, right: 0, top: 610, display: 'flex', justifyContent: 'center', opacity: plate, transform: `translateY(${(1 - plate) * 40}px)`}}>
         <div
           style={{
             fontFamily: FONT_FAMILY,
-            fontWeight: 800,
+            fontWeight: 700,
             fontSize: 44,
             color: '#ffffff',
             padding: '20px 40px',

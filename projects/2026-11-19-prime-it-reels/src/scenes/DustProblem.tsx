@@ -33,11 +33,12 @@ export const DustProblem: React.FC = () => {
         camera={cam}
         fx={{bloom: 0.9, vignette: 0.7, flash: Math.max(flashIn * 0.55, out * 0.4), flashColor: '#ffffff'}}
         light={{rim: 2.2, rimColor: COLORS.heat, key: 2.8, env: 0.6}}
-        tint="#3a2020"
+        tint={COLORS.heat}
+        grid={0.5}
       >
         <Laptop3D
           time={t}
-          heat={0.08}
+          heat={1}
           chipHeat={0.45}
           xray={xray}
           fanAngle={fanAngle}

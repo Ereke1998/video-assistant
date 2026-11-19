@@ -12,7 +12,7 @@ export const Hook: React.FC = () => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
   const t = f / fps;
-  const heat = smoothstep(0.15, 2.4, t);
+  const heat = smoothstep(0.75, 2.3, t);
 
   const cam = camPath(f, [
     {f: 0, pos: [4.6, 2.9, 6.6], target: [0.3, -0.4, -0.35], fov: 44},
@@ -32,9 +32,10 @@ export const Hook: React.FC = () => {
         camera={{...cam, shake: 0.02 + 0.03 * heat}}
         fx={{bloom: 0.75 + heat * 0.6, haze: heat * 0.9, vignette: 0.75, flash: out * 0.6, flashColor: '#ffffff'}}
         light={{rim: 3 + heat * 5, rimColor: COLORS.heat, key: 2.4}}
-        tint={COLORS.heat}
+        tint={heat > 0.5 ? COLORS.heat : COLORS.cool}
+        grid={0.6}
       >
-        <Laptop3D time={t} heat={heat} chipHeat={heat} fanAngle={t * 45} screen={{hot: heat}} />
+        <Laptop3D time={t} heat={heat} reveal={smoothstep(0, 40, f)} chipHeat={heat} fanAngle={t * 45} screen={{hot: heat}} />
         <FlowWaves time={t} amount={heat} color={COLORS.heat} speed={1.2} />
       </Stage>
       <Gauge value={temp} opacity={smoothstep(0, 10, f)} blink={temp > 97 ? (Math.floor(f / 8) % 2) : 0} />

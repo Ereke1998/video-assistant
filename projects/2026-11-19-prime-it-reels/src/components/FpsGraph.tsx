@@ -43,7 +43,7 @@ export const FpsGraph: React.FC<{progress: number; opacity: number; blink: boole
           ))}
           <polyline points={pts.join(' ')} fill="none" stroke={lineCol} strokeWidth={7} strokeLinejoin="round" strokeLinecap="round" style={{filter: `drop-shadow(0 0 8px ${lineCol})`}} />
         </svg>
-        <div style={{position: 'absolute', right: 22, top: 12, fontFamily: FONT_FAMILY, fontWeight: 800, fontSize: 46, color: lineCol, textAlign: 'right', lineHeight: 1}}>
+        <div style={{position: 'absolute', right: 22, top: 12, fontFamily: FONT_FAMILY, fontWeight: 700, fontSize: 46, color: lineCol, textAlign: 'right', lineHeight: 1}}>
           <span style={{fontSize: 30, color: '#9aa3b5', marginRight: 10}}>FPS</span>
           {Math.round(cur)}
         </div>

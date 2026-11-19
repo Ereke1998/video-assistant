@@ -62,7 +62,8 @@ export const ThermalProblem: React.FC = () => {
           flashColor: '#ffffff',
         }}
         light={{rim: 4.5, rimColor: COLORS.heat, key: 2.6, env: 0.55}}
-        tint="#3a1a14"
+        tint={COLORS.heat}
+        grid={0.3}
       >
         <Laptop3D
           time={t}
@@ -70,7 +71,7 @@ export const ThermalProblem: React.FC = () => {
           caseVisible={1 - smoothstep(0, 24, f)}
           coolerLift={1}
           chipHeat={chipHeat}
-          heat={0.2}
+          heat={1}
           screen={{hot: 1}}
           paste={{stone, crack, wipe: 0, drop: 0}}
           pads={{crumble, showOld: true}}

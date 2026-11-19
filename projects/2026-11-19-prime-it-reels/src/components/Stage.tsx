@@ -113,7 +113,7 @@ const Backdrop: React.FC<{tint: string; grid: number}> = ({tint, grid}) => {
         fragmentShader: /* glsl */ `
           uniform vec3 uTint; uniform float uGrid; varying vec3 vDir;
           void main(){
-            vec3 base = vec3(0.0030,0.0030,0.0050);
+            vec3 base = vec3(0.0058,0.0062,0.0075);
             float h = vDir.y;
             vec3 col = base + uTint * 0.012 * smoothstep(-0.6, 0.4, h) * (1.0 - smoothstep(0.2, 0.9, h));
             // тонкая техно-сетка
@@ -131,6 +131,42 @@ const Backdrop: React.FC<{tint: string; grid: number}> = ({tint, grid}) => {
   return (
     <mesh material={mat} renderOrder={-10}>
       <sphereGeometry args={[60, 48, 24]} />
+    </mesh>
+  );
+};
+
+/** Перспективная сетка-пол (голографическая сцена). */
+const Floor: React.FC<{tint: string; amount: number}> = ({tint, amount}) => {
+  const mat = useMemo(
+    () =>
+      new THREE.ShaderMaterial({
+        transparent: true,
+        depthWrite: false,
+        toneMapped: false,
+        uniforms: {uTint: {value: new THREE.Color()}, uAmt: {value: 1}},
+        vertexShader: /* glsl */ `varying vec3 vW; void main(){ vec4 w = modelMatrix*vec4(position,1.0); vW = w.xyz; gl_Position = projectionMatrix*viewMatrix*w; }`,
+        fragmentShader: /* glsl */ `
+          uniform vec3 uTint; uniform float uAmt; varying vec3 vW;
+          void main(){
+            vec2 g = abs(fract(vW.xz * 2.0) - 0.5);
+            vec2 w = fwidth(vW.xz * 2.0);
+            float line = 1.0 - min(min(g.x / w.x, g.y / w.y) * 0.8, 1.0);
+            vec2 g2 = abs(fract(vW.xz * 0.5) - 0.5);
+            vec2 w2 = fwidth(vW.xz * 0.5);
+            float major = 1.0 - min(min(g2.x / w2.x, g2.y / w2.y) * 0.6, 1.0);
+            float fade = 1.0 - smoothstep(1.5, 9.0, length(vW.xz));
+            float a = (line * 0.18 + major * 0.35) * fade * uAmt;
+            gl_FragColor = vec4(uTint * 1.4, a);
+          }
+        `,
+      }),
+    [],
+  );
+  mat.uniforms.uTint.value.set(tint);
+  mat.uniforms.uAmt.value = amount;
+  return (
+    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.004, 0]} material={mat} renderOrder={-5}>
+      <planeGeometry args={[30, 30]} />
     </mesh>
   );
 };
@@ -215,13 +251,14 @@ const Rig: React.FC<{camera: CameraState; fx: FxState; light: LightState}> = ({c
 };
 
 export const Stage: React.FC<{
+  /** яркость сетки-пола 0..1 */
   camera: CameraState;
   fx?: FxState;
   light?: LightState;
   tint?: string;
   grid?: number;
   children: React.ReactNode;
-}> = ({camera, fx = {}, light = {}, tint = '#203048', grid = 0, children}) => {
+}> = ({camera, fx = {}, light = {}, tint = '#2F6BFF', grid = 1, children}) => {
   const {width, height} = useVideoConfig();
   return (
     <ThreeCanvas
@@ -233,7 +270,8 @@ export const Stage: React.FC<{
       style={{position: 'absolute', inset: 0}}
     >
       <Rig camera={camera} fx={fx} light={light} />
-      <Backdrop tint={tint} grid={grid} />
+      <Backdrop tint={tint} grid={0} />
+      <Floor tint={tint} amount={grid} />
       {children}
     </ThreeCanvas>
   );
