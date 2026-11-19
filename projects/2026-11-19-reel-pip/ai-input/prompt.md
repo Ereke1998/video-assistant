@@ -1,4 +1,4 @@
-# Промпт для ИИ-клипа вставки (video-to-video / image-to-video)
+# Промпт для ИИ-клипа готового интерьера (на весь кадр) (video-to-video / image-to-video)
 
 **Вход:** `scene4_src_576x1024.mp4` (5.5 с, тот же план, что в ролике с 12.5 с) или `scene4_first_frame.png`.
 **Выход:** 9:16, ≥ 5.5 с, 30 fps, **та же камера и движение героини**, без текста и водяных знаков.
@@ -11,5 +11,6 @@ a tall green plant, soft warm daylight, photorealistic, architectural interior p
 
 **Negative:** concrete, construction, pipes, distorted body, extra people, text, watermark, flicker, warped walls.
 
-Как в референсе: вставка показывает тот же проход, но уже в готовом интерьере.
-Готовый клип: `compose_pip.sh 12.5:/путь/ai_clip.mp4`, затем `build_sound.sh`.
+Клип накладывается на весь кадр поверх чернового плана (шторкой), поэтому камера и движение героини
+должны совпадать с исходником как можно точнее (лучше video-to-video, а не image-to-video).
+Готовый клип: `compose_reveal.sh /путь/ai_clip.mp4`, затем `build_sound.sh`.
