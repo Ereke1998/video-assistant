@@ -94,18 +94,14 @@ $FF -f lavfi -i "aevalsrc='0.8*($K1)+0.4*($K2)|0.4*($K1)+0.8*($K2)':s=$SR:d=$D" 
 verb $S/site_dry.wav $S/site.wav $S/ir18.wav 0.45; rm $S/site_dry.wav; fi
 level $S/site.wav -30
 
-# исходный звук MOV / чернового монтажа (если есть): очистка highpass 80 + afftdn
-SRC_A=""
-if [ -f "$VIDEO" ] && ffprobe -v error -select_streams a -show_entries stream=index -of csv=p=0 "$VIDEO" | grep -q .; then SRC_A=$VIDEO
-elif [ -n "$SRC_MOV" ] && [ -f "$SRC_MOV" ] && ffprobe -v error -select_streams a -show_entries stream=index -of csv=p=0 "$SRC_MOV" | grep -q .; then SRC_A=$SRC_MOV; fi
-BUS_IN="[w][c][d][s]"; NB=4; EXTRA=()
-if [ -n "$SRC_A" ]; then
-  $FF -i "$SRC_A" -vn -af "aresample=$SR,aformat=channel_layouts=stereo,highpass=f=80,afftdn=nf=-25:nr=12,lowpass=f=12000,atrim=0:$T_CUT,apad,atrim=0:$D" -c:a pcm_f32le $S/src.wav
-  level $S/src.wav -22
-  EXTRA=(-i $S/src.wav); BUS_IN="[w][c][d][s][4]"; NB=5
-  $FF -i $S/wind.wav -af volume=-6dB -c:a pcm_f32le $S/w.tmp.wav && mv $S/w.tmp.wav $S/wind.wav   # синтетический ветер — под исходником
-  log "  src.wav: ИСХОДНИК ← $SRC_A (highpass 80, afftdn)"
-else log "  исходный MOV не найден → атмосфера стройки полностью синтезирована"; fi
+# звук исходника (синхронный, из build_base.sh) — главный слой, НЕ глушится в 12 с
+SRC_AUDIO=${SRC_AUDIO:-$O/reel_src_audio.wav}
+BUS_IN="[w][c][d][s]"; NB=4; EXTRA=(); HAVE_VOICE=0
+if [ -f "$SRC_AUDIO" ]; then
+  $FF -i "$SRC_AUDIO" -af "aresample=$SR,aformat=channel_layouts=stereo,highpass=f=80,afftdn=nf=-30:nr=10,lowpass=f=12000,dynaudnorm=f=150:g=11:m=8:p=0.9,acompressor=threshold=0.1:ratio=3:attack=10:release=150:makeup=2,apad,atrim=0:$D" -c:a pcm_f32le $S/voice.wav
+  level $S/voice.wav -16
+  HAVE_VOICE=1; log "  voice.wav: ИСХОДНИК ← $SRC_AUDIO (highpass 80, afftdn, dynaudnorm, компрессор 3:1); фон приглушается под него"
+else log "  звук исходника не найден → только синтез"; fi
 
 # шина стройки + «глушение» в 12 с: lowpass 1.5 кГц, −6 дБ, кроссфейд 30 мс (без щелчка), затем уход за 4 с
 $FF -i $S/wind.wav -i $S/city.wav -i $S/drone.wav -i $S/site.wav "${EXTRA[@]}" -filter_complex \
@@ -179,19 +175,22 @@ DING_PK=-18
 # ---------- СВЕДЕНИЕ ----------
 log "== Сведение =="
 mixit(){ # $1 = доп. гейн мастера (dB), $2 = выход
-$FF -i $S/bus_site.wav -i $S/sub.wav -i $S/whoosh.wav -i $S/revverb.wav -i $S/pad.wav -i $S/steps.wav -i $S/insert.wav -i $S/ding.wav -filter_complex \
+local vin=() bed="[0][1][2][3][4][5][6][dg]amix=inputs=8:normalize=0"
+if [ $HAVE_VOICE = 1 ]; then vin=(-i $S/voice.wav)
+  bed+="[bed];[8]asplit[vo][sc];[bed][sc]sidechaincompress=threshold=0.03:ratio=5:attack=30:release=400:makeup=1[duck];[duck][vo]amix=inputs=2:normalize=0"; fi
+$FF -i $S/bus_site.wav -i $S/sub.wav -i $S/whoosh.wav -i $S/revverb.wav -i $S/pad.wav -i $S/steps.wav -i $S/insert.wav -i $S/ding.wav "${vin[@]}" -filter_complex \
  "[7]volume=$(awk -v p="$(speak $S/ding.wav)" -v t=$DING_PK -v m="$1" 'BEGIN{printf "%.2f", t-p-m}')dB[dg];
-  [0][1][2][3][4][5][6][dg]amix=inputs=8:normalize=0,
+  $bed,
   afade=t=in:d=0.3,afade=t=out:st=$(awk -v d=$D 'BEGIN{print d-1}'):d=1,
   bass=g=-6:f=150:w=0.6,equalizer=f=1000:width_type=o:w=2:g=2.5,treble=g=-1.5:f=3000:w=0.6,
-  volume=${1}dB,aresample=192000,alimiter=limit=0.84:attack=3:release=60:level=disabled,aresample=$SR" -c:a pcm_f32le "$2"; }
+  volume=${1}dB,aresample=192000,alimiter=limit=0.79:attack=3:release=60:level=disabled,aresample=$SR" -c:a pcm_f32le "$2"; }
 # «динь» держим на −18 dBFS в финале: компенсируем мастер-гейн
 mixit 0 $S/premix.wav
 I0=$(lufs $S/premix.wav); G=$(awk -v i="$I0" 'BEGIN{printf "%.2f", -14-i}')
 mixit "$G" $S/master.wav
 I1=$(lufs $S/master.wav); G=$(awk -v g="$G" -v i="$I1" 'BEGIN{printf "%.2f", g+(-14-i)}')   # 2-я итерация (лимитер съедает часть)
 mixit "$G" $S/master.wav
-log "  premix ${I0} LUFS → мастер-гейн ${G} dB, alimiter −1.5 dBFS на 4× оверсемплинге (≈ true peak)"
+log "  premix ${I0} LUFS → мастер-гейн ${G} dB, alimiter −2 dBFS на 4× оверсемплинге (≈ true peak)"
 
 $FF -i $S/master.wav -c:a aac -b:a 192k -ar $SR -ac 2 $O/reel_pip_audio.m4a
 if [ -f "$VIDEO" ]; then
