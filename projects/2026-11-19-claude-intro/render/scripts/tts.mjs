@@ -55,6 +55,17 @@ const cache = existsSync(cachePath) ? JSON.parse(readFileSync(cachePath, 'utf8')
 const report = []; const alignment = [];
 
 parts.forEach((p, i) => {
+  // Готовая запись (выбранный дубль, свой голос): не синтезируем, берём файл как есть.
+  // p.words — слова с таймкодами внутри файла (для субтитров и синхронизации анимации).
+  if (p.file) {
+    const fit = join(ROOT, `build/vo/${p.key}.fit.wav`);
+    execFileSync('ffmpeg', ['-y', '-v', 'error', '-i', join(ROOT, p.file), '-ar', '48000', '-ac', '1', fit]);
+    const dur = probe(fit);
+    p.words.forEach((w) => alignment.push({ scene: p.scene, part: p.key, w: w.w, start: +(p.at + w.start).toFixed(3), end: +(p.at + w.end).toFixed(3) }));
+    const window = p.until - p.at - VOICEOVER.tailGap;
+    report.push({ part: p.key, at: p.at, window: +window.toFixed(2), raw: +dur.toFixed(2), tempo: 1, ends: +(p.at + dur).toFixed(2), overflow: +Math.max(0, dur - window).toFixed(2) });
+    return;
+  }
   const mp3 = join(ROOT, `assets/vo/${p.key}.mp3`);
   const vkey = JSON.stringify({ ...VOICEOVER.settings, ...(p.voice || {}) });
   if (force || !existsSync(mp3) || cache[p.key]?.tts !== p.tts || (cache[p.key]?.voice && cache[p.key].voice !== vkey) || (!cache[p.key]?.voice && p.voice)) {

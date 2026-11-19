@@ -8,7 +8,7 @@
     "tts": "node scripts/tts.mjs",
     "sfx:placeholders": "node scripts/make-placeholder-audio.mjs",
     "subs": "node scripts/export-subtitles.mjs",
-    "stills": "node scripts/render.mjs --stills=1.9,4.6,7.9,12,16.8,20.9,24,28.6,32.5,36.8,38.6 --safe",
+    "stills": "node scripts/render.mjs --stills=1.7,4.6,7.9,12,16.8,20.9,24,28.6,32.5,36.8,38.6 --safe",
     "render": "node scripts/render.mjs --fps=30",
     "render:60": "node scripts/render.mjs --fps=60",
     "mix": "node scripts/mix-audio.mjs --fps=30",
