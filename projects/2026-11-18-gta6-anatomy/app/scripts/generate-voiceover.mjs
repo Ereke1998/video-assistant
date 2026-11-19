@@ -227,7 +227,13 @@ function finalize(rawAudio, rawAlign, outMp3, outAlign) {
       t = c1;
     }
     segs.push([t, null]);
-    const parts = segs.map(([a, b], i) => `[0:a]atrim=start=${a.toFixed(4)}${b !== null ? `:end=${b.toFixed(4)}` : ''},asetpts=PTS-STARTPTS,afade=t=in:d=0.01,afade=t=out:st=${b !== null ? Math.max(0, b - a - 0.01).toFixed(4) : 0}:d=${b !== null ? 0.01 : 0}[s${i}]`);
+    // микро-фейды 10 мс на стыках; у последнего куска фейда на выход нет (иначе он глушится целиком)
+    const parts = segs.map(([a, b], i) => {
+      const trim = `atrim=start=${a.toFixed(4)}${b !== null ? `:end=${b.toFixed(4)}` : ''},asetpts=PTS-STARTPTS`;
+      const fadeIn = i > 0 ? ',afade=t=in:d=0.01' : '';
+      const fadeOut = b !== null ? `,afade=t=out:st=${Math.max(0, b - a - 0.01).toFixed(4)}:d=0.01` : '';
+      return `[0:a]${trim}${fadeIn}${fadeOut}[s${i}]`;
+    });
     filter = ['-filter_complex', `${parts.join(';')};${segs.map((_, i) => `[s${i}]`).join('')}concat=n=${segs.length}:v=0:a=1[out]`, '-map', '[out]'];
   }
   execFileSync('ffmpeg', ['-v', 'error', '-y', '-i', tmpWav, ...filter, '-ar', '44100', '-c:a', 'libmp3lame', '-b:a', '192k', outMp3]);

@@ -331,9 +331,18 @@ export const VOICE = {
   },
 };
 
+/**
+ * Громкость групп SFX в миксе (множитель к volume из сцен). Переходные звуки — тихо, акценты — громче.
+ */
+export const SFX_MIX: Record<SfxName, number> = {
+  whoosh: 0.3, glitch: 0.35, riser: 0.45, scan: 0.4, notify: 0.45, tick: 0.5, pop: 0.6, typing: 0.5,
+  water: 0.6, siren: 0.6, crowd: 0.8, coins: 0.7, cash: 0.7, stamp: 0.8, heartbeat: 0.9,
+  impact: 0.8, bassdrop: 0.9,
+};
+
 /** Генерация SFX через ElevenLabs Sound Effects. Можно заменить своими файлами в public/sfx/<name>.mp3 */
 export const SFX_PROMPTS: Record<SfxName | 'music', {prompt: string; duration: number; loop?: boolean}> = {
-  whoosh: {prompt: 'fast cinematic whoosh swipe transition, clean, no reverb tail', duration: 0.8},
+  whoosh: {prompt: 'soft subtle airy swoosh, gentle low whoosh transition, smooth, quiet, no hiss', duration: 0.6},
   impact: {prompt: 'deep cinematic sub boom impact hit with short tail, trailer style', duration: 1.6},
   riser: {prompt: 'tension riser building up, synth noise sweep, ends abruptly', duration: 1.6},
   pop: {prompt: 'short UI pop click, bubbly, clean', duration: 0.5},

@@ -97,7 +97,7 @@ export const Documentary: React.FC = () => {
       {/* SFX */}
       {TL.sfx.map((s, i) => (
         <Sequence key={`sfx${i}`} from={sec(s.time)} name={`sfx ${s.name}`} layout="none">
-          <Audio src={staticFile(s.file)} volume={Math.min(1, s.volume * 0.7)} />
+          <Audio src={staticFile(s.file)} volume={Math.min(1, s.volume)} />
         </Sequence>
       ))}
     </AbsoluteFill>

@@ -117,8 +117,8 @@ export const useImpact = () => {
     if (s.name !== 'impact') continue;
     const d = frame - Math.round(s.time * fps);
     if (d >= 0 && d < 14) {
-      flash = Math.max(flash, (1 - d / 6) * 0.22 * s.volume);
-      shake = Math.max(shake, (1 - d / 14) * 18 * s.volume);
+      flash = Math.max(flash, (1 - d / 6) * 0.26 * s.volume);
+      shake = Math.max(shake, (1 - d / 14) * 21 * s.volume);
     }
   }
   const sx = Math.sin(frame * 7.3) * shake;

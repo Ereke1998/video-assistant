@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-11-19T00:27:18.277Z",
+ "generatedAt": "2026-11-19T00:45:49.862Z",
  "estimated": false,
  "fps": 30,
  "width": 1080,
@@ -2636,415 +2636,415 @@
    "name": "tick",
    "file": "sfx/tick.mp3",
    "time": 0,
-   "volume": 0.8
+   "volume": 0.4
   },
   {
    "name": "tick",
    "file": "sfx/tick.mp3",
    "time": 0.42,
-   "volume": 0.8
+   "volume": 0.4
   },
   {
    "name": "tick",
    "file": "sfx/tick.mp3",
    "time": 0.84,
-   "volume": 0.8
+   "volume": 0.4
   },
   {
    "name": "impact",
    "file": "sfx/impact.mp3",
    "time": 1.435,
-   "volume": 1
+   "volume": 0.8
   },
   {
    "name": "bassdrop",
    "file": "sfx/bassdrop.mp3",
    "time": 1.435,
-   "volume": 0.9
+   "volume": 0.81
   },
   {
    "name": "whoosh",
    "file": "sfx/whoosh.mp3",
    "time": 4.479,
-   "volume": 0.8
+   "volume": 0.24
   },
   {
    "name": "impact",
    "file": "sfx/impact.mp3",
    "time": 7.05,
-   "volume": 0.8
+   "volume": 0.64
   },
   {
    "name": "whoosh",
    "file": "sfx/whoosh.mp3",
    "time": 7.946,
-   "volume": 0.8
+   "volume": 0.24
   },
   {
    "name": "pop",
    "file": "sfx/pop.mp3",
    "time": 8.196,
-   "volume": 0.8
+   "volume": 0.48
   },
   {
    "name": "pop",
    "file": "sfx/pop.mp3",
    "time": 8.446,
-   "volume": 0.8
+   "volume": 0.48
   },
   {
    "name": "pop",
    "file": "sfx/pop.mp3",
    "time": 8.696,
-   "volume": 0.8
+   "volume": 0.48
   },
   {
    "name": "whoosh",
    "file": "sfx/whoosh.mp3",
    "time": 9.589,
-   "volume": 0.8
+   "volume": 0.24
   },
   {
    "name": "crowd",
    "file": "sfx/crowd.mp3",
    "time": 9.689,
-   "volume": 0.45
+   "volume": 0.36
   },
   {
    "name": "notify",
    "file": "sfx/notify.mp3",
    "time": 9.989,
-   "volume": 0.5
+   "volume": 0.225
   },
   {
    "name": "whoosh",
    "file": "sfx/whoosh.mp3",
    "time": 11.409,
-   "volume": 0.8
+   "volume": 0.24
   },
   {
    "name": "stamp",
    "file": "sfx/stamp.mp3",
    "time": 13.898,
-   "volume": 0.9
+   "volume": 0.72
   },
   {
    "name": "impact",
    "file": "sfx/impact.mp3",
    "time": 13.898,
-   "volume": 0.5
+   "volume": 0.4
   },
   {
    "name": "glitch",
    "file": "sfx/glitch.mp3",
    "time": 15.729,
-   "volume": 0.8
+   "volume": 0.28
   },
   {
    "name": "heartbeat",
    "file": "sfx/heartbeat.mp3",
    "time": 15.929,
-   "volume": 0.6
+   "volume": 0.54
   },
   {
    "name": "riser",
    "file": "sfx/riser.mp3",
    "time": 16.559,
-   "volume": 0.6
+   "volume": 0.27
   },
   {
    "name": "impact",
    "file": "sfx/impact.mp3",
    "time": 18.159,
-   "volume": 0.8
+   "volume": 0.64
   },
   {
    "name": "whoosh",
    "file": "sfx/whoosh.mp3",
    "time": 19.797,
-   "volume": 0.8
+   "volume": 0.24
   },
   {
    "name": "cash",
    "file": "sfx/cash.mp3",
    "time": 21.451,
-   "volume": 0.8
+   "volume": 0.56
   },
   {
    "name": "coins",
    "file": "sfx/coins.mp3",
    "time": 21.551,
-   "volume": 0.6
+   "volume": 0.42
   },
   {
    "name": "pop",
    "file": "sfx/pop.mp3",
    "time": 22.843,
-   "volume": 0.8
+   "volume": 0.48
   },
   {
    "name": "pop",
    "file": "sfx/pop.mp3",
    "time": 23.143,
-   "volume": 0.8
+   "volume": 0.48
   },
   {
    "name": "impact",
    "file": "sfx/impact.mp3",
    "time": 24.715,
-   "volume": 0.8
+   "volume": 0.64
   },
   {
    "name": "whoosh",
    "file": "sfx/whoosh.mp3",
    "time": 25.688,
-   "volume": 0.8
+   "volume": 0.24
   },
   {
    "name": "impact",
    "file": "sfx/impact.mp3",
    "time": 26.968,
-   "volume": 0.7
+   "volume": 0.56
   },
   {
    "name": "cash",
    "file": "sfx/cash.mp3",
    "time": 28.301,
-   "volume": 0.8
+   "volume": 0.56
   },
   {
    "name": "cash",
    "file": "sfx/cash.mp3",
    "time": 30.152,
-   "volume": 0.6
+   "volume": 0.42
   },
   {
    "name": "whoosh",
    "file": "sfx/whoosh.mp3",
    "time": 31.754,
-   "volume": 0.8
+   "volume": 0.24
   },
   {
    "name": "impact",
    "file": "sfx/impact.mp3",
    "time": 33.844,
-   "volume": 0.8
+   "volume": 0.64
   },
   {
    "name": "whoosh",
    "file": "sfx/whoosh.mp3",
    "time": 36.398,
-   "volume": 0.8
+   "volume": 0.24
   },
   {
    "name": "glitch",
    "file": "sfx/glitch.mp3",
    "time": 39.059,
-   "volume": 0.7
+   "volume": 0.245
   },
   {
    "name": "pop",
    "file": "sfx/pop.mp3",
    "time": 41.085,
-   "volume": 0.8
+   "volume": 0.48
   },
   {
    "name": "pop",
    "file": "sfx/pop.mp3",
    "time": 41.8,
-   "volume": 0.8
+   "volume": 0.48
   },
   {
    "name": "riser",
    "file": "sfx/riser.mp3",
    "time": 41.614,
-   "volume": 0.6
+   "volume": 0.27
   },
   {
    "name": "impact",
    "file": "sfx/impact.mp3",
    "time": 43.214,
-   "volume": 0.8
+   "volume": 0.64
   },
   {
    "name": "glitch",
    "file": "sfx/glitch.mp3",
    "time": 44.836,
-   "volume": 0.8
+   "volume": 0.28
   },
   {
    "name": "typing",
    "file": "sfx/typing.mp3",
    "time": 44.986,
-   "volume": 0.5
+   "volume": 0.25
   },
   {
    "name": "impact",
    "file": "sfx/impact.mp3",
    "time": 46.342,
-   "volume": 0.6
+   "volume": 0.48
   },
   {
    "name": "siren",
    "file": "sfx/siren.mp3",
    "time": 47.135,
-   "volume": 0.35
+   "volume": 0.21
   },
   {
    "name": "scan",
    "file": "sfx/scan.mp3",
    "time": 50.102,
-   "volume": 0.8
+   "volume": 0.32
   },
   {
    "name": "scan",
    "file": "sfx/scan.mp3",
    "time": 50.476,
-   "volume": 0.8
+   "volume": 0.32
   },
   {
    "name": "whoosh",
    "file": "sfx/whoosh.mp3",
    "time": 51.238,
-   "volume": 0.8
+   "volume": 0.24
   },
   {
    "name": "impact",
    "file": "sfx/impact.mp3",
    "time": 51.338,
-   "volume": 0.5
+   "volume": 0.4
   },
   {
    "name": "water",
    "file": "sfx/water.mp3",
    "time": 51.438,
-   "volume": 0.45
+   "volume": 0.27
   },
   {
    "name": "whoosh",
    "file": "sfx/whoosh.mp3",
    "time": 54.585,
-   "volume": 0.8
+   "volume": 0.24
   },
   {
    "name": "pop",
    "file": "sfx/pop.mp3",
    "time": 54.885,
-   "volume": 0.8
+   "volume": 0.48
   },
   {
    "name": "pop",
    "file": "sfx/pop.mp3",
    "time": 57.838,
-   "volume": 0.8
+   "volume": 0.48
   },
   {
    "name": "pop",
    "file": "sfx/pop.mp3",
    "time": 59.635,
-   "volume": 0.8
+   "volume": 0.48
   },
   {
    "name": "impact",
    "file": "sfx/impact.mp3",
    "time": 60.569,
-   "volume": 0.6
+   "volume": 0.48
   },
   {
    "name": "riser",
    "file": "sfx/riser.mp3",
    "time": 60.008,
-   "volume": 0.6
+   "volume": 0.27
   },
   {
    "name": "impact",
    "file": "sfx/impact.mp3",
    "time": 61.608,
-   "volume": 0.8
+   "volume": 0.64
   },
   {
    "name": "whoosh",
    "file": "sfx/whoosh.mp3",
    "time": 64.241,
-   "volume": 0.8
+   "volume": 0.24
   },
   {
    "name": "coins",
    "file": "sfx/coins.mp3",
    "time": 64.541,
-   "volume": 0.6
+   "volume": 0.42
   },
   {
    "name": "stamp",
    "file": "sfx/stamp.mp3",
    "time": 65.841,
-   "volume": 0.8
+   "volume": 0.64
   },
   {
    "name": "riser",
    "file": "sfx/riser.mp3",
    "time": 66.734,
-   "volume": 0.4
+   "volume": 0.18
   },
   {
    "name": "cash",
    "file": "sfx/cash.mp3",
    "time": 68.193,
-   "volume": 0.6
+   "volume": 0.42
   },
   {
    "name": "whoosh",
    "file": "sfx/whoosh.mp3",
    "time": 69.335,
-   "volume": 0.8
+   "volume": 0.24
   },
   {
    "name": "notify",
    "file": "sfx/notify.mp3",
    "time": 69.635,
-   "volume": 0.6
+   "volume": 0.27
   },
   {
    "name": "notify",
    "file": "sfx/notify.mp3",
    "time": 70.235,
-   "volume": 0.45
+   "volume": 0.203
   },
   {
    "name": "pop",
    "file": "sfx/pop.mp3",
    "time": 70.735,
-   "volume": 0.8
+   "volume": 0.48
   },
   {
    "name": "impact",
    "file": "sfx/impact.mp3",
    "time": 71.739,
-   "volume": 0.8
+   "volume": 0.64
   },
   {
    "name": "bassdrop",
    "file": "sfx/bassdrop.mp3",
    "time": 71.739,
-   "volume": 0.7
+   "volume": 0.63
   },
   {
    "name": "pop",
    "file": "sfx/pop.mp3",
    "time": 74.157,
-   "volume": 0.8
+   "volume": 0.48
   },
   {
    "name": "pop",
    "file": "sfx/pop.mp3",
    "time": 75.389,
-   "volume": 0.8
+   "volume": 0.48
   },
   {
    "name": "whoosh",
    "file": "sfx/whoosh.mp3",
    "time": 76.877,
-   "volume": 0.8
+   "volume": 0.24
   }
  ]
 }

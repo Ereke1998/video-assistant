@@ -24,7 +24,9 @@ function normalize(name, file) {
     const was = loudnormFile(file, -20, -1.5);
     console.log(`  ${name}: ${was} LUFS → −20 LUFS`);
   } else {
-    const was = peakNormFile(file, -3);
+    // переходные шумовые звуки: срезаем резкие верха
+    const soft = ['whoosh', 'glitch', 'riser'].includes(name) ? 'lowpass=f=6500,highpass=f=60' : '';
+    const was = peakNormFile(file, -3, soft);
     console.log(`  ${name}: пик ${was} dBFS → −3 dBFS`);
   }
 }

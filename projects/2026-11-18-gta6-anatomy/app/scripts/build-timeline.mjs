@@ -14,7 +14,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
-import {ACTS, PROJECT} from '../src/data/script.ts';
+import {ACTS, PROJECT, SFX_MIX} from '../src/data/script.ts';
 import {parseMarkup, findCue} from '../src/data/markup.ts';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -182,7 +182,7 @@ export function buildTimeline({quiet = false} = {}) {
           missingSfx.add(fx.name);
           continue;
         }
-        sfx.push({name: fx.name, file: `sfx/${sfxFiles[fx.name]}`, time: r3(t), volume: fx.volume ?? 0.8});
+        sfx.push({name: fx.name, file: `sfx/${sfxFiles[fx.name]}`, time: r3(t), volume: r3((fx.volume ?? 0.8) * (SFX_MIX[fx.name] ?? 1))});
       }
     });
 

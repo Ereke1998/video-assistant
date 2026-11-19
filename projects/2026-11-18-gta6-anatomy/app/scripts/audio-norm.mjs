@@ -15,13 +15,13 @@ export function loudnormFile(file, lufs = -20, tp = -1.5) {
 }
 
 /** Пиковая нормализация (для коротких SFX, где LUFS ненадёжен) */
-export function peakNormFile(file, peakDb = -3) {
+export function peakNormFile(file, peakDb = -3, extraFilter = '') {
   const out = execFileSync('sh', ['-c', `ffmpeg -hide_banner -nostats -i "${file}" -af volumedetect -f null - 2>&1`]).toString();
   const max = Number(/max_volume: (-?[\d.]+) dB/.exec(out)?.[1] ?? 0);
   const gain = peakDb - max;
-  if (Math.abs(gain) < 0.3) return max;
+  if (Math.abs(gain) < 0.3 && !extraFilter) return max;
   const tmp = `${file}.tmp.mp3`;
-  ff(['-y', '-i', file, '-af', `volume=${gain.toFixed(2)}dB`, '-c:a', 'libmp3lame', '-b:a', '192k', tmp]);
+  ff(['-y', '-i', file, '-af', `${extraFilter ? `${extraFilter},` : ''}volume=${gain.toFixed(2)}dB`, '-c:a', 'libmp3lame', '-b:a', '192k', tmp]);
   fs.renameSync(tmp, file);
   return max;
 }
