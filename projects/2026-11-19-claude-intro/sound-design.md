@@ -34,7 +34,7 @@
 | 00:31.62 | плашка «АВТОМАТИЗАЦИЯ» | — | `hit-auto` → impact-in.wav | −11 dB, на слове «автоматизировать» |
 | 00:33.60 | переход | — | `whoosh-6` | −14 dB |
 | 00:35.10 | «РЕАЛЬНЫЙ ПРИМЕР» | — | `ding-card` → ding.wav | −13 dB |
-| 00:37.25 | CTA «Подписывайтесь на @ekasymoff» + колокольчик, на слове «Подписывайтесь» | fade-out 38,8–40 | `notify-cta` → notify.wav | −12 dB |
+| 00:37.25 | CTA «Подписывайся на @ekasymoff» + колокольчик, на слове «Подписывайся» | fade-out 38,8–40 | `notify-cta` → notify.wav | −12 dB |
 
 ## Музыка
 - Слот `render/assets/music/bg-track.mp3`. Пока его нет, используется заглушка `bg-track.placeholder.wav` (112 BPM, кик + хэт + пэд).
