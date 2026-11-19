@@ -15,6 +15,7 @@
  *   ELEVENLABS_API_KEY   ключ (в облачной среде подставляется прокси автоматически)
  *   VOICE_ID / MODEL_ID  голос/модель ElevenLabs
  *   VOICE_TEMPO          ускорение ffmpeg atempo без смены тона (по умолч. VOICE.tempo)
+ *   VOICE_MAX_PAUSE      сжимать паузы длиннее N сек до N (по умолч. VOICE.maxPause)
  *   PYTHON               интерпретатор с установленным piper-tts (по умолч. python3)
  *
  * Ударения: в тексте озвучки «+» перед ударной гласной (Piper): [Xbox Series|иксбокс с+ириес].
@@ -186,24 +187,73 @@ function toCharAlignment(fa, text) {
 }
 
 // ---------------------------------------------------------------- пост-обработка
-/** atempo (если ≠ 1) + нормализация −16 LUFS + пересчёт таймстемпов */
+const MAX_PAUSE = Number(process.env.VOICE_MAX_PAUSE || VOICE.maxPause || 0); // сек; 0 — не сжимать
+
+/** Найти паузы длиннее MAX_PAUSE и вернуть интервалы, которые нужно вырезать */
+function findCuts(file) {
+  if (!MAX_PAUSE) return [];
+  const out = execFileSync('sh', ['-c', `ffmpeg -hide_banner -nostats -i "${file}" -af silencedetect=noise=-38dB:d=${MAX_PAUSE} -f null - 2>&1`]).toString();
+  const starts = [...out.matchAll(/silence_start: ([\d.]+)/g)].map((m) => Number(m[1]));
+  const ends = [...out.matchAll(/silence_end: ([\d.]+)/g)].map((m) => Number(m[1]));
+  const cuts = [];
+  starts.forEach((st, i) => {
+    const en = ends[i];
+    if (en === undefined || st < 0.05) return; // хвост/начало не трогаем
+    const keep = MAX_PAUSE;
+    // оставляем по половине паузы с каждой стороны
+    const c0 = st + keep / 2;
+    const c1 = en - keep / 2;
+    if (c1 - c0 > 0.02) cuts.push([c0, c1]);
+  });
+  return cuts;
+}
+
+/** atempo (если ≠ 1) + сжатие длинных пауз + нормализация −16 LUFS + пересчёт таймстемпов */
 function finalize(rawAudio, rawAlign, outMp3, outAlign) {
-  const filters = [];
-  if (Math.abs(tempo - 1) > 1e-3) filters.push(`atempo=${tempo}`);
+  const tmpWav = `${outMp3}.tmp.wav`;
   execFileSync('ffmpeg', [
     '-v', 'error', '-y', '-i', rawAudio,
-    ...(filters.length ? ['-filter:a', filters.join(',')] : []),
-    '-ar', '44100', '-c:a', 'libmp3lame', '-b:a', '192k', outMp3,
+    ...(Math.abs(tempo - 1) > 1e-3 ? ['-filter:a', `atempo=${tempo}`] : []),
+    '-ar', '44100', tmpWav,
   ]);
+  const cuts = findCuts(tmpWav);
+  let filter = [];
+  if (cuts.length) {
+    // склейка кусков между вырезанными паузами с микро-кроссфейдом
+    const segs = [];
+    let t = 0;
+    for (const [c0, c1] of cuts) {
+      segs.push([t, c0]);
+      t = c1;
+    }
+    segs.push([t, null]);
+    const parts = segs.map(([a, b], i) => `[0:a]atrim=start=${a.toFixed(4)}${b !== null ? `:end=${b.toFixed(4)}` : ''},asetpts=PTS-STARTPTS,afade=t=in:d=0.01,afade=t=out:st=${b !== null ? Math.max(0, b - a - 0.01).toFixed(4) : 0}:d=${b !== null ? 0.01 : 0}[s${i}]`);
+    filter = ['-filter_complex', `${parts.join(';')};${segs.map((_, i) => `[s${i}]`).join('')}concat=n=${segs.length}:v=0:a=1[out]`, '-map', '[out]'];
+  }
+  execFileSync('ffmpeg', ['-v', 'error', '-y', '-i', tmpWav, ...filter, '-ar', '44100', '-c:a', 'libmp3lame', '-b:a', '192k', outMp3]);
+  fs.unlinkSync(tmpWav);
   loudnormFile(outMp3, VOICE_LUFS, -1.5);
+
   const raw = JSON.parse(fs.readFileSync(rawAlign, 'utf8'));
-  const scale = (arr) => arr.map((t) => Math.round((t / tempo) * 1000) / 1000);
+  // время после atempo → минус всё вырезанное до этого момента
+  const remap = (t0) => {
+    let t = t0 / tempo;
+    let removed = 0;
+    for (const [c0, c1] of cuts) {
+      if (t >= c1) removed += c1 - c0;
+      else if (t > c0) {
+        removed += t - c0;
+        break;
+      } else break;
+    }
+    return Math.round((t - removed) * 1000) / 1000;
+  };
   const alignment = {
     characters: raw.alignment.characters,
-    character_start_times_seconds: scale(raw.alignment.character_start_times_seconds),
-    character_end_times_seconds: scale(raw.alignment.character_end_times_seconds),
+    character_start_times_seconds: raw.alignment.character_start_times_seconds.map(remap),
+    character_end_times_seconds: raw.alignment.character_end_times_seconds.map(remap),
   };
-  fs.writeFileSync(outAlign, JSON.stringify({...raw, tempo, alignment}));
+  fs.writeFileSync(outAlign, JSON.stringify({...raw, tempo, cuts, alignment}));
   return alignment.character_end_times_seconds.at(-1);
 }
 

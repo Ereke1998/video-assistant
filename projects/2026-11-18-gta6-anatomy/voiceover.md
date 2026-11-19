@@ -1,16 +1,16 @@
 # Озвучка: GTA 6 — «Анатомия главного релиза десятилетия»
 
 Язык: RU | Движок: **ElevenLabs eleven_v3**, голос **Mark Rubins – Facts and Life Hacks** (`LmV7j80HF5QYSKe3sDtR`, нативный русский)
-Режим: stability 0 (Creative — максимум эмоций), speed 1.15 + atempo ×1.15 | Темп: **~2,5 слова/с** | Ролик: **~1:27**
+Режим: stability 0 (Creative), speed 1.2 + atempo ×1.25, паузы сжаты до 0,25 с | Темп: **~2,7 слова/с** | Ролик: **~1:21**
 
-Эмоции задаются тегами в тексте `script.ts` — `{dramatic}`, `{excited}`, `{shocked}`, `{serious}`, `{mysterious}`, `{sighs}`, `{intrigued}`, `{amazed}`. В субтитры не попадают.
+Эмоции задаются тегами в тексте `script.ts` — `{dramatic}`, `{dramatic tone}`, `{suspenseful}`, `{ominous}` (также доступны `{excited}`, `{shocked}`, `{whispers}`…). В субтитры не попадают.
 
 | Акт | Подача |
 |---|---|
-| I | {dramatic} хук → {excited} цифры → {amazed} Logitech → {mysterious} вопрос |
-| II | {serious} титул → {shocked} «дороже Мстителей» → {excited} рекорд → {sighs} «но купить — полбеды» |
-| III | {serious} титул → {intrigued} ИИ копов → {excited} Леонида |
-| IV | {serious} титул → {dramatic} «мир разделился» → {excited} вопрос и CTA |
+| I | {dramatic} «Этот день... остановил планету!» → {dramatic tone} факты → {dramatic} Logitech → {suspenseful} вопрос |
+| II | {dramatic tone} титул → {dramatic} «дороже Мстителей», рекорд → {ominous} «но купить — полбеды» |
+| III | {dramatic tone} титул → {ominous} ИИ копов → {dramatic} Леонида |
+| IV | {dramatic tone} титул → {dramatic} «Мир... разделился!» → {suspenseful} вопрос и CTA |
 
 Альтернативные голоса (меняются одной строкой `voiceId`): Nikolay `3EuKHIEZbSzrHGNmdYsx`, Alexandr Vlasov `txnCCHHGKmYIwrn7HfHQ`.
 Запасной бесплатный движок: `provider: 'piper'` (локальный голос Irina, без эмоций).
@@ -30,7 +30,7 @@
 Нашли ещё ошибку — поставьте «+» в тексте акта в `script.ts` и запустите `npm run voice` (озвучиваются только изменённые акты).
 
 ## Темп
-- `VOICE.elevenlabs.settings.speed` (0.7–1.2) — темп синтеза; `VOICE.tempo` — atempo без смены тона (без новых запросов к API).
+- `VOICE.elevenlabs.settings.speed` (0.7–1.2) — темп синтеза; `VOICE.tempo` — atempo без смены тона; `VOICE.maxPause` — паузы длиннее сжимаются (тайминги пересчитываются). Последние два — без новых запросов к API.
 
 ## Текст под озвучку
 

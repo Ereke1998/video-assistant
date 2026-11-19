@@ -1,6 +1,6 @@
 # GTA 6 — «Анатомия главного релиза десятилетия»
 
-Вертикальный ролик 9:16 (1080×1920, 30 fps), ~1:27. Автосборка: **Remotion + ElevenLabs (eleven_v3, русский голос Mark Rubins, SFX) + FFmpeg**.
+Вертикальный ролик 9:16 (1080×1920, 30 fps), ~1:21. Автосборка: **Remotion + ElevenLabs (eleven_v3, русский голос Mark Rubins, SFX) + FFmpeg**.
 
 ## Файлы проекта
 
