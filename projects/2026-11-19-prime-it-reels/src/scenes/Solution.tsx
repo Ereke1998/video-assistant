@@ -1,75 +1,174 @@
-// 4. РЕШЕНИЕ 18.00–26.00: пыль выдувается, паста стирается до зеркала,
-// капля свежей пасты, новые прокладки на пружине, голубой поток, 98 → 52 °C.
+// 4. РЕШЕНИЕ 18.00–26.00: 3D-голограмма перекрашивается в синий, пыль вылетает →
+// чек-лист из трёх карточек → столбики ДО/ПОСЛЕ (−20…30°C) → ТИХИЙ / БЫСТРЫЙ.
 import React from 'react';
-import {AbsoluteFill, spring, useCurrentFrame, useVideoConfig} from 'remotion';
-import {AirStreaks, FlowWaves} from '../components/Effects3D';
-import {Gauge} from '../components/Gauge';
-import {Laptop3D, P} from '../components/Laptop3D';
+import {AbsoluteFill, Sequence, spring, useCurrentFrame, useVideoConfig} from 'remotion';
+import {AirStreaks} from '../components/Effects3D';
+import {FONT_FAMILY} from '../components/font';
+import {Laptop3D} from '../components/Laptop3D';
+import {IconBolt, IconBroom, IconCheck, IconPads, IconSpeaker, IconTube} from '../components/neon/Icons';
+import {BigNumber, NeonCard, Pill, ShotFx, TopPill, countUp, glow, usePop} from '../components/neon/ui';
 import {Stage} from '../components/Stage';
-import {camPath, easeInOut, lerp, range, smoothstep} from '../lib/anim';
+import {camPath, easeInOut, range, smoothstep} from '../lib/anim';
 import {COLORS} from '../lib/colors';
 
-export const Solution: React.FC = () => {
+const B = COLORS.cool;
+const CY = COLORS.cyan;
+
+const ShotClean: React.FC = () => {
   const f = useCurrentFrame();
-  const {fps} = useVideoConfig();
-  const t = f / fps;
-  const [cx, cz] = P.cpu;
-  const [gx, gz] = P.gpu;
-
+  const t = (f + 1080) / 60;
   const cam = camPath(f, [
-    {f: 0, pos: [2.1, 0.8, 0.2], target: [1.12, 0.0, -0.44], fov: 40},
-    {f: 90, pos: [2.25, 0.9, 0.3], target: [1.15, 0.0, -0.44], fov: 40},
-    {f: 120, pos: [cx + 0.14, 0.5, cz + 0.6], target: [cx, -0.02, cz - 0.02], fov: 34},
-    {f: 270, pos: [cx + 0.22, 0.45, cz + 0.55], target: [cx, -0.02, cz - 0.01], fov: 34},
-    {f: 300, pos: [gx + 0.1, 1.45, gz + 1.7], target: [gx, -0.05, gz - 0.02], fov: 36},
-    {f: 370, pos: [gx + 0.05, 1.38, gz + 1.6], target: [gx, -0.05, gz - 0.02], fov: 36},
-    {f: 440, pos: [4.6, 2.9, 6.6], target: [0.3, -0.4, -0.35], fov: 44},
-    {f: 480, pos: [4.3, 2.7, 6.2], target: [0.3, -0.4, -0.35], fov: 44},
+    {f: 0, pos: [7.4, 4.7, 10.8], target: [0.3, -0.45, -0.35], fov: 40},
+    {f: 96, pos: [6.8, 4.3, 9.9], target: [0.3, -0.45, -0.35], fov: 40},
   ]);
-
-  const blow = easeInOut(range(f, 6, 95));
-  const coolerLift = smoothstep(95, 118, f) * (1 - smoothstep(372, 400, f));
-  const wipe = easeInOut(range(f, 128, 178));
-  const drop = range(f, 190, 262);
-  const fresh = [0, 1, 2, 3].map((i) =>
-    f < 280 ? 0 : spring({frame: f - 290 - i * 9, fps, config: {damping: 11, stiffness: 160, mass: 0.7}}),
-  );
-  const xray = 1 - smoothstep(395, 440, f);
-  const caseVisible = smoothstep(380, 420, f);
-  const cool = smoothstep(20, 120, f);
-  const temp = lerp(98, 52, easeInOut(range(f, 60, 440)));
-  const flashIn = 1 - smoothstep(0, 14, f);
-  // голубой блик при стирании пасты до зеркала
-  const glint = smoothstep(150, 172, f) * (1 - smoothstep(172, 200, f));
-
   return (
-    <AbsoluteFill>
-      <Stage
-        camera={cam}
-        fx={{bloom: 0.85 + glint * 0.8, vignette: 0.65, flash: flashIn * 0.6, flashColor: '#bff6ff'}}
-        light={{rim: 4.5, rimColor: COLORS.cool, key: 2.6, env: (f > 110 && f < 380 ? 1.3 : 0.6) + glint}}
-        tint={COLORS.cool}
-        grid={0.5}
-      >
+    <ShotFx dur={96} inFrames={1}>
+      <Stage transparent camera={cam} fx={{bloom: 0.9, flash: (1 - smoothstep(0, 12, f)) * 0.5, flashColor: '#bfd3ff'}} light={{rim: 4.5, rimColor: B, key: 2.6, env: 0.6}}>
         <Laptop3D
           time={t}
-          xray={xray}
-          caseVisible={f < 120 ? 1 : caseVisible}
-          coolerLift={coolerLift}
-          chipHeat={0.5 * (1 - cool)}
           heat={0}
-          sweep={f < 80 ? range(f, 4, 72) : -1}
-          fanAngle={t * 55}
-          screen={{cool: 1, hot: 1 - cool}}
-          paste={{stone: 1, crack: 1, wipe, drop}}
-          pads={{crumble: 0, showOld: f < 120, fresh}}
-          dust={{grow: 1, blow}}
+          sweep={f < 80 ? range(f, 4, 70) : -1}
+          xray={0.55}
+          fanAngle={t * 60}
+          screen={{cool: smoothstep(10, 60, f), hot: 1 - smoothstep(10, 60, f)}}
+          dust={{grow: 1, blow: easeInOut(range(f, 8, 90))}}
         >
-          <AirStreaks time={t} amount={smoothstep(10, 60, f) * (1 - smoothstep(100, 120, f)) + smoothstep(390, 430, f)} />
+          <AirStreaks time={t} amount={smoothstep(20, 60, f)} color={CY} />
         </Laptop3D>
-        <FlowWaves time={t} amount={smoothstep(395, 440, f) * 0.9} color={COLORS.cool} speed={1.6} />
       </Stage>
-      <Gauge value={temp} opacity={1} />
-    </AbsoluteFill>
+      <TopPill color={B} delay={4}>Решение</TopPill>
+    </ShotFx>
   );
 };
+
+const CheckRow: React.FC<{y: number; delay: number; label: string; icon: React.ReactNode}> = ({y, delay, label, icon}) => {
+  const f = useCurrentFrame();
+  const {scale, opacity} = usePop(delay, 10);
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        left: 110,
+        width: 860,
+        top: y - 85,
+        height: 170,
+        borderRadius: 34,
+        border: `4px solid ${B}`,
+        background: `linear-gradient(90deg, ${B}30, rgba(8,8,12,0.88) 60%)`,
+        boxShadow: `${glow(B, 0.7)}, inset 0 0 22px ${B}44`,
+        display: 'flex',
+        alignItems: 'center',
+        padding: '0 36px',
+        gap: 30,
+        transform: `scale(${scale})`,
+        opacity,
+      }}
+    >
+      <svg width={110} height={110} viewBox="0 0 200 200" style={{overflow: 'visible', filter: `drop-shadow(0 0 6px ${CY})`}}>
+        {icon}
+      </svg>
+      <div style={{flex: 1, fontFamily: FONT_FAMILY, fontWeight: 700, fontSize: 70, color: '#fff', letterSpacing: 1.5}}>{label}</div>
+      <svg width={110} height={110} viewBox="0 0 200 200" style={{overflow: 'visible', filter: `drop-shadow(0 0 8px ${CY}) drop-shadow(0 0 18px ${CY})`}}>
+        <IconCheck color={CY} sw={14} draw={range(f, delay + 12, delay + 26)} />
+      </svg>
+    </div>
+  );
+};
+
+const ShotChecklist: React.FC = () => (
+  <ShotFx dur={132}>
+    <CheckRow y={560} delay={0} label="ЧИСТКА" icon={<IconBroom color="#fff" sw={10} />} />
+    <CheckRow y={780} delay={22} label="ТЕРМОПАСТА" icon={<IconTube color="#fff" sw={10} />} />
+    <CheckRow y={1000} delay={60} label="ТЕРМОПРОКЛАДКИ" icon={<IconPads color="#fff" sw={10} />} />
+  </ShotFx>
+);
+
+const ShotBars: React.FC = () => {
+  const f = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const k = 5.0; // px на °C
+  const base = 1150;
+  const g1 = spring({frame: f - 4, fps, config: {damping: 15, stiffness: 110}});
+  const g2 = spring({frame: f - 22, fps, config: {damping: 15, stiffness: 110}});
+  const hBefore = 98 * k * g1;
+  const hAfterSolid = 68 * k * g2;
+  const hAfterHatch = 10 * k * g2;
+  const bar = (x: number, h: number, c: string, extra?: React.ReactNode) => (
+    <div style={{position: 'absolute', left: x - 120, width: 240, top: base - h, height: h, borderRadius: '22px 22px 6px 6px', background: c, boxShadow: glow(c, 0.7)}}>{extra}</div>
+  );
+  const O = COLORS.heat;
+  return (
+    <ShotFx dur={132}>
+      <TopPill color={B}>Нагрев CPU</TopPill>
+      {bar(300, hBefore, O)}
+      <div style={{position: 'absolute', left: 780 - 120, width: 240, top: base - hAfterSolid - hAfterHatch, height: hAfterHatch, borderRadius: '22px 22px 0 0', border: `4px dashed ${CY}`, background: `repeating-linear-gradient(135deg, ${CY}88 0 12px, transparent 12px 24px)`}} />
+      {bar(780, hAfterSolid, B)}
+      {/* значения */}
+      <div style={{position: 'absolute', left: 300 - 150, width: 300, top: base - hBefore - 110, textAlign: 'center', opacity: g1}}>
+        <BigNumber color={O} size={92}>
+          98°C
+        </BigNumber>
+      </div>
+      <div style={{position: 'absolute', left: 780 - 180, width: 360, top: base - hAfterSolid - hAfterHatch - 110, textAlign: 'center', opacity: g2}}>
+        <BigNumber color={CY} size={92}>
+          68–78°
+        </BigNumber>
+      </div>
+      {/* подписи */}
+      <div style={{position: 'absolute', left: 0, right: 0, top: base + 16, display: 'flex', justifyContent: 'space-around', padding: '0 120px', fontFamily: FONT_FAMILY, fontWeight: 700, fontSize: 48, color: '#cfd5e2'}}>
+        <span style={{width: 240, textAlign: 'center'}}>ДО</span>
+        <span style={{width: 240, textAlign: 'center'}}>ПОСЛЕ</span>
+      </div>
+      <div style={{position: 'absolute', left: 0, right: 0, top: base - 50 * k, display: 'flex', justifyContent: 'center'}}>
+        <Pill color={CY} delay={44} size={46}>
+          −20…30°C
+        </Pill>
+      </div>
+    </ShotFx>
+  );
+};
+
+const ShotFast: React.FC = () => {
+  const f = useCurrentFrame();
+  const fpsV = Math.round(countUp(f, 30, 144, 60, 30));
+  const hl = smoothstep(60, 66, f) * (1 - smoothstep(66, 90, f));
+  return (
+    <ShotFx dur={120} out>
+      <NeonCard color={B} width={440} height={520} x={290} y={790} delay={0}>
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 18}}>
+          <svg width={210} height={210} viewBox="0 0 200 200" style={{overflow: 'visible', filter: `drop-shadow(0 0 8px ${CY})`}}>
+            <IconSpeaker color="#fff" sw={9} muted draw={range(f, 0, 18)} />
+          </svg>
+          <div style={{fontFamily: FONT_FAMILY, fontWeight: 700, fontSize: 80, color: '#fff', textShadow: glow(CY, 0.6)}}>ТИХИЙ</div>
+        </div>
+      </NeonCard>
+      <NeonCard color={CY} width={440} height={520} x={790} y={790} delay={58} fill={0.14 + hl * 0.3}>
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6}}>
+          <svg width={180} height={180} viewBox="0 0 200 200" style={{overflow: 'visible', filter: `drop-shadow(0 0 8px ${CY})`}}>
+            <IconBolt color="#fff" sw={10} draw={range(f, 58, 74)} />
+          </svg>
+          <div style={{fontFamily: FONT_FAMILY, fontWeight: 700, fontSize: 80, color: '#fff', textShadow: glow(CY, 0.6)}}>БЫСТРЫЙ</div>
+          <div style={{fontFamily: FONT_FAMILY, fontWeight: 700, fontSize: 44, color: CY}}>{fpsV} FPS</div>
+        </div>
+      </NeonCard>
+    </ShotFx>
+  );
+};
+
+export const Solution: React.FC = () => (
+  <AbsoluteFill>
+    <Sequence from={0} durationInFrames={96} layout="none">
+      <ShotClean />
+    </Sequence>
+    <Sequence from={96} durationInFrames={132} layout="none">
+      <ShotChecklist />
+    </Sequence>
+    <Sequence from={228} durationInFrames={132} layout="none">
+      <ShotBars />
+    </Sequence>
+    <Sequence from={360} durationInFrames={120} layout="none">
+      <ShotFast />
+    </Sequence>
+  </AbsoluteFill>
+);
+

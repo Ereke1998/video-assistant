@@ -51,6 +51,7 @@ const FxShader = {
     uFlash: {value: 0},
     uFlashColor: {value: new THREE.Color('#ffffff')},
     uVig: {value: 0.6},
+    uTransp: {value: 0},
     uRes: {value: new THREE.Vector2(1080, 1920)},
   },
   vertexShader: /* glsl */ `
@@ -59,7 +60,7 @@ const FxShader = {
   `,
   fragmentShader: /* glsl */ `
     uniform sampler2D tDiffuse;
-    uniform float uTime, uRgb, uScan, uSlice, uHaze, uFlash, uVig;
+    uniform float uTime, uRgb, uScan, uSlice, uHaze, uFlash, uVig, uTransp;
     uniform vec3 uFlashColor;
     uniform vec2 uRes;
     varying vec2 vUv;
@@ -84,6 +85,7 @@ const FxShader = {
       col.r = texture2D(tDiffuse, uv + off).r;
       col.g = texture2D(tDiffuse, uv).g;
       col.b = texture2D(tDiffuse, uv - off).b;
+      float alpha = texture2D(tDiffuse, uv).a;
       // scanlines
       float sl = 0.5 + 0.5*sin(vUv.y*uRes.y*1.15);
       col *= 1.0 - uScan*0.45*sl;
@@ -92,9 +94,12 @@ const FxShader = {
       vec2 d = (vUv - 0.5) * vec2(1.0, 0.8);
       col *= mix(1.0, smoothstep(0.95, 0.25, length(d)*1.25), uVig);
       // зерно
-      col += (hash(vUv*vec2(1013.0, 1931.0) + fract(uTime)*17.0) - 0.5) * 0.025;
+      col += (1.0 - uTransp) * (hash(vUv*vec2(1013.0, 1931.0) + fract(uTime)*17.0) - 0.5) * 0.025;
       col = mix(col, uFlashColor, clamp(uFlash,0.0,1.0));
-      gl_FragColor = vec4(col, 1.0);
+      // прозрачный режим: премультиплицированный вывод, свечение ложится поверх HTML-фона
+      float lum = max(col.r, max(col.g, col.b));
+      float outA = mix(1.0, clamp(max(lum * 1.15, uFlash), 0.0, 1.0), uTransp);
+      gl_FragColor = vec4(col, outA);
     }
   `,
 };
@@ -171,7 +176,7 @@ const Floor: React.FC<{tint: string; amount: number}> = ({tint, amount}) => {
   );
 };
 
-const Rig: React.FC<{camera: CameraState; fx: FxState; light: LightState}> = ({camera, fx, light}) => {
+const Rig: React.FC<{camera: CameraState; fx: FxState; light: LightState; transparent: boolean}> = ({camera, fx, light, transparent}) => {
   const {gl, scene, size, camera: cam} = useThree();
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
@@ -185,12 +190,13 @@ const Rig: React.FC<{camera: CameraState; fx: FxState; light: LightState}> = ({c
     const pmrem = new THREE.PMREMGenerator(gl);
     const env = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
     scene.environment = env;
-    scene.background = new THREE.Color(COLORS.bg);
+    scene.background = transparent ? null : new THREE.Color(COLORS.bg);
+    if (transparent) gl.setClearColor(0x000000, 0);
     return () => {
       env.dispose();
       pmrem.dispose();
     };
-  }, [gl, scene]);
+  }, [gl, scene, transparent]);
   scene.environmentIntensity = light.env ?? 0.35;
 
   const {composer, bloom, fxPass} = useMemo(() => {
@@ -236,7 +242,8 @@ const Rig: React.FC<{camera: CameraState; fx: FxState; light: LightState}> = ({c
     u.uHaze.value = f.haze ?? 0;
     u.uFlash.value = f.flash ?? 0;
     u.uFlashColor.value.set(f.flashColor ?? '#ffffff');
-    u.uVig.value = f.vignette ?? 0.6;
+    u.uVig.value = transparent ? 0 : f.vignette ?? 0.6;
+    u.uTransp.value = transparent ? 1 : 0;
     composer.render();
   }, 1);
 
@@ -257,21 +264,23 @@ export const Stage: React.FC<{
   light?: LightState;
   tint?: string;
   grid?: number;
+  /** прозрачный холст поверх HTML-фона */
+  transparent?: boolean;
   children: React.ReactNode;
-}> = ({camera, fx = {}, light = {}, tint = '#2F6BFF', grid = 1, children}) => {
+}> = ({camera, fx = {}, light = {}, tint = '#2F6BFF', grid = 1, transparent = false, children}) => {
   const {width, height} = useVideoConfig();
   return (
     <ThreeCanvas
       width={width}
       height={height}
       dpr={1}
-      gl={{antialias: false, preserveDrawingBuffer: true, powerPreference: 'high-performance'}}
+      gl={{antialias: false, alpha: true, premultipliedAlpha: true, preserveDrawingBuffer: true, powerPreference: 'high-performance'}}
       camera={{fov: camera.fov ?? 40, position: camera.pos, near: 0.01, far: 200}}
       style={{position: 'absolute', inset: 0}}
     >
-      <Rig camera={camera} fx={fx} light={light} />
-      <Backdrop tint={tint} grid={0} />
-      <Floor tint={tint} amount={grid} />
+      <Rig camera={camera} fx={fx} light={light} transparent={transparent} />
+      {!transparent && <Backdrop tint={tint} grid={0} />}
+      {!transparent && <Floor tint={tint} amount={grid} />}
       {children}
     </ThreeCanvas>
   );

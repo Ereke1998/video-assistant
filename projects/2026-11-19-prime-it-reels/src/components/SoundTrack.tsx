@@ -24,7 +24,7 @@ export const SFX: Sfx[] = [
   {file: 'tech_click.wav', at: 24.0},
   {file: 'ding.wav', at: 25.0},
   {file: 'whoosh.wav', at: 25.67, db: -16},
-  {file: 'click.wav', at: 27.4},
+  {file: 'click.wav', at: 27.73},
 ];
 
 export const SoundTrack: React.FC = () => (

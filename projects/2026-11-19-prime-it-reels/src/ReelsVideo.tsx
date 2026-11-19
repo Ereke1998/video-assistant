@@ -1,14 +1,16 @@
 import React from 'react';
 import {AbsoluteFill, Sequence} from 'remotion';
+import {Background} from './components/neon/Background';
+import {Glitch} from './components/neon/Glitch';
+import {Header} from './components/neon/Header';
 import {SoundTrack} from './components/SoundTrack';
 import {Subtitles} from './components/Subtitles';
 import {sceneFrames} from './data/script';
-import {COLORS} from './lib/colors';
 import {Brand} from './scenes/Brand';
 import {DustProblem} from './scenes/DustProblem';
 import {Hook} from './scenes/Hook';
 import {Solution} from './scenes/Solution';
-import {ThermalProblem} from './scenes/ThermalProblem';
+import {GLITCH_FROM, GLITCH_TO, ThermalProblem} from './scenes/ThermalProblem';
 
 const scenes = [
   {id: 'hook', C: Hook},
@@ -18,17 +20,23 @@ const scenes = [
   {id: 'brand', C: Brand},
 ] as const;
 
+const thermal = sceneFrames('thermal');
+
 export const ReelsVideo: React.FC = () => (
-  <AbsoluteFill style={{backgroundColor: COLORS.bg}}>
-    {scenes.map(({id, C}) => {
-      const {from, duration} = sceneFrames(id);
-      return (
-        <Sequence key={id} from={from} durationInFrames={duration} name={id}>
-          <C />
-        </Sequence>
-      );
-    })}
-    <Subtitles />
+  <AbsoluteFill>
+    <Glitch from={thermal.from + GLITCH_FROM} to={thermal.from + GLITCH_TO}>
+      <Background />
+      {scenes.map(({id, C}) => {
+        const {from, duration} = sceneFrames(id);
+        return (
+          <Sequence key={id} from={from} durationInFrames={duration} name={id}>
+            <C />
+          </Sequence>
+        );
+      })}
+      <Header />
+      <Subtitles />
+    </Glitch>
     <SoundTrack />
   </AbsoluteFill>
 );
