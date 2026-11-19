@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Корабль — 4) Графика PS2</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #1b2633; }
+  .stage { width: 360px; height: 640px; margin: 0 auto; position: relative; overflow: hidden;
+    background: linear-gradient(#5f7fa6 0%, #9bb4c9 60%, #c9d6df 100%); }
+  .sea { position: absolute; bottom: 0; width: 100%; height: 170px;
+    background: linear-gradient(#3e6b8f, #20435e); }
+  .fog { position: absolute; bottom: 130px; width: 100%; height: 80px;
+    background: linear-gradient(transparent, rgba(220,230,238,0.85), transparent); animation: drift 6s ease-in-out infinite alternate; }
+  .ship { position: absolute; left: 50%; top: 230px; width: 240px; margin-left: -120px;
+    animation: sail 3.2s cubic-bezier(.25,.8,.3,1) both, bob 2.4s ease-in-out 3.2s infinite; }
+  .ship .hull-top { fill: #b8312f; }
+  .ship .hull-side { fill: #7d1f1e; }
+  .ship .cabin { fill: #e8ebef; }
+  .ship .cabin-side { fill: #aab3bd; }
+  .ship .funnel { fill: #33363d; }
+  @keyframes sail { from { transform: translateY(240px); } to { transform: translateY(0); } }
+  @keyframes bob { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-5px) rotate(0.6deg); } }
+  @keyframes drift { from { transform: translateX(-20px); } to { transform: translateX(20px); } }
+  @media (prefers-reduced-motion: reduce) { .ship, .fog { animation: none !important; } }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="sea"></div>
+  <div class="fog"></div>
+  <svg class="ship" viewBox="0 0 200 120" aria-label="Корабль, графика PS2">
+    <polygon class="funnel" points="86,20 96,20 96,42 86,42"/>
+    <polygon class="funnel" points="112,20 122,20 122,42 112,42"/>
+    <polygon class="cabin" points="50,50 150,50 150,72 50,72"/>
+    <polygon class="cabin-side" points="50,72 150,72 150,78 50,78"/>
+    <polygon class="cabin" points="70,36 130,36 130,50 70,50"/>
+    <polygon class="hull-top" points="18,72 182,72 164,86 36,86"/>
+    <polygon class="hull-side" points="36,86 164,86 150,104 50,104"/>
+  </svg>
+</div>
+</body>
+</html>

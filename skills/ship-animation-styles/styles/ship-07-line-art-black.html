@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Корабль — 7) Линии на чёрном</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #000; }
+  .stage { width: 360px; height: 640px; margin: 0 auto; position: relative; overflow: hidden; background: #000; }
+  .dots { position: absolute; bottom: 0; width: 100%; height: 170px;
+    background-image: radial-gradient(#fff 1.4px, transparent 1.6px); background-size: 14px 14px;
+    background-position: 0 0; opacity: 0.8; animation: dotsMove 6s linear infinite; }
+  .ship { position: absolute; left: 50%; top: 200px; width: 240px; margin-left: -120px; fill: none; stroke: #fff;
+    stroke-width: 1.5; stroke-linejoin: round; stroke-dasharray: 700; stroke-dashoffset: 700;
+    animation: draw 2.6s ease-out forwards, bob 2.4s ease-in-out 2.6s infinite; }
+  .wave { fill: none; stroke: #fff; stroke-width: 1; opacity: 0.6; stroke-dasharray: 200; stroke-dashoffset: 200;
+    animation: draw 3s ease-out 1s forwards; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+  @keyframes dotsMove { from { background-position: 0 0; } to { background-position: 14px 0; } }
+  @media (prefers-reduced-motion: reduce) { .ship, .wave, .dots { animation: none; stroke-dashoffset: 0; } }
+</style>
+</head>
+<body>
+<div class="stage">
+  <svg class="ship" viewBox="0 0 200 120" aria-label="Корабль, линии на чёрном">
+    <path d="M86 22 L86 42 L96 42 L96 22 M112 22 L112 42 L122 42 L122 22"/>
+    <path d="M50 50 L150 50 L150 72 L50 72 Z M70 36 L130 36 L130 50 L70 50 Z"/>
+    <path d="M20 72 L180 72 L162 100 L38 100 Z"/>
+    <path d="M60 60 L70 60 M95 60 L105 60 M130 60 L140 60"/>
+  </svg>
+  <svg class="wave" style="position:absolute;left:0;top:420px;width:360px;height:40px" viewBox="0 0 360 40" aria-hidden="true">
+    <path d="M0 20 Q 30 5 60 20 T 120 20 T 180 20 T 240 20 T 300 20 T 360 20"/>
+  </svg>
+  <div class="dots"></div>
+</div>
+</body>
+</html>

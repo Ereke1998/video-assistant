@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Корабль — 1) Пиксель-арт</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #14102a; }
+  .stage { width: 360px; height: 640px; margin: 0 auto; position: relative; overflow: hidden;
+    background: linear-gradient(#2b1d5c 0%, #7a3b8f 45%, #f0827d 75%, #ffb36b 100%); }
+  .city { position: absolute; bottom: 120px; left: 0; width: 100%; height: 120px; image-rendering: pixelated; }
+  .sea { position: absolute; bottom: 0; left: 0; width: 100%; height: 120px;
+    background: repeating-linear-gradient(#1f3f8a 0 8px, #2d56b0 8px 16px); }
+  .ship { position: absolute; left: 50%; top: 220px; width: 220px; margin-left: -110px;
+    image-rendering: pixelated;
+    animation: sail 3s steps(12) both, bob 1.6s steps(4) 3s infinite; }
+  .ship .hull { fill: #c0392b; }
+  .ship .cabin { fill: #f5f5f5; }
+  .ship .funnel { fill: #2c2c3e; }
+  .ship .window { fill: #ffd54a; }
+  @keyframes sail { from { transform: translateY(260px); } to { transform: translateY(0); } }
+  @keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  @media (prefers-reduced-motion: reduce) { .ship, .ship * { animation: none !important; } }
+</style>
+</head>
+<body>
+<div class="stage">
+  <svg class="city" viewBox="0 0 360 120" preserveAspectRatio="none" aria-hidden="true">
+    <rect x="0" y="60" width="40" height="60" fill="#3b2a6e"/>
+    <rect x="40" y="30" width="30" height="90" fill="#4a3585"/>
+    <rect x="80" y="50" width="45" height="70" fill="#3b2a6e"/>
+    <rect x="130" y="10" width="28" height="110" fill="#4a3585"/>
+    <rect x="165" y="45" width="50" height="75" fill="#3b2a6e"/>
+    <rect x="225" y="25" width="32" height="95" fill="#4a3585"/>
+    <rect x="265" y="55" width="40" height="65" fill="#3b2a6e"/>
+    <rect x="310" y="35" width="50" height="85" fill="#4a3585"/>
+  </svg>
+  <div class="sea"></div>
+  <svg class="ship" viewBox="0 0 200 120" aria-label="Корабль, пиксель-арт">
+    <rect class="funnel" x="86" y="22" width="10" height="20"/>
+    <rect class="funnel" x="112" y="22" width="10" height="20"/>
+    <rect class="cabin" x="50" y="50" width="100" height="22"/>
+    <rect class="cabin" x="70" y="36" width="60" height="14"/>
+    <rect class="window" x="58" y="56" width="6" height="6"/>
+    <rect class="window" x="78" y="56" width="6" height="6"/>
+    <rect class="window" x="98" y="56" width="6" height="6"/>
+    <rect class="window" x="118" y="56" width="6" height="6"/>
+    <rect class="window" x="138" y="56" width="6" height="6"/>
+    <polygon class="hull" points="20,72 180,72 164,100 36,100"/>
+  </svg>
+</div>
+</body>
+</html>
