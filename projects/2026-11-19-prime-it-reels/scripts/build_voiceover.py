@@ -33,7 +33,7 @@ for i, sid in enumerate(ORDER):
     inputs += ['-i', os.path.join(ROOT, 'public/audio/vo', f'{sid}.mp3')]
     ms = int(start * 1000)
     filters.append(f'[{i}:a]atempo={tempo},adelay={ms}|{ms},aresample=48000[a{i}]')
-mix = ''.join(f'[a{i}]' for i in range(len(ORDER))) + f'amix=inputs={len(ORDER)}:normalize=0,apad=whole_dur=32,atrim=0:32[out]'
+mix = ''.join(f'[a{i}]' for i in range(len(ORDER))) + f'amix=inputs={len(ORDER)}:normalize=0,loudnorm=I=-16:TP=-1.5:LRA=11,aresample=48000,apad=whole_dur=32,atrim=0:32[out]'
 subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', *inputs, '-filter_complex', ';'.join(filters) + ';' + mix,
                 '-map', '[out]', '-ac', '1', '-codec:a', 'libmp3lame', '-b:a', '192k',
                 os.path.join(ROOT, 'public/audio/voiceover.mp3')], check=True)
