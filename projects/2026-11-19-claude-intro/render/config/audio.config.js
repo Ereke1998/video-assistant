@@ -37,10 +37,10 @@ export const SFX = [
   // 1. Хук — удар на каждое «Клод», прокрутка ленты
   sfx(0.00, 'impact-in', 'impact', 'impact-in.wav', -6, { note: 'резкий вход' }),
   ...S.hook.anim.slams.map((t, i) => sfx(+(t + 0.0).toFixed(2), `slam-${i + 1}`, 'glitch', 'glitch.wav', -12 + i, { note: `«CLAUDE» №${i + 1}` })),
-  sfx(1.10, 'scroll', 'whoosh', 'whoosh.wav', -20, { note: 'лента уезжает' }),
+  sfx(2.40, 'scroll', 'whoosh', 'whoosh.wav', -20, { note: 'лента уезжает' }),
   sfx(at('hook', S.hook.anim.line1At), 'pop-line1', 'pop', 'pop.wav', -15),
   sfx(at('hook', S.hook.anim.line2At), 'hit-line2', 'impact', 'impact-in.wav', -10, { note: 'плашка «ПРО CLAUDE?»' }),
-  sfx(3.80, 'whoosh-1', 'whoosh', 'whoosh.wav', -14),
+  sfx(4.80, 'whoosh-1', 'whoosh', 'whoosh.wav', -14),
 
   // 2. Что это / почему
   sfx(at('intro', 0.35), 'ding-title', 'ding', 'ding.wav', -15, { note: 'появление CLAUDE' }),

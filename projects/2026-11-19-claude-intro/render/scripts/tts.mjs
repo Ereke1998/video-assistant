@@ -28,7 +28,7 @@ parts.forEach((p, i) => { p.until = Math.min(p.sceneEnd, parts[i + 1]?.at ?? Inf
 function synth(p, i) {
   const url = `https://api.elevenlabs.io/v1/text-to-speech/${VOICEOVER.voiceId}/with-timestamps?output_format=mp3_44100_128`;
   const body = {
-    text: p.tts, model_id: VOICEOVER.model, voice_settings: VOICEOVER.settings,
+    text: p.tts, model_id: VOICEOVER.model, voice_settings: { ...VOICEOVER.settings, ...(p.voice || {}) },
     previous_text: parts[i - 1]?.tts, next_text: parts[i + 1]?.tts,
   };
   const headers = ['-H', 'Content-Type: application/json'];
@@ -56,11 +56,12 @@ const report = []; const alignment = [];
 
 parts.forEach((p, i) => {
   const mp3 = join(ROOT, `assets/vo/${p.key}.mp3`);
-  if (force || !existsSync(mp3) || cache[p.key]?.tts !== p.tts) {
+  const vkey = JSON.stringify({ ...VOICEOVER.settings, ...(p.voice || {}) });
+  if (force || !existsSync(mp3) || cache[p.key]?.tts !== p.tts || (cache[p.key]?.voice && cache[p.key].voice !== vkey) || (!cache[p.key]?.voice && p.voice)) {
     process.stdout.write(`TTS ${p.key}… `);
     const res = synth(p, i);
     writeFileSync(mp3, Buffer.from(res.audio_base64, 'base64'));
-    cache[p.key] = { tts: p.tts, alignment: res.alignment };
+    cache[p.key] = { tts: p.tts, voice: vkey, alignment: res.alignment };
     writeFileSync(cachePath, JSON.stringify(cache));
     console.log('ok');
   }

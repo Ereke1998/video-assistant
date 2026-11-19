@@ -14,7 +14,7 @@ function feed(ctx, t, sc) {
   ctx.fillStyle = '#121318'; ctx.fillRect(x, y, w, h);
   // посты: превью + заголовок, бесконечная прокрутка
   const postH = 300, gap = 22, n = sc.feed.length;
-  const speed = sc.anim.feedSpeed * (1 + 1.8 * ease.inCubic(prog(t, 0.9, 1.6))) ;
+  const speed = sc.anim.feedSpeed * (1 + 1.8 * ease.inCubic(prog(t, 2.35, 3.0))) ;
   const off = (t * speed) % ((postH + gap) * n);
   for (let i = -1; i < n + 3; i++) {
     const idx = ((i % n) + n) % n;
@@ -47,7 +47,7 @@ export function drawHook(ctx, t, sc) {
     const pos = [[540, 790, -0.08, 120], [540, 960, 0.06, 140], [540, 1140, -0.04, 168]];
     A.slams.forEach((at, i) => {
       const [x, y, rot, size] = pos[i];
-      const fade = 1 - prog(t, 1.75, 2.0);   // уступают место заголовку
+      const fade = 1 - prog(t, 2.95, 3.25);   // уступают место заголовку
       if (fade <= 0) return;
       ctx.save(); ctx.globalAlpha *= fade;
       slam(ctx, t, at, x, y, () => {
