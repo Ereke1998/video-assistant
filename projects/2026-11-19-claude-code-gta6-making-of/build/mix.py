@@ -24,7 +24,7 @@ for k, (n, t, v) in enumerate(sfx):
     ms = int(t * 1000)
     f.append(f'[{k + 3}]aformat=channel_layouts=stereo:sample_rates=44100{trim},volume={v * .2},adelay={ms}|{ms}[s{k}]')
     labels.append(f'[s{k}]')
-f.append('[1]aformat=channel_layouts=stereo:sample_rates=44100,volume=1.3,adelay=150|150,asplit=2[vo][key]')
+f.append(f'[1]aformat=channel_layouts=stereo:sample_rates=44100,volume=1.3,adelay=150|150,apad=whole_dur={END},asplit=2[vo][key]')
 f.append(f"[2]aformat=channel_layouts=stereo:sample_rates=44100,atrim=0:{END},"
          f"volume='if(between(t,{T['kod'] - .4},{T['kod']}),0,0.10)':eval=frame,afade=t=out:st={END - 2}:d=2[mu]")
 # SFX + music bus, ducked under the voice (sidechain) so speech always stays on top
