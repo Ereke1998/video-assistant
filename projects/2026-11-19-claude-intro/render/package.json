@@ -1,0 +1,23 @@
+{
+  "name": "claude-intro-37s",
+  "private": true,
+  "type": "module",
+  "description": "37-секундный вертикальный ролик 9:16: что такое Claude и как он помогает в видеомонтаже. Canvas → Playwright → ffmpeg",
+  "scripts": {
+    "preview": "node scripts/server.mjs",
+    "tts": "node scripts/tts.mjs",
+    "sfx:placeholders": "node scripts/make-placeholder-audio.mjs",
+    "subs": "node scripts/export-subtitles.mjs",
+    "stills": "node scripts/render.mjs --stills=0.6,2.9,6.9,11,15.8,19.9,23,27.6,31.5,35.8 --safe",
+    "render": "node scripts/render.mjs --fps=30",
+    "render:60": "node scripts/render.mjs --fps=60",
+    "mix": "node scripts/mix-audio.mjs --fps=30",
+    "mix:60": "node scripts/mix-audio.mjs --fps=60",
+    "build": "npm run tts && npm run sfx:placeholders && npm run subs && npm run render && npm run mix",
+    "build:60": "npm run tts && npm run sfx:placeholders && npm run subs && npm run render:60 && npm run mix:60"
+  },
+  "devDependencies": {
+    "playwright": "^1.48.0"
+  },
+  "engines": { "node": ">=20" }
+}
