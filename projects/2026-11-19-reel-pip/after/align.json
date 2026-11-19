@@ -1,0 +1,47 @@
+{
+ "1": {
+  "image": "/home/user/video-assistant/projects/2026-11-19-reel-pip/after/img1.jpg",
+  "t": 129.267,
+  "score": 0.306,
+  "scale_fit": 0.975,
+  "scale_cover": 1.0,
+  "dx": 0.0,
+  "dy": 0.0042
+ },
+ "2": {
+  "image": "/home/user/video-assistant/projects/2026-11-19-reel-pip/after/img2.jpg",
+  "t": 75.1,
+  "score": 0.38,
+  "scale_fit": 1.025,
+  "scale_cover": 1.025,
+  "dx": 0.0037,
+  "dy": 0.0042
+ },
+ "3": {
+  "image": "/home/user/video-assistant/projects/2026-11-19-reel-pip/after/img3.jpg",
+  "t": 18.3,
+  "score": 0.345,
+  "scale_fit": 1.0,
+  "scale_cover": 1.0,
+  "dx": 0.0,
+  "dy": -0.0036
+ },
+ "4": {
+  "image": "/home/user/video-assistant/projects/2026-11-19-reel-pip/after/img4.jpg",
+  "t": 144.6,
+  "score": 0.57,
+  "scale_fit": 0.975,
+  "scale_cover": 1.0,
+  "dx": 0.0,
+  "dy": -0.0042
+ },
+ "5": {
+  "image": "/home/user/video-assistant/projects/2026-11-19-reel-pip/after/img5.jpg",
+  "t": 185.033,
+  "score": 0.504,
+  "scale_fit": 1.05,
+  "scale_cover": 1.05,
+  "dx": -0.0102,
+  "dy": 0.0042
+ }
+}

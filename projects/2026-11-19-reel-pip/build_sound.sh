@@ -32,9 +32,11 @@ mkir 1.8 $S/ir18.wav; mkir 2.8 $S/ir28.wav
 # ---------- огибающие из shots.conf ----------
 # M(t): 0 в «ДО», 0→1 на шторке, 1 в «ПОСЛЕ», спад 30 мс к склейке (сырой ↔ глушёный)
 # G(t): гейт пада/воздуха: атака 0.6 с от начала шторки, отпуск 0.25 с в следующий план
+# (момент шторки — из shots.conf, свой у каждого плана; «-» = без проявления)
 M="0"; G="0"; REV=()
-while read -r st len; do
-  r=$(awk -v a=$st -v b=$REVEAL_AT 'BEGIN{print a+b}'); e=$(awk -v a=$st -v b=$len 'BEGIN{print a+b}'); REV+=("$r")
+while read -r st len rv _; do
+  [ "$rv" = "-" ] && continue                       # план без «ПОСЛЕ» (заголовок) — только сырой звук
+  r=$(awk -v a=$st -v b=$rv 'BEGIN{print a+b}'); e=$(awk -v a=$st -v b=$len 'BEGIN{print a+b}'); REV+=("$r")
   M+="+between(t,$st,$e)*clip((t-$r)/$REVEAL_DUR,0,1)*clip(($e-t)/0.03,0,1)"
   G+="+between(t,$r,$e+0.25)*min(clip((t-$r)/0.6,0,1),clip(($e+0.25-t)/0.25,0,1))"
 done < <(shot_starts)
@@ -136,7 +138,7 @@ log "== Проверка: $FINAL =="
 IF=$(lufs "$FINAL"); TF=$(tpeak "$FINAL"); LF=$(lra "$FINAL")
 log "  Integrated: $IF LUFS (цель −14 ±1)   True peak: $TF dBTP (цель ≤ −1)   LRA: $LF LU"
 awk -v i="$IF" -v p="$TF" 'BEGIN{ok=(i>=-15&&i<=-13&&p<=-1); print "  РЕЗУЛЬТАТ: " (ok?"PASS":"FAIL")}' | tee -a "$LOG"
-k=1; while read -r st len; do e=$(awk -v a=$st -v b=$len 'BEGIN{print a+b}')
+k=1; while read -r st len _; do e=$(awk -v a=$st -v b=$len 'BEGIN{print a+b}')
   m=$(ffmpeg -nostdin -hide_banner -i "$FINAL" -af "atrim=$st:$e,ebur128" -f null - 2>&1 | awk '/Integrated loudness/{f=1} f&&/I:/{print $2; exit}')
   log "  план $k ($st–$e с): $m LUFS"; k=$((k+1)); done < <(shot_starts)
 if [ -f "$REF" ]; then
