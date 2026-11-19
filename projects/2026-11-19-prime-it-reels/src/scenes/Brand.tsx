@@ -53,7 +53,7 @@ const Final: React.FC = () => {
   const CTA_AT = 267; // 30.45 с — после последнего субтитра
   const planeP = easeInOut(range(F, 216, CTA_AT));
   const planeX = lerp(-150, 330, planeP);
-  const planeY = lerp(1600, 1340, planeP) - Math.sin(planeP * Math.PI) * 160;
+  const planeY = lerp(1700, 1500, planeP) - Math.sin(planeP * Math.PI) * 160;
 
   return (
     <AbsoluteFill>
@@ -112,8 +112,8 @@ const Final: React.FC = () => {
       )}
       {F >= CTA_AT - 1 && (
         <Sequence from={CTA_AT - 1 - 78} layout="none">
-          <div style={{position: 'absolute', left: 0, right: 0, top: 1290, display: 'flex', justifyContent: 'center'}}>
-            <Pill color={CY} delay={0} size={60} icon={<svg width={66} height={66} viewBox="0 0 200 200"><IconPlane color="#fff" sw={14} /></svg>}>
+          <div style={{position: 'absolute', left: 0, right: 0, top: 1450, display: 'flex', justifyContent: 'center'}}>
+            <Pill color={CY} delay={0} size={56} icon={<svg width={66} height={66} viewBox="0 0 200 200"><IconPlane color="#fff" sw={14} /></svg>}>
               Пиши в директ
             </Pill>
           </div>

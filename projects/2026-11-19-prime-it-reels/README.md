@@ -52,7 +52,7 @@ scripts/                   gen_audio.py, build-timings.mjs, export-srt.mjs, stil
 
 | Файл | Что сейчас | Где используется |
 |---|---|---|
-| `public/audio/voiceover.mp3` | **заглушка: 32 с тишины** | весь ролик, −6 dB |
+| `public/audio/voiceover.mp3` | озвучка ElevenLabs (голос Mark Rubins, eleven_multilingual_v2), сцены в `public/audio/vo/` | весь ролик, −6 dB |
 | `public/audio/music.mp3` | процедурный phonk/tech-бит 140 BPM (сгенерирован `gen_audio.py`, без чужих сэмплов) | −18 dB, подъём до −12 dB к 26 с |
 | `public/audio/sfx/fan_takeoff.wav` | процедурный | 0.0 с |
 | `public/audio/sfx/alarm.wav` | процедурный | 0.2 с |
@@ -67,18 +67,19 @@ scripts/                   gen_audio.py, build-timings.mjs, export-srt.mjs, stil
 
 ## Субтитры и тайминги
 
-> ⚠️ **Тайминги слов предварительные.** Озвучки нет, поэтому слова распределены равномерно
-> (с весом по длине слова) внутри окна каждой сцены — `npm run timings`.
+Тайминги фраз (`CHUNKS`) и слов (`WORDS`) в `src/data/script.ts` взяты из пословного alignment ElevenLabs.
 
-Когда появится `public/audio/voiceover.mp3`:
+Пересоздать озвучку и тайминги:
 
 ```bash
-pip install -U openai-whisper
-whisper public/audio/voiceover.mp3 --language ru --word_timestamps True --output_format json --output_dir out/
+python3 scripts/tts_elevenlabs.py        # озвучка сцен -> public/audio/vo/*.mp3 + out/vo/*.json (нужен ELEVENLABS_API_KEY)
+python3 scripts/build_voiceover.py       # склейка voiceover.mp3 + запись CHUNKS/WORDS
+npm run srt && npm run render
 ```
 
-Перенесите пословные `start`/`end` (секунды × 60 = кадры) в массив `WORDS` в `src/data/script.ts`,
-поставьте `TIMINGS_ARE_PRELIMINARY = false`, затем `npm run srt` и `npm run render`.
+Своя озвучка: положите `public/audio/voiceover.mp3`, получите пословные тайминги Whisper
+(`whisper public/audio/voiceover.mp3 --language ru --word_timestamps True --output_format json`)
+и перенесите их в `CHUNKS`/`WORDS`.
 
 Стиль: Oswald Bold ~170 px (длинные слова автоматически ужимаются до ширины 960 px),
 белый, чёрная обводка 12 px (`paint-order: stroke fill`), мягкая тень, центр на 58 % высоты,
