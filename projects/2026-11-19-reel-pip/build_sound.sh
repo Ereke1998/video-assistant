@@ -10,7 +10,7 @@ set -euo pipefail
 W=/tmp/work; S=$W/stems; O=$W/out; A=$W/audio
 mkdir -p "$S" "$O" "$A"
 VIDEO=${VIDEO:-$O/reel_pip.mp4}
-REF=${REF:-/mnt/user-data/uploads/696508c2-9115463577967884462.MP4}
+REF=${REF:-$(ls /mnt/user-data/uploads/*9115463577967884462*.MP4 /root/.claude/uploads/*/*9115463577967884462*.MP4 /tmp/work/ref/ref.mp4 2>/dev/null | head -1 || true)}
 SRC_MOV=${SRC_MOV:-$(find $W /mnt/user-data/uploads -maxdepth 2 -iname '*.mov' 2>/dev/null | head -1 || true)}
 INSERT_AUDIO=${INSERT_AUDIO:-}
 SR=48000
@@ -183,6 +183,7 @@ $FF -i $S/bus_site.wav -i $S/sub.wav -i $S/whoosh.wav -i $S/revverb.wav -i $S/pa
  "[7]volume=$(awk -v p="$(speak $S/ding.wav)" -v t=$DING_PK -v m="$1" 'BEGIN{printf "%.2f", t-p-m}')dB[dg];
   [0][1][2][3][4][5][6][dg]amix=inputs=8:normalize=0,
   afade=t=in:d=0.3,afade=t=out:st=$(awk -v d=$D 'BEGIN{print d-1}'):d=1,
+  bass=g=-6:f=150:w=0.6,equalizer=f=1000:width_type=o:w=2:g=2.5,treble=g=-1.5:f=3000:w=0.6,
   volume=${1}dB,aresample=192000,alimiter=limit=0.84:attack=3:release=60:level=disabled,aresample=$SR" -c:a pcm_f32le "$2"; }
 # «динь» держим на −18 dBFS в финале: компенсируем мастер-гейн
 mixit 0 $S/premix.wav
