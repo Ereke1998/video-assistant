@@ -20,28 +20,42 @@ GOLD = (222, 190, 128)
 IVORY = (244, 236, 220)
 FPS = 25
 
-# ---- Сценарий: акты -> слайды. ('s', n) — одно фото, ('d', a, b) — диптих ----
+# ---- Сценарий: серии -> слайды ----
+# (фото, план, фокус_x, фокус_y, отъезд)
+# план: О — общий, С — средний, К — крупный; фокус — точка лиц (доли кадра 0..1);
+# отъезд=True — камера начинает с лиц крупно и плавно отъезжает.
 ACTS = [
     # 1. Он и она
-    [("s", 22), ("d", 23, 34)],
-    # 2. Белая серия — нежность
-    [("d", 1, 2), ("s", 18), ("s", 3), ("s", 36), ("s", 6), ("d", 4, 5), ("s", 31), ("d", 29, 39)],
-    # 3. Розовая серия — лёгкость, улыбки
-    [("d", 19, 20), ("s", 25), ("s", 21), ("s", 35), ("d", 40, 41)],
+    [(22, "С", .48, .24, False), (34, "С", .58, .26, False)],
+    # 2. Белая серия
+    [(1, "О", .48, .28, False), (5, "С", .50, .30, True), (3, "К", .50, .55, False),
+     (2, "О", .48, .29, False), (4, "С", .50, .30, True), (31, "К", .52, .30, False),
+     (18, "С", .50, .26, False), (29, "О", .52, .25, False), (23, "С", .58, .28, True),
+     (36, "С", .50, .22, False), (6, "К", .40, .27, True), (39, "С", .48, .25, False)],
+    # 3. Розовая серия
+    [(21, "О", .52, .30, False), (19, "С", .62, .42, True), (25, "С", .53, .38, False),
+     (40, "К", .50, .34, True), (20, "С", .64, .47, False), (35, "С", .50, .25, True),
+     (41, "К", .50, .36, True)],
     # 4. Бордовое платье, светлый фон
-    [("d", 7, 8), ("d", 9, 10)],
-    # 5. Тёмная стена — элегантность
-    [("d", 24, 33), ("s", 26), ("d", 27, 37), ("s", 28), ("s", 30), ("s", 38)],
-    # 6. Луна и казахский интерьер — традиции
-    [("s", 11), ("s", 17), ("d", 13, 14), ("s", 32), ("s", 15)],
+    [(7, "О", .50, .32, False), (10, "С", .45, .28, True), (8, "О", .50, .27, False),
+     (9, "С", .48, .30, True)],
+    # 5. Тёмная стена
+    [(27, "О", .52, .36, False), (28, "С", .52, .28, True), (24, "С", .52, .25, False),
+     (37, "О", .50, .33, False), (38, "К", .50, .33, True), (26, "С", .52, .28, False),
+     (30, "С", .50, .28, False), (33, "К", .42, .22, False)],
+    # 6. Луна и казахский интерьер
+    [(11, "О", .50, .55, False), (14, "С", .47, .29, True), (15, "К", .50, .45, False),
+     (13, "С", .45, .30, False), (17, "О", .48, .29, False), (32, "С", .48, .25, True)],
     # 7. Кульминация — силуэт
-    [("s", 16)],
+    [(16, "К", .45, .25, False)],
 ]
 
 INTRO_CUT = 10.3      # конец вступительного титра (вход вокала/инструментов)
 OUTRO_CUT = 160.8     # переход в финальный титр (конец последнего припева)
-XF = 1.0              # длительность обычного перехода, с
-XF_ACT = 1.6          # переход между актами, с
+XF = 0.8              # длительность обычного перехода, с
+XF_ACT = 1.4          # переход между сериями, с
+PHOTO_SCALE = 1.15    # фото выше экрана на 15% -> шире по краям, сверху/снизу срезается фон
+PULL_ZOOM = 1.6       # стартовый зум отъезда с лиц
 
 
 def load(n):
@@ -80,31 +94,25 @@ def paste_framed(canvas, ph, x, y, border):
 
 
 def compose(slide, CW, CH):
-    kind, *ns = slide
-    ims = [load(n) for n in ns]
-    canvas = blurred_bg(ims[0], CW, CH)
-    border = max(3, CH // 300)
-    if kind == "s":
-        h = int(CH * 0.88)
-        im = ims[0]
-        w = int(im.width * h / im.height)
-        if w > CW * 0.9:
-            w = int(CW * 0.9); h = int(im.height * w / im.width)
-        ph = im.resize((w, h), Image.LANCZOS)
-        paste_framed(canvas, ph, (CW - w) // 2, (CH - h) // 2, border)
-    else:
-        h = int(CH * 0.84)
-        gap = int(CW * 0.03)
-        ws = [int(im.width * h / im.height) for im in ims]
-        tot = sum(ws) + gap
-        if tot > CW * 0.94:
-            k = CW * 0.94 / tot
-            h = int(h * k); ws = [int(w * k) for w in ws]; gap = int(gap * k); tot = sum(ws) + gap
-        x = (CW - tot) // 2
-        for im, w in zip(ims, ws):
-            paste_framed(canvas, im.resize((w, h), Image.LANCZOS), x, (CH - h) // 2, border)
-            x += w + gap
-    return grade(canvas)
+    """Фото на всю высоту (+15%), обрезка по вертикали вокруг лиц.
+    Возвращает холст и точку фокуса в координатах холста."""
+    n, _plan, fx, fy, _pull = slide
+    im = load(n)
+    canvas = blurred_bg(im, CW, CH)
+    h = int(CH * PHOTO_SCALE)
+    w = int(im.width * h / im.height)
+    ph = im.resize((w, h), Image.LANCZOS)
+    oy = int(np.clip(fy * h - 0.38 * CH, 0, h - CH))   # лица ~в верхней трети кадра
+    ph = ph.crop((0, oy, w, oy + CH))
+    x0 = (CW - w) // 2
+    # мягкая тень по бокам фото
+    sh = Image.new("L", canvas.size, 0)
+    ImageDraw.Draw(sh).rectangle([x0 - 6, -50, x0 + w + 6, CH + 50], fill=190)
+    sh = sh.filter(ImageFilter.GaussianBlur(CH // 45))
+    canvas.paste(Image.new("RGB", canvas.size, (0, 0, 0)), (0, 0), sh)
+    canvas.paste(ph, (x0, 0))
+    focus = (x0 + fx * w, fy * h - oy)
+    return grade(canvas), focus
 
 
 def title_layer(W, H):
@@ -152,10 +160,10 @@ def build_timeline(beats):
             slides.append(s)
             act_start.append(si == 0 and ai > 0)
     wts = []
-    for s, first in zip(slides, act_start):
-        w = 1.0 if s[0] == "s" else 1.3
-        if s == ("s", 16):
-            w = 2.4
+    for s in slides:
+        w = 1.12 if s[4] else 1.0          # отъезду чуть больше времени
+        if s[0] == 16:
+            w = 2.2                         # силуэт — кульминация
         wts.append(w)
     wts = np.array(wts)
     edges = INTRO_CUT + np.concatenate([[0], np.cumsum(wts)]) / wts.sum() * (OUTRO_CUT - INTRO_CUT)
@@ -189,14 +197,13 @@ class Renderer:
             if len(self.cache) > 4:
                 self.cache.pop(next(iter(self.cache)))
             kind, i = key
+            mid = (self.CW / 2, self.CH / 2)
             if kind == "slide":
                 self.cache[key] = compose(self.slides[i], self.CW, self.CH)
             elif kind == "intro":
-                im = load(31)
-                self.cache[key] = grade(blurred_bg(im, self.CW, self.CH, dark=0.33))
+                self.cache[key] = (grade(blurred_bg(load(31), self.CW, self.CH, dark=0.33)), mid)
             else:
-                im = load(16)
-                self.cache[key] = grade(blurred_bg(im, self.CW, self.CH, dark=0.30))
+                self.cache[key] = (grade(blurred_bg(load(16), self.CW, self.CH, dark=0.30)), mid)
         return self.cache[key]
 
     def seg_frame(self, si, t):
@@ -205,19 +212,27 @@ class Renderer:
         xb = self.xfs[si] / 2 if si < len(self.xfs) else 0
         a0, b0 = a - xa, b + xb
         p = np.clip((t - a0) / max(b0 - a0, 1e-6), 0, 1)
-        # Ken Burns: чётные — наезд, нечётные — отъезд; лёгкая панорама
-        zin = (si % 2 == 0)
-        z = 1.0 + 0.075 * (p if zin else 1 - p)
-        if kind != "slide":
-            z = 1.0 + 0.05 * p
-        dirx = [-1, 1, 0, 1, -1, 0][si % 6]
         CW, CH = self.CW, self.CH
+        canvas, (fx, fy) = self.canvas((kind, i))
+        pull = kind == "slide" and self.slides[i][4]
+        if pull:
+            # отъезд с лиц: быстрый старт, мягкое замедление
+            e = 1 - (1 - p) ** 2.2
+            z = 1.0 + (PULL_ZOOM - 1.0) * (1 - e)
+        elif kind == "slide":
+            # обычный: чётные — наезд, нечётные — отъезд
+            z = 1.0 + 0.07 * (p if si % 2 == 0 else 1 - p)
+        else:
+            z = 1.0 + 0.05 * p
+        # центр окна тянется к лицам по мере приближения
+        k = min(1.0, (z - 1.0) / 0.35)
         vw, vh = CW / z, CH / z
-        maxpan = (CW - vw) / 2
-        cx = CW / 2 + dirx * maxpan * (p - 0.5) * 1.6
-        cy = CH / 2
+        cx = CW / 2 + (fx - CW / 2) * k
+        cy = CH / 2 + (fy - CH / 2) * k
+        cx = float(np.clip(cx, vw / 2, CW - vw / 2))
+        cy = float(np.clip(cy, vh / 2, CH - vh / 2))
         sx = vw / self.W
-        img = self.canvas((kind, i)).transform(
+        img = canvas.transform(
             (self.W, self.H), Image.AFFINE,
             (sx, 0, cx - vw / 2, 0, vh / self.H, cy - vh / 2), resample=Image.BICUBIC)
         return np.asarray(img).astype(np.float32)
