@@ -1,8 +1,9 @@
 # PRIME IT — 3D Reels (Remotion + React Three Fiber)
 
-**Версия 2:** голографический (wireframe) 3D-стиль, шрифт Oswald Bold, палитра
-графит `#121316` / оранжевый `#FF6A00` (жар) / синий `#2F6BFF` (решение) / янтарный `#FFB800` (акцент).
-Раскадровка — `storyboard.md`.
+**Версия 3:** неоновая motion-инфографика (микс референсов) + 3D-голограмма ноутбука как акцент
+(хук, чистка, финал). Шрифт Oswald Bold, тёмный фон с лучами, цвета сцен: оранжевый/красный → синий/голубой.
+Субтитры по 2–3 слова ЗАГЛАВНЫМИ на ~70 % высоты (фразы — `CHUNKS` в `src/data/script.ts`).
+Раскадровка — `storyboard.md`. Готовый ролик — `out/prime_it_reels.mp4`.
 
 Вертикальный рекламный ролик сервиса ремонта ноутбуков PRIME IT.
 **1080×1920 (9:16), 60 fps, 32 с (1920 кадров), H.264 MP4.**
@@ -37,9 +38,8 @@ src/
     Dust.tsx               комья пыли (instanced, рост/выдувание)
     Effects3D.tsx          волны жара/потока (шейдер), стрелки горячего воздуха, частицы-линии
     Stage.tsx              ThreeCanvas, свет, окружение, сетка-пол, bloom, глитч (RGB-сдвиг, scanlines), марево
-    Gauge.tsx              термометр-циферблат со стрелкой
-    FpsGraph.tsx           график FPS + иконка критического перегрева
-    Subtitles.tsx          пословные субтитры
+    neon/                  фон с лучами, шапка, плашки, карточки, неоновые иконки, глитч
+    Subtitles.tsx          субтитры по фразам (2–3 слова)
     SoundTrack.tsx         озвучка / музыка / SFX и уровни микса
     font.ts                Oswald Bold
   data/script.ts           сценарий, окна сцен, пословные тайминги WORDS
@@ -61,7 +61,7 @@ scripts/                   gen_audio.py, build-timings.mjs, export-srt.mjs, stil
 | `public/audio/sfx/system_freeze.wav` | процедурный | 14.0 с |
 | `public/audio/sfx/fresh_air.wav` | процедурный | 19.0 с |
 | `public/audio/sfx/tech_click.wav` / `ding.wav` | процедурные | 24.0 / 25.0 с |
-| `public/audio/sfx/click.wav` | процедурный | 27.4 с (появление логотипа) |
+| `public/audio/sfx/click.wav` | процедурный | 27.73 с (появление логотипа) |
 
 Замените файлы своими с **теми же именами** и перерендерьте. Время и уровни — в `src/components/SoundTrack.tsx`.
 
