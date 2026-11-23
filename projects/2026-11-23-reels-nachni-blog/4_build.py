@@ -9,6 +9,9 @@
        "cinema"    — широкий гротеск Unbounded + ключевые слова курсивной антиквой с золотым свечением
        "neon"      — неоновое караоке: фраза видна приглушённо, слова «зажигаются» под голос
        "reference" — как на референсе: жирный строчный Montserrat + ключевые слова на жёлтой плашке
+       "kino"      — кинотитры: гротеск Manrope с разрядкой + смысловые слова курсивной антиквой
+                     Cormorant, ключевые — золотым градиентом с проблеском (рисуется в браузере,
+                     нужен Node.js + Playwright, см. subtitles.html)
   3. Сводит звук: голос + музыка (приглушается под речь) + звуковые акценты, итог −14 LUFS.
      Музыка: ваш файл из папки music/ или сгенерированная audio/music_generated.wav.
 
@@ -22,7 +25,7 @@ import re
 import subprocess
 
 from common import (AUDIO, BUILD, MUSIC, PLAN_FILE, ROOT, SCENES, TIMINGS_FILE, check_tools, fail,
-                    fmt, load_json, load_project, media_duration, run)
+                    fmt, load_json, load_project, media_duration, run, save_json)
 
 AUDIO_EXT = (".mp3", ".wav", ".m4a", ".aac", ".ogg", ".flac")
 SEG_ENC = ["-c:v", "libx264", "-preset", "veryfast", "-crf", "14", "-pix_fmt", "yuv420p"]
@@ -82,7 +85,7 @@ def subtitle_events(project, timings):
     return events
 
 
-def tokens(ev, keywords):
+def tokens(ev, keywords, accents=()):
     """Слова блока: текст, время произнесения, входит ли в ключевую фразу."""
     toks, wi = [], 0
     for raw in ev["text"].split():
@@ -94,12 +97,17 @@ def tokens(ev, keywords):
     for t in toks:
         t["text"] = re.sub(r"[.,:;]+$", "", t["text"])   # точки и запятые не показываем
     plain = [re.sub(r"[^\w]", "", t["text"]).lower() for t in toks]
-    for kw in keywords:
-        kws = kw.lower().split()
-        for i in range(len(plain) - len(kws) + 1):
-            if plain[i:i + len(kws)] == kws:
-                for j in range(i, i + len(kws)):
-                    toks[j]["kw"] = True
+    for t in toks:
+        t["accent"] = False
+    for flag, phrases in (("kw", keywords), ("accent", accents)):
+        for kw in phrases:
+            kws = kw.lower().split()
+            for i in range(len(plain) - len(kws) + 1):
+                if plain[i:i + len(kws)] == kws:
+                    for j in range(i, i + len(kws)):
+                        toks[j][flag] = True
+    for t in toks:
+        t["accent"] = t["accent"] and not t["kw"]
     for i, t in enumerate(toks):   # отступы вокруг ключевой фразы (для плашки)
         t["pad_before"] = t["kw"] and (i == 0 or not toks[i - 1]["kw"])
         t["pad_after"] = t["kw"] and (i == len(toks) - 1 or not toks[i + 1]["kw"])
@@ -179,9 +187,19 @@ def style_reference(tok, rel, layer, c):
 STYLES = {"cinema": style_cinema, "neon": style_neon, "reference": style_reference}
 
 
-def write_subtitles(events, project, style=None):
+def write_subtitles(events, project, style=None, total=None):
     st, v = project["subtitles"], project["video"]
     style = style or st.get("style", "cinema")
+    if style == "kino":   # рисуется в браузере (subtitles.html), здесь — только данные
+        evs, srt = [], []
+        for k, ev in enumerate(events, 1):
+            toks = tokens(ev, st["keywords"], st.get("accents", []))
+            evs.append({"start": ev["start"], "end": ev["end"],
+                        "tokens": [{k2: t[k2] for k2 in ("text", "t", "kw", "accent")} for t in toks]})
+            srt += [str(k), f"{srt_time(ev['start'])} --> {srt_time(ev['end'])}", " ".join(t["text"] for t in toks), ""]
+        save_json(BUILD / "subtitle_events.json", {"total": total, "events": evs})
+        (ROOT / "subtitles.srt").write_text("\n".join(srt), encoding="utf-8")
+        return style
     if style not in STYLES:
         fail(f"Неизвестный стиль субтитров «{style}». Доступны: {', '.join(STYLES)}")
     render = STYLES[style]
@@ -287,10 +305,16 @@ def main():
     fps = video["fps"]
     BUILD.mkdir(exist_ok=True)
 
-    style = write_subtitles(subtitle_events(project, timings), project, args.style)
-    print(f"Субтитры: subtitles.ass, subtitles.srt (стиль «{style}»)")
-    if args.subs_only:
-        return
+    style = write_subtitles(subtitle_events(project, timings), project, args.style, timings["total"])
+    if style == "kino":
+        print("Субтитры: кинотитры (subtitles.html) + subtitles.srt")
+        if args.subs_only:
+            return
+        run(["node", "render_subtitles.js"], cwd=ROOT)
+    else:
+        print(f"Субтитры: subtitles.ass, subtitles.srt (стиль «{style}»)")
+        if args.subs_only:
+            return
 
     print("\nСцена | Начало   | Длит.  | Что взято")
     all_clips = True
@@ -303,8 +327,8 @@ def main():
 
     total = sum(sc["frames"] for sc in plan["scenes"]) / fps
     fi, fo = video["fade_in_sec"], video["fade_out_sec"]
-    vf = (f"[0:v]fade=t=in:st=0:d={fi},fade=t=out:st={total - fo:.3f}:d={fo},"
-          f"ass=subtitles.ass:fontsdir=fonts[v]")
+    fades = f"fade=t=in:st=0:d={fi},fade=t=out:st={total - fo:.3f}:d={fo}"
+    vf = f"[0:v]{fades},ass=subtitles.ass:fontsdir=fonts[v]"
     voice = ROOT / "audio" / "voiceover.wav"
     cmd = ["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", BUILD / "segments.txt", "-i", voice]
 
@@ -338,7 +362,11 @@ def main():
         chains.append(f"[{idx}:a]aresample=48000,aformat=channel_layouts=stereo,atrim=duration={total:.3f},"
                       f"volume={s_gain:.2f}dB[fx]")
         mix_inputs += "[fx]"
+        idx += 1
         print("Акценты (SFX): sfx_generated.wav")
+    if style == "kino":   # субтитры — прозрачное видео поверх кадра
+        cmd += ["-i", BUILD / "subs_overlay.mov"]
+        vf = f"[0:v][{idx}:v]overlay=0:0:format=auto,{fades}[v]"
     n_in = mix_inputs.count("[")
     chains.append(f"{mix_inputs}amix=inputs={n_in}:duration=first:normalize=0,"
                   f"loudnorm=I=-14:TP=-2:LRA=11,aresample=48000[a]")

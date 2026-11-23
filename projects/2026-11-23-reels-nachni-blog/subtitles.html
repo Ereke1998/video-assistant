@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Кинотитры — субтитры</title>
+<style>
+  html, body { margin: 0; background: #15161a; }
+  .record, .record body { background: transparent; }
+  canvas { display: block; height: 100vh; width: auto; margin: 0 auto; }
+  .record canvas { height: 1920px; width: 1080px; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1080" height="1920"></canvas>
+<script>
+/* =====================================================================
+   КИНОТИТРЫ — анимированные субтитры (рисуются в браузере, бесплатно).
+   Их записывает render_subtitles.js, его запускает 4_build.py (стиль "kino").
+   Здесь можно менять шрифты, размеры и цвета.
+   ===================================================================== */
+const CFG = {
+  baseline: 1400,   // нижняя строка текста, px от верха кадра
+  maxWidth: 880,    // максимальная ширина строки
+  gap: 26,          // пробел между словами, px
+  lineGap: 18,
+  // обычные слова — аккуратный гротеск капсом с разрядкой
+  sans:   { family: 'Manrope', weight: 600, style: 'normal', size: 54, tracking: 0.16, upper: true, color: '#F4EEE4' },
+  // смысловые слова — курсивная антиква
+  accent: { family: 'Cormorant Garamond', weight: 600, style: 'italic', size: 100, tracking: 0, upper: false, color: '#FFFFFF' },
+  // ключевые фразы — та же антиква, золотой градиент со свечением и проблеском
+  gold:   { family: 'Cormorant Garamond', weight: 700, style: 'italic', size: 110, tracking: 0, upper: false },
+  goldStops: ['#FFF7E0', '#FAD27A', '#E39A35', '#A8611B'],
+  glow: 'rgba(255,150,60,0.6)',
+  shadow: 'rgba(0,0,0,0.85)',
+  reveal: 0.45,     // сек: слово проявляется из размытия
+  exit: 0.22,       // сек: блок растворяется
+};
+
+const FONTS = [
+  ['Manrope', 'Manrope_600SemiBold.ttf', { weight: '600' }],
+  ['Cormorant Garamond', 'CormorantGaramond_600SemiBold_Italic.ttf', { weight: '600', style: 'italic' }],
+  ['Cormorant Garamond', 'CormorantGaramond_700Bold_Italic.ttf', { weight: '700', style: 'italic' }],
+];
+
+// Пример для просмотра в браузере (при записи подставляются настоящие субтитры)
+const DEMO = [
+  { start: 0.1, end: 1.6, tokens: [{ text: 'а', t: 0.15 }, { text: 'на', t: 0.3 }, { text: 'свои', t: 0.5, accent: true }, { text: '— нет?', t: 0.9 }] },
+  { start: 1.7, end: 3.4, tokens: [{ text: 'на', t: 1.75 }, { text: 'чужой', t: 2.0, kw: true }, { text: 'контент', t: 2.3, kw: true }] },
+  { start: 3.5, end: 5.2, tokens: [{ text: 'Хватит', t: 3.55 }, { text: '15', t: 3.9, kw: true }, { text: 'минут', t: 4.3, kw: true }] },
+];
+const RECORD = new URLSearchParams(location.search).has('record');
+if (RECORD) document.documentElement.classList.add('record');
+const EVENTS = window.SUB_EVENTS || DEMO;
+
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+const off = document.createElement('canvas'); off.width = 1080; off.height = 420;
+const octx = off.getContext('2d');
+
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
+
+const styleOf = tok => (tok.kw ? CFG.gold : tok.accent ? CFG.accent : CFG.sans);
+const fontOf = s => `${s.style} ${s.weight} ${s.size}px "${s.family}"`;
+const shown = tok => (styleOf(tok).upper ? tok.text.toUpperCase() : tok.text);
+
+function setFont(c, s, extra = 0) {
+  c.font = fontOf(s);
+  const tr = (s.tracking + extra) * s.size;
+  c.letterSpacing = `${tr}px`;
+  return tr;
+}
+function widthOf(tok, extra = 0) {
+  const tr = setFont(ctx, styleOf(tok), extra);
+  return ctx.measureText(shown(tok)).width - tr;   // без хвостовой разрядки
+}
+const capH = s => s.size * (s === CFG.sans ? 0.74 : 0.66);
+
+// раскладка блока: перенос по ширине, строки по центру, снизу вверх
+function layout(ev) {
+  if (ev._layout) return ev._layout;
+  const items = ev.tokens.map(tok => ({ tok, s: styleOf(tok), w: widthOf(tok) }));
+  const lines = [[]];
+  let lw = 0;
+  for (const it of items) {
+    const cur = lines[lines.length - 1];
+    const add = cur.length ? CFG.gap + it.w : it.w;
+    if (cur.length && lw + add > CFG.maxWidth) { lines.push([it]); lw = it.w; }
+    else { cur.push(it); lw += add; }
+  }
+  const out = [];
+  let baseline = CFG.baseline;
+  for (let li = lines.length - 1; li >= 0; li--) {
+    const line = lines[li];
+    const width = line.reduce((a, it, i) => a + it.w + (i ? CFG.gap : 0), 0);
+    let x = 540 - width / 2;
+    for (const it of line) { out.push({ ...it, cx: x + it.w / 2, baseline }); x += it.w + CFG.gap; }
+    if (li > 0) {
+      const up = Math.max(...lines[li - 1].map(it => capH(it.s)));
+      const down = Math.max(...line.map(it => it.s.size * 0.2));
+      baseline -= up + down + CFG.lineGap;
+    }
+  }
+  ev._layout = out;
+  ev._firstKw = ev.tokens.find(t => t.kw);
+  return out;
+}
+
+function drawWord(it, t, ev) {
+  const { tok, s } = it;
+  const p = clamp((t - tok.t + 0.04) / CFG.reveal);
+  if (p <= 0) return false;
+  const e = easeOutCubic(p);
+  const q = clamp((t - (ev.end - CFG.exit)) / CFG.exit);
+  const alpha = e * (1 - q);
+  if (alpha <= 0.003) return false;
+  const extra = (1 - e) * (s === CFG.sans ? 0.5 : 0.16);   // буквы «съезжаются»
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  const tr = setFont(ctx, s, extra);
+  const text = shown(tok);
+  const w = ctx.measureText(text).width - tr;
+  const x = it.cx - w / 2, y = it.baseline + (1 - e) * 26 - q * 14;
+  const blur = (1 - e) * 12 + q * 8;
+  ctx.filter = blur > 0.3 ? `blur(${blur.toFixed(1)}px)` : 'none';
+  ctx.shadowColor = CFG.shadow; ctx.shadowBlur = 24; ctx.shadowOffsetY = 5;
+  if (!tok.kw) {
+    ctx.fillStyle = s.color;
+    ctx.fillText(text, x, y);
+  } else {
+    // золото: тёмная подложка-тень, затем градиент со свечением
+    ctx.fillStyle = '#2a1606'; ctx.fillText(text, x, y);
+    const g = ctx.createLinearGradient(0, y - s.size * 0.72, 0, y + s.size * 0.22);
+    CFG.goldStops.forEach((c, i) => g.addColorStop(i / (CFG.goldStops.length - 1), c));
+    ctx.shadowColor = CFG.glow; ctx.shadowBlur = 36; ctx.shadowOffsetY = 0;
+    ctx.fillStyle = g; ctx.fillText(text, x, y);
+    // проблеск света по металлу
+    const sweep = (t - tok.t - 0.15) / 0.85;
+    if (sweep > 0 && sweep < 1) {
+      octx.clearRect(0, 0, off.width, off.height);
+      setFont(octx, s, extra);
+      const oy = s.size * 1.2;
+      octx.fillStyle = '#fff'; octx.fillText(text, 30, oy);
+      octx.globalCompositeOperation = 'source-in';
+      const bx = 30 - 120 + (w + 240) * sweep;
+      const band = octx.createLinearGradient(bx - 70, 0, bx + 70, s.size * 1.4);
+      band.addColorStop(0, 'rgba(255,255,255,0)'); band.addColorStop(0.5, 'rgba(255,255,255,0.95)');
+      band.addColorStop(1, 'rgba(255,255,255,0)');
+      octx.fillStyle = band; octx.fillRect(0, 0, off.width, off.height);
+      octx.globalCompositeOperation = 'source-over';
+      ctx.shadowColor = 'transparent';
+      ctx.drawImage(off, x - 30, y - oy);
+    }
+  }
+  ctx.restore();
+  return true;
+}
+
+function drawHaze(ev, t) {   // мягкая тёмная дымка за текстом — читается на любом фоне
+  const items = layout(ev);
+  const first = Math.min(...ev.tokens.map(tok => tok.t));
+  const a = easeOutCubic(clamp((t - first + 0.1) / 0.35)) * (1 - clamp((t - (ev.end - CFG.exit)) / CFG.exit));
+  if (a <= 0) return;
+  const minX = Math.min(...items.map(it => it.cx - it.w / 2)), maxX = Math.max(...items.map(it => it.cx + it.w / 2));
+  const top = Math.min(...items.map(it => it.baseline - capH(it.s))), bottom = Math.max(...items.map(it => it.baseline));
+  const cx = (minX + maxX) / 2, cy = (top + bottom) / 2;
+  const rx = (maxX - minX) / 2 + 170, ry = (bottom - top) / 2 + 110;
+  ctx.save();
+  ctx.globalAlpha = a;
+  ctx.translate(cx, cy); ctx.scale(rx, ry);
+  const g = ctx.createRadialGradient(0, 0, 0, 0, 0, 1);
+  g.addColorStop(0, 'rgba(4,5,9,0.62)'); g.addColorStop(0.55, 'rgba(4,5,9,0.38)'); g.addColorStop(1, 'rgba(4,5,9,0)');
+  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(0, 0, 1, 0, Math.PI * 2); ctx.fill();
+  ctx.restore();
+}
+
+function drawHairline(ev, t) {   // тонкая золотая линия под блоком с ключевой фразой
+  if (!ev._firstKw) return;
+  const p = easeOutCubic(clamp((t - ev._firstKw.t - 0.1) / 0.6));
+  const q = clamp((t - (ev.end - CFG.exit)) / CFG.exit);
+  if (p <= 0 || q >= 1) return;
+  const w = 150 * p, y = CFG.baseline + 40;
+  ctx.save();
+  ctx.globalAlpha = 1 - q;
+  const g = ctx.createLinearGradient(540 - w / 2, 0, 540 + w / 2, 0);
+  g.addColorStop(0, 'rgba(250,210,122,0)'); g.addColorStop(0.5, 'rgba(250,210,122,0.95)'); g.addColorStop(1, 'rgba(250,210,122,0)');
+  ctx.fillStyle = g; ctx.fillRect(540 - w / 2, y, w, 3);
+  ctx.restore();
+}
+
+window.renderAt = (t) => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  let drawn = false;
+  for (const ev of EVENTS) {
+    if (t < ev.start - 0.1 || t > ev.end + 0.05) continue;
+    drawHaze(ev, t);
+    for (const it of layout(ev)) drawn = drawWord(it, t, ev) || drawn;
+    drawHairline(ev, t);
+  }
+  return drawn;
+};
+
+(async () => {
+  for (const [family, file, desc] of FONTS) {
+    const b64 = window.FONT_DATA && window.FONT_DATA[file];
+    const src = b64 ? Uint8Array.from(atob(b64), c => c.charCodeAt(0)).buffer : `url(fonts/${file})`;
+    const face = new FontFace(family, src, desc);
+    await face.load();
+    document.fonts.add(face);
+  }
+  if (!RECORD) {
+    const last = Math.max(...EVENTS.map(e => e.end)) + 0.5;
+    const t0 = performance.now();
+    const loop = (now) => { window.renderAt(((now - t0) / 1000) % last); requestAnimationFrame(loop); };
+    requestAnimationFrame(loop);
+  }
+  window.READY = true;
+})();
+</script>
+</body>
+</html>

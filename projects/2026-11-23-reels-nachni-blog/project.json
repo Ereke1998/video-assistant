@@ -28,7 +28,7 @@
     "fade_out_sec": 0.6
   },
   "subtitles": {
-    "style": "reference",
+    "style": "kino",
     "highlight_color": "#FFD60A",
     "glow_color": "#FF8A3D",
     "margin_bottom_px": 520,
@@ -36,6 +36,17 @@
       "чужой контент",
       "15 минут",
       "пиши честно"
+    ],
+    "accents": [
+      "свои",
+      "час",
+      "два",
+      "не занят",
+      "блог",
+      "одно видео",
+      "одна мысль",
+      "снимать",
+      "смотреть"
     ]
   },
   "music": {
