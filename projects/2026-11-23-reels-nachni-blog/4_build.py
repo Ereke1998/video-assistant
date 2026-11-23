@@ -341,7 +341,7 @@ def main():
         print("Акценты (SFX): sfx_generated.wav")
     n_in = mix_inputs.count("[")
     chains.append(f"{mix_inputs}amix=inputs={n_in}:duration=first:normalize=0,"
-                  f"loudnorm=I=-14:TP=-1.5:LRA=11,aresample=48000[a]")
+                  f"loudnorm=I=-14:TP=-2:LRA=11,aresample=48000[a]")
 
     out = ROOT / ("reels_final.mp4" if all_clips else "reels_preview.mp4")
     cmd += ["-filter_complex", vf + ";" + ";".join(chains), "-map", "[v]", "-map", "[a]", "-t", f"{total:.3f}",

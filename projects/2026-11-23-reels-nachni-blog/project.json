@@ -6,9 +6,9 @@
     "model_id": "eleven_multilingual_v2",
     "output_format": "mp3_44100_128",
     "settings": {
-      "stability": 0.45,
+      "stability": 0.32,
       "similarity_boost": 0.8,
-      "style": 0.2,
+      "style": 0.45,
       "use_speaker_boost": true,
       "speed": 1.0
     }
@@ -28,7 +28,7 @@
     "fade_out_sec": 0.6
   },
   "subtitles": {
-    "style": "cinema",
+    "style": "reference",
     "highlight_color": "#FFD60A",
     "glow_color": "#FF8A3D",
     "margin_bottom_px": 520,

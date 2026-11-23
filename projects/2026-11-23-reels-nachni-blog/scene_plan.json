@@ -1,5 +1,5 @@
 {
-  "total": 28.807,
+  "total": 29.248,
   "fps": 30,
   "scenes": [
     {
@@ -8,29 +8,29 @@
         1
       ],
       "start": 0.0,
-      "end": 3.3666666666666667,
-      "duration": 3.367,
-      "frames": 101,
-      "min_clip_sec": 2.3
+      "end": 3.2666666666666666,
+      "duration": 3.267,
+      "frames": 98,
+      "min_clip_sec": 2.2
     },
     {
       "id": 2,
       "phrases": [
         2
       ],
-      "start": 3.3666666666666667,
-      "end": 8.233333333333333,
-      "duration": 4.867,
-      "frames": 146,
-      "min_clip_sec": 3.3
+      "start": 3.2666666666666666,
+      "end": 7.633333333333334,
+      "duration": 4.367,
+      "frames": 131,
+      "min_clip_sec": 3.0
     },
     {
       "id": 3,
       "phrases": [
         3
       ],
-      "start": 8.233333333333333,
-      "end": 11.766666666666667,
+      "start": 7.633333333333334,
+      "end": 11.166666666666666,
       "duration": 3.533,
       "frames": 106,
       "min_clip_sec": 2.4
@@ -40,10 +40,10 @@
       "phrases": [
         4
       ],
-      "start": 11.766666666666667,
-      "end": 18.3,
-      "duration": 6.533,
-      "frames": 196,
+      "start": 11.166666666666666,
+      "end": 17.633333333333333,
+      "duration": 6.467,
+      "frames": 194,
       "min_clip_sec": 4.4
     },
     {
@@ -51,22 +51,22 @@
       "phrases": [
         5
       ],
-      "start": 18.3,
-      "end": 23.5,
-      "duration": 5.2,
-      "frames": 156,
-      "min_clip_sec": 3.5
+      "start": 17.633333333333333,
+      "end": 23.166666666666668,
+      "duration": 5.533,
+      "frames": 166,
+      "min_clip_sec": 3.7
     },
     {
       "id": 6,
       "phrases": [
         6
       ],
-      "start": 23.5,
-      "end": 28.8,
-      "duration": 5.3,
-      "frames": 159,
-      "min_clip_sec": 3.6
+      "start": 23.166666666666668,
+      "end": 29.233333333333334,
+      "duration": 6.067,
+      "frames": 182,
+      "min_clip_sec": 4.1
     }
   ]
 }
