@@ -189,354 +189,354 @@
       {
         "text": "Исследование",
         "start": 0.08,
-        "end": 0.74
+        "end": 0.76
       },
       {
         "text": "MIT:",
-        "start": 0.76,
-        "end": 1.14
+        "start": 1,
+        "end": 1.44
       },
       {
         "text": "с",
-        "start": 1.62,
-        "end": 1.64
+        "start": 1.84,
+        "end": 1.86
       },
       {
         "text": "ChatGPT",
-        "start": 1.7,
-        "end": 2.34
+        "start": 1.96,
+        "end": 2.58
       },
       {
         "text": "мозг",
-        "start": 2.72,
-        "end": 2.92
+        "start": 2.68,
+        "end": 2.94
       },
       {
         "text": "работал",
         "start": 2.98,
-        "end": 3.32
+        "end": 3.34
       },
       {
         "text": "слабее",
-        "start": 3.4,
-        "end": 3.78
+        "start": 3.46,
+        "end": 3.86
       },
       {
         "text": "всех,",
-        "start": 3.82,
-        "end": 4.16
+        "start": 3.94,
+        "end": 4.32
       },
       {
         "text": "а",
-        "start": 4.52,
-        "end": 4.54
+        "start": 4.54,
+        "end": 4.58
       },
       {
         "text": "свой",
-        "start": 4.62,
-        "end": 4.82
+        "start": 4.68,
+        "end": 4.88
       },
       {
         "text": "текст",
-        "start": 4.86,
-        "end": 5.14
+        "start": 4.98,
+        "end": 5.32
       },
       {
         "text": "потом",
-        "start": 5.18,
-        "end": 5.46
+        "start": 5.36,
+        "end": 5.68
       },
       {
         "text": "не",
-        "start": 5.48,
-        "end": 5.56
+        "start": 5.7,
+        "end": 5.78
       },
       {
         "text": "могли",
-        "start": 5.6,
-        "end": 5.88
+        "start": 5.82,
+        "end": 6.08
       },
       {
         "text": "пересказать.",
-        "start": 5.9,
-        "end": 6.48
+        "start": 6.18,
+        "end": 6.88
       }
     ],
-    "durationSeconds": 6.922449,
-    "meanDb": -17.6,
+    "durationSeconds": 7.235918,
+    "loudnessLufs": -16,
+    "meanDb": -17,
     "maxDb": -1.8,
     "model": "eleven_multilingual_v2",
-    "generatedAt": "2026-11-23T12:40:06.051Z",
-    "ok": true,
-    "loudnessLufs": -16
+    "generatedAt": "2026-11-23T13:11:21.559Z",
+    "ok": true
   },
   "audio/voice-3.mp3": {
     "words": [
       {
         "text": "Иногда",
-        "start": 0.1,
-        "end": 0.4
+        "start": 0.12,
+        "end": 0.5
       },
       {
         "text": "ты",
-        "start": 0.48,
-        "end": 0.56
+        "start": 0.6,
+        "end": 0.7
       },
       {
         "text": "не",
-        "start": 0.58,
-        "end": 0.66
+        "start": 0.74,
+        "end": 0.82
       },
       {
         "text": "выбираешь,",
-        "start": 0.7,
-        "end": 1.14
+        "start": 0.86,
+        "end": 1.44
       },
       {
         "text": "а",
-        "start": 1.22,
-        "end": 1.26
+        "start": 1.64,
+        "end": 1.68
       },
       {
         "text": "просто",
-        "start": 1.34,
-        "end": 1.66
-      },
-      {
-        "text": "нажимаешь",
-        "start": 1.7,
+        "start": 1.78,
         "end": 2.12
       },
       {
+        "text": "нажимаешь",
+        "start": 2.16,
+        "end": 2.68
+      },
+      {
         "text": "«принять».",
-        "start": 2.22,
-        "end": 2.64
+        "start": 2.88,
+        "end": 3.38
       }
     ],
-    "durationSeconds": 3.056327,
-    "meanDb": -16.4,
-    "maxDb": -1.9,
+    "durationSeconds": 3.709388,
+    "loudnessLufs": -16,
+    "meanDb": -17.1,
+    "maxDb": -1.8,
     "model": "eleven_multilingual_v2",
-    "generatedAt": "2026-11-23T12:40:07.055Z",
-    "ok": true,
-    "loudnessLufs": -16
+    "generatedAt": "2026-11-23T13:10:49.337Z",
+    "ok": true
   },
   "audio/voice-4.mp3": {
     "words": [
       {
         "text": "Опрос",
         "start": 0.08,
-        "end": 0.36
+        "end": 0.4
       },
       {
         "text": "Microsoft",
-        "start": 0.42,
-        "end": 1.04
+        "start": 0.48,
+        "end": 1.2
       },
       {
         "text": "и",
-        "start": 1.18,
-        "end": 1.22
+        "start": 1.34,
+        "end": 1.38
       },
       {
         "text": "Carnegie",
-        "start": 1.32,
-        "end": 1.7
+        "start": 1.48,
+        "end": 1.92
       },
       {
         "text": "Mellon:",
-        "start": 1.76,
-        "end": 2.08
+        "start": 1.96,
+        "end": 2.3
       },
       {
         "text": "чем",
-        "start": 2.48,
-        "end": 2.62
+        "start": 2.58,
+        "end": 2.78
       },
       {
         "text": "больше",
-        "start": 2.68,
-        "end": 2.98
+        "start": 2.82,
+        "end": 3.14
       },
       {
         "text": "люди",
-        "start": 3,
-        "end": 3.22
+        "start": 3.18,
+        "end": 3.42
       },
       {
         "text": "доверяют",
-        "start": 3.26,
-        "end": 3.7
+        "start": 3.46,
+        "end": 3.92
       },
       {
         "text": "ИИ,",
-        "start": 3.92,
-        "end": 4.12
+        "start": 4.12,
+        "end": 4.4
       },
       {
         "text": "тем",
-        "start": 4.56,
-        "end": 4.72
+        "start": 4.62,
+        "end": 4.82
       },
       {
         "text": "меньше",
-        "start": 4.76,
-        "end": 5.04
+        "start": 4.92,
+        "end": 5.28
       },
       {
         "text": "думают",
-        "start": 5.1,
-        "end": 5.4
+        "start": 5.4,
+        "end": 5.8
       },
       {
         "text": "критически.",
-        "start": 5.44,
-        "end": 6.08
+        "start": 5.84,
+        "end": 6.6
       }
     ],
-    "durationSeconds": 6.50449,
-    "meanDb": -17.7,
-    "maxDb": -1.9,
+    "durationSeconds": 6.948571,
+    "loudnessLufs": -16,
+    "meanDb": -17.5,
+    "maxDb": -1.6,
     "model": "eleven_multilingual_v2",
-    "generatedAt": "2026-11-23T12:40:08.328Z",
-    "ok": true,
-    "loudnessLufs": -16
+    "generatedAt": "2026-11-23T13:10:50.839Z",
+    "ok": true
   },
   "audio/voice-5.mp3": {
     "words": [
       {
         "text": "Мышление",
         "start": 0.1,
-        "end": 0.62
+        "end": 0.8
       },
       {
         "text": "похоже",
-        "start": 0.66,
-        "end": 1.02
+        "start": 0.84,
+        "end": 1.28
       },
       {
         "text": "на",
-        "start": 1.06,
-        "end": 1.12
+        "start": 1.32,
+        "end": 1.44
       },
       {
         "text": "мышцу.",
-        "start": 1.18,
-        "end": 1.58
+        "start": 1.48,
+        "end": 1.94
       },
       {
         "text": "Не",
-        "start": 2.12,
-        "end": 2.22
+        "start": 2.28,
+        "end": 2.4
       },
       {
         "text": "тренируешь",
-        "start": 2.26,
-        "end": 2.78
+        "start": 2.44,
+        "end": 3.02
       },
       {
         "text": "—",
-        "start": 3.06,
-        "end": 3.061
+        "start": 3.2,
+        "end": 3.201
       },
       {
         "text": "слабеет.",
-        "start": 3.12,
-        "end": 3.66
+        "start": 3.26,
+        "end": 3.82
       },
       {
         "text": "Тренируешь",
-        "start": 4.2,
-        "end": 4.76
+        "start": 4.059,
+        "end": 4.72
       },
       {
         "text": "—",
-        "start": 4.76,
-        "end": 4.761
+        "start": 4.92,
+        "end": 4.921
       },
       {
         "text": "растёт.",
-        "start": 5.14,
-        "end": 5.62
+        "start": 4.98,
+        "end": 5.52
       }
     ],
     "durationSeconds": 5.982041,
-    "meanDb": -17.4,
+    "loudnessLufs": -16,
+    "meanDb": -17.7,
     "maxDb": -1.9,
     "model": "eleven_multilingual_v2",
-    "generatedAt": "2026-11-23T12:40:09.526Z",
-    "ok": true,
-    "loudnessLufs": -16
+    "generatedAt": "2026-11-23T13:10:52.304Z",
+    "ok": true
   },
   "audio/voice-6.mp3": {
     "words": [
       {
         "text": "Сегодня",
-        "start": 0.1,
-        "end": 0.44
+        "start": 0.12,
+        "end": 0.5
       },
       {
         "text": "ответь",
-        "start": 0.48,
-        "end": 0.74
+        "start": 0.54,
+        "end": 0.92
       },
       {
         "text": "на",
-        "start": 0.78,
-        "end": 0.84
+        "start": 0.98,
+        "end": 1.04
       },
       {
         "text": "один",
-        "start": 0.86,
-        "end": 1.06
+        "start": 1.1,
+        "end": 1.32
       },
       {
         "text": "вопрос",
-        "start": 1.1,
-        "end": 1.4
+        "start": 1.36,
+        "end": 1.78
       },
       {
         "text": "без",
-        "start": 1.46,
-        "end": 1.72
+        "start": 2.06,
+        "end": 2.26
       },
       {
         "text": "ИИ.",
-        "start": 1.84,
-        "end": 2.08
+        "start": 2.48,
+        "end": 2.7
       },
       {
         "text": "Напиши",
-        "start": 2.52,
-        "end": 2.84
+        "start": 3.18,
+        "end": 3.58
       },
       {
         "text": "в",
-        "start": 2.88,
-        "end": 2.92
-      },
-      {
-        "text": "комментариях,",
-        "start": 2.94,
-        "end": 3.44
-      },
-      {
-        "text": "что",
-        "start": 3.56,
+        "start": 3.62,
         "end": 3.68
       },
       {
-        "text": "получилось.",
+        "text": "комментариях,",
         "start": 3.72,
-        "end": 4.34
+        "end": 4.36
+      },
+      {
+        "text": "что",
+        "start": 4.46,
+        "end": 4.64
+      },
+      {
+        "text": "получилось.",
+        "start": 4.68,
+        "end": 5.38
       }
     ],
-    "durationSeconds": 4.728163,
-    "meanDb": -17.4,
+    "durationSeconds": 5.668571,
+    "loudnessLufs": -16,
+    "meanDb": -16.3,
     "maxDb": -1.9,
     "model": "eleven_multilingual_v2",
-    "generatedAt": "2026-11-23T12:40:10.697Z",
-    "ok": true,
-    "loudnessLufs": -16
+    "generatedAt": "2026-11-23T13:10:53.909Z",
+    "ok": true
   }
 }

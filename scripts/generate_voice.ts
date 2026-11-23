@@ -6,14 +6,17 @@
  *
  * Запуск:  npx tsx scripts/generate_voice.ts            — все реплики
  *          npx tsx scripts/generate_voice.ts --only 1   — одна сцена
+ *          npx tsx scripts/generate_voice.ts --only 2 --align-only — без TTS: только пересчитать тайминги слов
+ *            и уровни для уже лежащего файла (например, если вручную выбрали другой дубль)
  *          npx tsx scripts/generate_voice.ts --only 1 --model eleven_multilingual_v2 --stability 0.3 --suffix test
  *
- * Ключ: ELEVENLABS_API_KEY, голос: ELEVENLABS_VOICE_ID (из окружения или .env).
+ * Ключ: ELEVENLABS_API_KEY, основной диктор: ELEVENLABS_VOICE_ID (из окружения или .env).
+ * Реплики с собственным voiceId в src/content.ts (шёпот сцены 1) озвучиваются своим голосом.
  */
 import {readFileSync} from 'node:fs';
 import path from 'node:path';
 import {VOICE_LINES} from '../src/content';
-import {API_BASE, argValue, getApiKey, postAudio, probeDuration, saveFile, updateManifest, LOUDNESS_TARGET, normalizeLoudness} from './lib';
+import {API_BASE, PUBLIC_DIR, argValue, getApiKey, postAudio, probeDuration, saveFile, updateManifest, LOUDNESS_TARGET, normalizeLoudness} from './lib';
 
 async function listVoices() {
   const res = await fetch(`${API_BASE}/v1/voices`, {headers: {'xi-api-key': getApiKey()}});
@@ -65,6 +68,7 @@ async function main() {
   const only = argValue('only');
   const modelOverride = argValue('model');
   const suffix = argValue('suffix');
+  const alignOnly = process.argv.includes('--align-only');
   const lines = VOICE_LINES.filter((l) => !only || String(l.scene) === only);
 
   const failed: string[] = [];
@@ -77,14 +81,18 @@ async function main() {
     const voice_settings = stability ? {...line.voiceSettings, stability: parseFloat(stability)} : line.voiceSettings;
     const file = suffix ? line.file.replace('.mp3', `-${suffix}.mp3`) : line.file;
 
-    process.stdout.write(`Сцена ${line.scene} → ${file} (${modelId}) … `);
+    process.stdout.write(`Сцена ${line.scene} → ${file} (${modelId}, голос ${line.voiceId ?? voiceId}) … `);
     try {
-      const audio = await postAudio(
-        `/v1/text-to-speech/${voiceId}`,
-        {text, model_id: modelId, voice_settings},
-        {output_format: 'mp3_44100_128'},
-      );
-      const abs = saveFile(file, audio);
+      const abs = alignOnly
+        ? path.join(PUBLIC_DIR, file)
+        : saveFile(
+            file,
+            await postAudio(
+              `/v1/text-to-speech/${line.voiceId ?? voiceId}`,
+              {text, model_id: modelId, voice_settings},
+              {output_format: 'mp3_44100_128'},
+            ),
+          );
       const dur = probeDuration(abs);
       const lv = normalizeLoudness(abs, LOUDNESS_TARGET.voice);
       const words = await alignWords(abs, line.subtitle.replace(/\|/g, ' '));

@@ -43,12 +43,19 @@ export type VoiceLine = {
   /** Чистый текст для субтитров. Фразы разделены «|» — каждая часть станет отдельным экраном субтитров. */
   subtitle: string;
   modelId: string;
+  /** Голос для этой реплики. Если не задан — берётся ELEVENLABS_VOICE_ID (основной диктор). */
+  voiceId?: string;
   voiceSettings: VoiceSettings;
   /** Сдвиг старта реплики от начала сцены, кадры. */
   offset: number;
 };
 
-const DEFAULT_SETTINGS: VoiceSettings = {stability: 0.5, similarity_boost: 0.75};
+// Основной диктор (сцены 2–6): VASKO — Deep, Warm and Pleasant, voice_id Vl27Cllkuw8BhyPqus2n (задаётся в ELEVENLABS_VOICE_ID).
+// style 0.3 — чуть больше выразительности, чем у нейтрального чтения.
+const DEFAULT_SETTINGS: VoiceSettings = {stability: 0.45, similarity_boost: 0.75, style: 0.3, use_speaker_boost: true};
+
+// Шёпот в сцене 1 — голос Gleb (утверждён отдельно, не зависит от ELEVENLABS_VOICE_ID).
+export const WHISPER_VOICE_ID = 'aJC9di73GYKqRpVCR663';
 
 // TODO: проверить факты по оригиналам
 // (сцена 2 — исследование MIT 2025 про эссе с ChatGPT;
@@ -65,6 +72,7 @@ export const VOICE_LINES: VoiceLine[] = [
     subtitle:
       'Ты только что хотел|что-то спросить.|Но ещё не решил,|что думаешь.|Ты всё ещё|думаешь сам?',
     modelId: 'eleven_v4',
+    voiceId: WHISPER_VOICE_ID,
     voiceSettings: {stability: 0.5, similarity_boost: 0.75},
     offset: 2,
   },
@@ -81,7 +89,7 @@ export const VOICE_LINES: VoiceLine[] = [
       'Исследование MIT:|с ChatGPT мозг|работал слабее всех,|а свой текст потом|не могли пересказать.',
     modelId: 'eleven_multilingual_v2',
     voiceSettings: DEFAULT_SETTINGS,
-    offset: 4,
+    offset: 0, // VASKO читает эту фразу ~6,9 c — стартуем сразу с начала сцены
   },
   {
     scene: 3,
