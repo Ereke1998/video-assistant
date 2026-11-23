@@ -1,0 +1,36 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1080
+PlayResY: 1920
+WrapStyle: 0
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Main,Inter,84,&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,-1,0,0,0,100,100,0,0,1,3,4,2,140,140,520,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.20,0:00:01.14,Main,,0,0,0,,{\fad(80,0)\fscx90\fscy90\t(0,110,\fscx100\fscy100)}НА ЧУЖИЕ СТОРИС
+Dialogue: 0,0:00:01.14,0:00:01.85,Main,,0,0,0,,{\fad(80,0)\fscx90\fscy90\t(0,110,\fscx100\fscy100)}ВРЕМЯ ЕСТЬ
+Dialogue: 0,0:00:01.85,0:00:03.44,Main,,0,0,0,,{\fad(80,0)\fscx90\fscy90\t(0,110,\fscx100\fscy100)}А НА СВОИ — НЕТ?
+Dialogue: 0,0:00:03.44,0:00:04.88,Main,,0,0,0,,{\fad(80,0)\fscx90\fscy90\t(0,110,\fscx100\fscy100)}ПОСЧИТАЙ, СКОЛЬКО ТЫ
+Dialogue: 0,0:00:04.88,0:00:06.34,Main,,0,0,0,,{\fad(80,0)\fscx90\fscy90\t(0,110,\fscx100\fscy100)}СЕГОДНЯ ЛИСТАЛ ЛЕНТУ
+Dialogue: 0,0:00:06.34,0:00:08.32,Main,,0,0,0,,{\fad(80,0)\fscx90\fscy90\t(0,110,\fscx100\fscy100)}ЧАС? ДВА?
+Dialogue: 0,0:00:08.32,0:00:09.12,Main,,0,0,0,,{\fad(80,0)\fscx90\fscy90\t(0,110,\fscx100\fscy100)}ТЫ НЕ ЗАНЯТ
+Dialogue: 0,0:00:09.12,0:00:10.29,Main,,0,0,0,,{\fad(80,0)\fscx90\fscy90\t(0,110,\fscx100\fscy100)}ТЫ ПРОСТО ТРАТИШЬ ВРЕМЯ
+Dialogue: 0,0:00:10.29,0:00:11.83,Main,,0,0,0,,{\fad(80,0)\fscx90\fscy90\t(0,110,\fscx100\fscy100)}НА {\1c&H0AD6FF&}ЧУЖОЙ КОНТЕНТ{\1c&HFFFFFF&}
+Dialogue: 0,0:00:11.83,0:00:12.95,Main,,0,0,0,,{\fad(80,0)\fscx90\fscy90\t(0,110,\fscx100\fscy100)}ЧТОБЫ НАЧАТЬ БЛОГ
+Dialogue: 0,0:00:12.95,0:00:13.40,Main,,0,0,0,,{\fad(80,0)\fscx90\fscy90\t(0,110,\fscx100\fscy100)}НЕ НУЖНО
+Dialogue: 0,0:00:13.40,0:00:14.74,Main,,0,0,0,,{\fad(80,0)\fscx90\fscy90\t(0,110,\fscx100\fscy100)}ТРИ ЧАСА В ДЕНЬ
+Dialogue: 0,0:00:14.74,0:00:16.18,Main,,0,0,0,,{\fad(80,0)\fscx90\fscy90\t(0,110,\fscx100\fscy100)}ХВАТИТ {\1c&H0AD6FF&}15 МИНУТ{\1c&HFFFFFF&}
+Dialogue: 0,0:00:16.18,0:00:16.98,Main,,0,0,0,,{\fad(80,0)\fscx90\fscy90\t(0,110,\fscx100\fscy100)}ОДНО ВИДЕО
+Dialogue: 0,0:00:16.98,0:00:18.38,Main,,0,0,0,,{\fad(80,0)\fscx90\fscy90\t(0,110,\fscx100\fscy100)}ОДНА МЫСЛЬ
+Dialogue: 0,0:00:18.38,0:00:19.24,Main,,0,0,0,,{\fad(80,0)\fscx90\fscy90\t(0,110,\fscx100\fscy100)}У БЛОГЕРОВ ТОЖЕ
+Dialogue: 0,0:00:19.24,0:00:20.75,Main,,0,0,0,,{\fad(80,0)\fscx90\fscy90\t(0,110,\fscx100\fscy100)}РАБОТА И СЕМЬЯ
+Dialogue: 0,0:00:20.75,0:00:21.72,Main,,0,0,0,,{\fad(80,0)\fscx90\fscy90\t(0,110,\fscx100\fscy100)}ПРОСТО ОНИ ВЫБРАЛИ
+Dialogue: 0,0:00:21.72,0:00:23.56,Main,,0,0,0,,{\fad(80,0)\fscx90\fscy90\t(0,110,\fscx100\fscy100)}СНИМАТЬ, А НЕ СМОТРЕТЬ
+Dialogue: 0,0:00:23.56,0:00:24.59,Main,,0,0,0,,{\fad(80,0)\fscx90\fscy90\t(0,110,\fscx100\fscy100)}СКОЛЬКО ЧАСОВ В ДЕНЬ
+Dialogue: 0,0:00:24.59,0:00:26.17,Main,,0,0,0,,{\fad(80,0)\fscx90\fscy90\t(0,110,\fscx100\fscy100)}ТЫ СИДИШЬ В СОЦСЕТЯХ?
+Dialogue: 0,0:00:26.17,0:00:26.83,Main,,0,0,0,,{\fad(80,0)\fscx90\fscy90\t(0,110,\fscx100\fscy100)}{\1c&H0AD6FF&}ПИШИ ЧЕСТНО{\1c&HFFFFFF&}
+Dialogue: 0,0:00:26.83,0:00:28.39,Main,,0,0,0,,{\fad(80,0)\fscx90\fscy90\t(0,110,\fscx100\fscy100)}В КОММЕНТАРИЯХ
