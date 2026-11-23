@@ -1,6 +1,5 @@
 {
   "title": "Reels: начни блог — CGI-кино",
-
   "voice": {
     "voice_id": "aJC9di73GYKqRpVCR663",
     "voice_name": "Gleb - Deep & Resonant",
@@ -14,14 +13,12 @@
       "speed": 1.0
     }
   },
-
   "timing": {
     "lead_in_sec": 0.25,
     "default_pause_sec": 0.4,
     "tail_sec": 1.0,
     "cut_before_phrase_sec": 0.12
   },
-
   "video": {
     "width": 1080,
     "height": 1920,
@@ -30,24 +27,26 @@
     "fade_in_sec": 0.2,
     "fade_out_sec": 0.6
   },
-
   "subtitles": {
-    "uppercase": true,
-    "font": "Inter",
-    "font_size": 84,
-    "outline": 3,
-    "shadow": 4,
-    "margin_bottom_px": 520,
+    "style": "cinema",
     "highlight_color": "#FFD60A",
-    "keywords": ["чужой контент", "15 минут", "пиши честно"]
+    "glow_color": "#FF8A3D",
+    "margin_bottom_px": 520,
+    "keywords": [
+      "чужой контент",
+      "15 минут",
+      "пиши честно"
+    ]
   },
-
   "music": {
-    "volume": 0.2,
+    "db_below_voice": 14,
     "fade_in_sec": 1.0,
     "fade_out_sec": 1.5
   },
-
+  "sfx": {
+    "enabled": true,
+    "db_below_voice": 9
+  },
   "phrases": [
     {
       "id": 1,
@@ -81,38 +80,48 @@
       "subtitles": "Сколько часов в день | ты сидишь в соцсетях? | Пиши честно | в комментариях."
     }
   ],
-
   "style_suffix": "dark moody palette, cold blue and warm orange light from screens, dramatic volumetric lighting, shallow depth of field, slow cinematic camera movement, photorealistic 3D render, film grain, vertical 9:16 composition",
-
   "scenes": [
     {
       "id": 1,
-      "phrases": [1],
+      "phrases": [
+        1
+      ],
       "prompt": "Extreme close-up of a human eye reflecting endless scrolling social media feeds, blue screen glow, cinematic CGI, shallow depth of field, dark room."
     },
     {
       "id": 2,
-      "phrases": [2],
+      "phrases": [
+        2
+      ],
       "prompt": "A person sitting alone in a dark room, face lit only by a smartphone, thousands of floating glowing story circles orbiting around them, slow camera push-in, cinematic CGI."
     },
     {
       "id": 3,
-      "phrases": [3],
+      "phrases": [
+        3
+      ],
       "prompt": "Giant hourglass made of glowing phone screens, sand pouring down as tiny social media icons, dramatic lighting, slow motion, cinematic CGI."
     },
     {
       "id": 4,
-      "phrases": [4],
+      "phrases": [
+        4
+      ],
       "prompt": "The same person places the phone on a tripod, the room shifts from cold blue to warm golden light, a red recording dot appears, camera orbits slowly, cinematic CGI."
     },
     {
       "id": 5,
-      "phrases": [5],
+      "phrases": [
+        5
+      ],
       "prompt": "Split world: on one side crowds of people frozen staring at phones, on the other side one person confidently filming, glowing warm light, epic wide shot, cinematic CGI."
     },
     {
       "id": 6,
-      "phrases": [6],
+      "phrases": [
+        6
+      ],
       "prompt": "Close-up of a phone screen showing \"Screen Time: 5h 12m\", the numbers glitch and glow, dark background, cinematic CGI."
     }
   ]
