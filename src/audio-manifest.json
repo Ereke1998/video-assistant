@@ -1,0 +1,542 @@
+{
+  "audio/music.mp3": {
+    "durationSeconds": 40.071813,
+    "meanDb": -17.7,
+    "maxDb": -5.7,
+    "model": "music_v1",
+    "generatedAt": "2026-11-23T12:38:57.533Z",
+    "ok": true,
+    "loudnessLufs": -16
+  },
+  "audio/sfx-crowd.mp3": {
+    "durationSeconds": 5.041633,
+    "meanDb": -19.1,
+    "maxDb": -4.9,
+    "attempts": 1,
+    "prompt": "Quiet distant crowd murmur in a city square at night, soft traffic ambience",
+    "generatedAt": "2026-11-23T12:38:40.930Z",
+    "ok": true,
+    "loudnessLufs": -20
+  },
+  "audio/sfx-cursor.mp3": {
+    "durationSeconds": 2.037551,
+    "meanDb": -33.5,
+    "maxDb": -2.5,
+    "attempts": 1,
+    "prompt": "Soft quiet single computer mouse click, then faint blinking text cursor ticks in a silent dark room",
+    "generatedAt": "2026-11-23T12:38:35.347Z",
+    "ok": true,
+    "loudnessLufs": -20
+  },
+  "audio/sfx-glitch.mp3": {
+    "durationSeconds": 1.044898,
+    "meanDb": -26.4,
+    "maxDb": -7.6,
+    "attempts": 1,
+    "prompt": "Short digital glitch, quick data corruption stutter, electronic",
+    "generatedAt": "2026-11-23T12:38:42.483Z",
+    "ok": true,
+    "loudnessLufs": -20
+  },
+  "audio/sfx-hologram.mp3": {
+    "durationSeconds": 2.037551,
+    "meanDb": -27.4,
+    "maxDb": -10.1,
+    "attempts": 1,
+    "prompt": "Sci-fi hologram flickering on with electric crackle and a low steady hum",
+    "generatedAt": "2026-11-23T12:38:38.604Z",
+    "ok": true,
+    "loudnessLufs": -20
+  },
+  "audio/sfx-paper.mp3": {
+    "durationSeconds": 2.037551,
+    "meanDb": -31.8,
+    "maxDb": -2,
+    "attempts": 1,
+    "prompt": "Single sheet of paper gently rustling and fluttering in the air",
+    "generatedAt": "2026-11-23T12:38:44.421Z",
+    "ok": true,
+    "loudnessLufs": -20
+  },
+  "audio/sfx-pen.mp3": {
+    "durationSeconds": 4.04898,
+    "meanDb": -24.1,
+    "maxDb": -2.2,
+    "attempts": 1,
+    "prompt": "Ballpoint pen writing on paper, scratching handwriting sounds, close up, quiet room",
+    "generatedAt": "2026-11-23T12:38:47.524Z",
+    "ok": true,
+    "loudnessLufs": -20
+  },
+  "audio/sfx-pulse.mp3": {
+    "durationSeconds": 3.030204,
+    "meanDb": -20.4,
+    "maxDb": -8.7,
+    "attempts": 1,
+    "prompt": "Deep low pulsating heartbeat-like bass throb, cinematic, slow rhythm",
+    "generatedAt": "2026-11-23T12:38:46.131Z",
+    "ok": true,
+    "loudnessLufs": -20
+  },
+  "audio/sfx-typing.mp3": {
+    "durationSeconds": 3.030204,
+    "meanDb": -22,
+    "maxDb": -0.1,
+    "attempts": 1,
+    "prompt": "Typing on a laptop keyboard, soft keystrokes, quiet room, close up",
+    "generatedAt": "2026-11-23T12:38:37.030Z",
+    "ok": true,
+    "loudnessLufs": -20
+  },
+  "audio/voice-1.mp3": {
+    "words": [
+      {
+        "text": "Ты",
+        "start": 0.12,
+        "end": 0.2
+      },
+      {
+        "text": "только",
+        "start": 0.32,
+        "end": 0.64
+      },
+      {
+        "text": "что",
+        "start": 0.68,
+        "end": 0.84
+      },
+      {
+        "text": "хотел",
+        "start": 0.88,
+        "end": 1.2
+      },
+      {
+        "text": "что-то",
+        "start": 1.26,
+        "end": 1.52
+      },
+      {
+        "text": "спросить.",
+        "start": 1.56,
+        "end": 2.14
+      },
+      {
+        "text": "Но",
+        "start": 2.62,
+        "end": 2.7
+      },
+      {
+        "text": "ещё",
+        "start": 2.76,
+        "end": 2.96
+      },
+      {
+        "text": "не",
+        "start": 3,
+        "end": 3.08
+      },
+      {
+        "text": "решил,",
+        "start": 3.12,
+        "end": 3.42
+      },
+      {
+        "text": "что",
+        "start": 3.5,
+        "end": 3.68
+      },
+      {
+        "text": "думаешь.",
+        "start": 3.72,
+        "end": 4.16
+      },
+      {
+        "text": "Ты",
+        "start": 4.66,
+        "end": 4.76
+      },
+      {
+        "text": "всё",
+        "start": 4.8,
+        "end": 4.96
+      },
+      {
+        "text": "ещё",
+        "start": 5.02,
+        "end": 5.18
+      },
+      {
+        "text": "думаешь",
+        "start": 5.26,
+        "end": 5.6
+      },
+      {
+        "text": "сам?",
+        "start": 5.68,
+        "end": 5.92
+      }
+    ],
+    "durationSeconds": 6.269388,
+    "meanDb": -18.3,
+    "maxDb": -1.8,
+    "model": "eleven_v4",
+    "generatedAt": "2026-11-23T12:37:58.797Z",
+    "ok": true,
+    "loudnessLufs": -16
+  },
+  "audio/voice-2.mp3": {
+    "words": [
+      {
+        "text": "Исследование",
+        "start": 0.08,
+        "end": 0.74
+      },
+      {
+        "text": "MIT:",
+        "start": 0.76,
+        "end": 1.14
+      },
+      {
+        "text": "с",
+        "start": 1.62,
+        "end": 1.64
+      },
+      {
+        "text": "ChatGPT",
+        "start": 1.7,
+        "end": 2.34
+      },
+      {
+        "text": "мозг",
+        "start": 2.72,
+        "end": 2.92
+      },
+      {
+        "text": "работал",
+        "start": 2.98,
+        "end": 3.32
+      },
+      {
+        "text": "слабее",
+        "start": 3.4,
+        "end": 3.78
+      },
+      {
+        "text": "всех,",
+        "start": 3.82,
+        "end": 4.16
+      },
+      {
+        "text": "а",
+        "start": 4.52,
+        "end": 4.54
+      },
+      {
+        "text": "свой",
+        "start": 4.62,
+        "end": 4.82
+      },
+      {
+        "text": "текст",
+        "start": 4.86,
+        "end": 5.14
+      },
+      {
+        "text": "потом",
+        "start": 5.18,
+        "end": 5.46
+      },
+      {
+        "text": "не",
+        "start": 5.48,
+        "end": 5.56
+      },
+      {
+        "text": "могли",
+        "start": 5.6,
+        "end": 5.88
+      },
+      {
+        "text": "пересказать.",
+        "start": 5.9,
+        "end": 6.48
+      }
+    ],
+    "durationSeconds": 6.922449,
+    "meanDb": -17.6,
+    "maxDb": -1.8,
+    "model": "eleven_multilingual_v2",
+    "generatedAt": "2026-11-23T12:40:06.051Z",
+    "ok": true,
+    "loudnessLufs": -16
+  },
+  "audio/voice-3.mp3": {
+    "words": [
+      {
+        "text": "Иногда",
+        "start": 0.1,
+        "end": 0.4
+      },
+      {
+        "text": "ты",
+        "start": 0.48,
+        "end": 0.56
+      },
+      {
+        "text": "не",
+        "start": 0.58,
+        "end": 0.66
+      },
+      {
+        "text": "выбираешь,",
+        "start": 0.7,
+        "end": 1.14
+      },
+      {
+        "text": "а",
+        "start": 1.22,
+        "end": 1.26
+      },
+      {
+        "text": "просто",
+        "start": 1.34,
+        "end": 1.66
+      },
+      {
+        "text": "нажимаешь",
+        "start": 1.7,
+        "end": 2.12
+      },
+      {
+        "text": "«принять».",
+        "start": 2.22,
+        "end": 2.64
+      }
+    ],
+    "durationSeconds": 3.056327,
+    "meanDb": -16.4,
+    "maxDb": -1.9,
+    "model": "eleven_multilingual_v2",
+    "generatedAt": "2026-11-23T12:40:07.055Z",
+    "ok": true,
+    "loudnessLufs": -16
+  },
+  "audio/voice-4.mp3": {
+    "words": [
+      {
+        "text": "Опрос",
+        "start": 0.08,
+        "end": 0.36
+      },
+      {
+        "text": "Microsoft",
+        "start": 0.42,
+        "end": 1.04
+      },
+      {
+        "text": "и",
+        "start": 1.18,
+        "end": 1.22
+      },
+      {
+        "text": "Carnegie",
+        "start": 1.32,
+        "end": 1.7
+      },
+      {
+        "text": "Mellon:",
+        "start": 1.76,
+        "end": 2.08
+      },
+      {
+        "text": "чем",
+        "start": 2.48,
+        "end": 2.62
+      },
+      {
+        "text": "больше",
+        "start": 2.68,
+        "end": 2.98
+      },
+      {
+        "text": "люди",
+        "start": 3,
+        "end": 3.22
+      },
+      {
+        "text": "доверяют",
+        "start": 3.26,
+        "end": 3.7
+      },
+      {
+        "text": "ИИ,",
+        "start": 3.92,
+        "end": 4.12
+      },
+      {
+        "text": "тем",
+        "start": 4.56,
+        "end": 4.72
+      },
+      {
+        "text": "меньше",
+        "start": 4.76,
+        "end": 5.04
+      },
+      {
+        "text": "думают",
+        "start": 5.1,
+        "end": 5.4
+      },
+      {
+        "text": "критически.",
+        "start": 5.44,
+        "end": 6.08
+      }
+    ],
+    "durationSeconds": 6.50449,
+    "meanDb": -17.7,
+    "maxDb": -1.9,
+    "model": "eleven_multilingual_v2",
+    "generatedAt": "2026-11-23T12:40:08.328Z",
+    "ok": true,
+    "loudnessLufs": -16
+  },
+  "audio/voice-5.mp3": {
+    "words": [
+      {
+        "text": "Мышление",
+        "start": 0.1,
+        "end": 0.62
+      },
+      {
+        "text": "похоже",
+        "start": 0.66,
+        "end": 1.02
+      },
+      {
+        "text": "на",
+        "start": 1.06,
+        "end": 1.12
+      },
+      {
+        "text": "мышцу.",
+        "start": 1.18,
+        "end": 1.58
+      },
+      {
+        "text": "Не",
+        "start": 2.12,
+        "end": 2.22
+      },
+      {
+        "text": "тренируешь",
+        "start": 2.26,
+        "end": 2.78
+      },
+      {
+        "text": "—",
+        "start": 3.06,
+        "end": 3.061
+      },
+      {
+        "text": "слабеет.",
+        "start": 3.12,
+        "end": 3.66
+      },
+      {
+        "text": "Тренируешь",
+        "start": 4.2,
+        "end": 4.76
+      },
+      {
+        "text": "—",
+        "start": 4.76,
+        "end": 4.761
+      },
+      {
+        "text": "растёт.",
+        "start": 5.14,
+        "end": 5.62
+      }
+    ],
+    "durationSeconds": 5.982041,
+    "meanDb": -17.4,
+    "maxDb": -1.9,
+    "model": "eleven_multilingual_v2",
+    "generatedAt": "2026-11-23T12:40:09.526Z",
+    "ok": true,
+    "loudnessLufs": -16
+  },
+  "audio/voice-6.mp3": {
+    "words": [
+      {
+        "text": "Сегодня",
+        "start": 0.1,
+        "end": 0.44
+      },
+      {
+        "text": "ответь",
+        "start": 0.48,
+        "end": 0.74
+      },
+      {
+        "text": "на",
+        "start": 0.78,
+        "end": 0.84
+      },
+      {
+        "text": "один",
+        "start": 0.86,
+        "end": 1.06
+      },
+      {
+        "text": "вопрос",
+        "start": 1.1,
+        "end": 1.4
+      },
+      {
+        "text": "без",
+        "start": 1.46,
+        "end": 1.72
+      },
+      {
+        "text": "ИИ.",
+        "start": 1.84,
+        "end": 2.08
+      },
+      {
+        "text": "Напиши",
+        "start": 2.52,
+        "end": 2.84
+      },
+      {
+        "text": "в",
+        "start": 2.88,
+        "end": 2.92
+      },
+      {
+        "text": "комментариях,",
+        "start": 2.94,
+        "end": 3.44
+      },
+      {
+        "text": "что",
+        "start": 3.56,
+        "end": 3.68
+      },
+      {
+        "text": "получилось.",
+        "start": 3.72,
+        "end": 4.34
+      }
+    ],
+    "durationSeconds": 4.728163,
+    "meanDb": -17.4,
+    "maxDb": -1.9,
+    "model": "eleven_multilingual_v2",
+    "generatedAt": "2026-11-23T12:40:10.697Z",
+    "ok": true,
+    "loudnessLufs": -16
+  }
+}
