@@ -2,68 +2,82 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<title>Сцена 2 — CGI-часы «Час? Два?»</title>
+<title>Reels «Начни блог» — CGI-сцены</title>
 <style>
   html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
   #wrap { height: 100vh; display: flex; align-items: center; justify-content: center; }
   canvas { height: 100vh; width: auto; aspect-ratio: 9 / 16; display: block; }
-  #restart { position: fixed; top: 12px; left: 12px; font: 600 14px system-ui, sans-serif;
-             padding: 8px 12px; border-radius: 8px; border: 0; background: #fff; cursor: pointer; }
-  .record #restart { display: none; }
+  #ui { position: fixed; top: 12px; left: 12px; display: flex; gap: 6px; }
+  #ui a, #ui button { font: 600 14px system-ui, sans-serif; padding: 8px 12px; border-radius: 8px; border: 0;
+                      background: #fff; color: #000; cursor: pointer; text-decoration: none; }
+  #ui a.on { background: #f5c242; }
+  .record #ui { display: none; }
   .record canvas { width: 1080px; height: 1920px; }
 </style>
 </head>
 <body>
 <div id="wrap"></div>
-<button id="restart">↺ С начала (R)</button>
+<div id="ui">
+  <a href="?scene=1">1</a><a href="?scene=2">2</a><a href="?scene=3">3</a>
+  <a href="?scene=4">4</a><a href="?scene=5">5</a><a href="?scene=6">6</a>
+  <button id="restart">↺ С начала (R)</button>
+</div>
 
 <script type="module">
 /* =====================================================================
-   НАСТРОЙКИ СЦЕНЫ — здесь можно менять цвета и тайминги
+   ОБЩИЕ НАСТРОЙКИ — цвета и тексты можно менять здесь
+   Сцена выбирается так: animation.html?scene=3
    ===================================================================== */
 const CFG = {
   width: 1080, height: 1920,
-  duration: 4.9,        // длина сцены, сек
-  hitHour1: 3.02,       // «Час?» — табло показывает 01:00 (сек от начала сцены)
-  hitHour2: 3.91,       // «Два?» — табло показывает 02:00
-  bg: 0x04060c,         // цвет темноты
-  ringBlue: 0x46566e,   // синий обод часов (как на референсе)
-  face: 0xf2efe6,       // белый циферблат
-  red: 0xe2463a,        // секундная стрелка
-  yellow: 0xf5c242,     // кнопка секундомера
-  coldLight: 0x4f9dff,  // холодный свет экрана
-  warmLight: 0xff8a3d,  // тёплый контровой свет
-  seed: 7,              // случайное расположение фона (любое число)
+  bg: 0x04060c,          // цвет темноты
+  ringBlue: 0x46566e,    // стальной синий (как обод часов на референсе)
+  face: 0xf2efe6,        // белый
+  red: 0xe2463a,         // красный (секундная стрелка, REC)
+  yellow: 0xf5c242,      // жёлтый акцент (кнопка, пузырь комментария)
+  coldLight: 0x4f9dff,   // холодный свет экрана
+  warmLight: 0xff8a3d,   // тёплый оранжевый свет
+  gold: 0xffb35a,        // золотой свет (сцена 4)
+  screenTitle: 'Screen Time',   // сцена 6: заголовок на экране
+  screenValue: '5h 12m',        // сцена 6: время на экране
+  seed: 7,               // случайное расположение фона (любое число)
 };
+
+const params = new URLSearchParams(location.search);
+const SCENE = parseInt(params.get('scene') || '2', 10);
+// Время слов подставляет render_animation.js из audio/timings.json.
+// Если файла открыли просто в браузере — берутся значения по умолчанию.
+const WORDS = window.SCENE_WORDS || null;
+const at = (frag, fallback) => {
+  if (!WORDS) return fallback;
+  const w = WORDS.find(w => w.text.toLowerCase().includes(frag));
+  return w ? w.start : fallback;
+};
+const sceneDuration = (fallback) => (window.SCENE_DURATION ? window.SCENE_DURATION + 0.04 : fallback);
+document.querySelectorAll('#ui a').forEach(a => { if (a.getAttribute('href') === `?scene=${SCENE}`) a.classList.add('on'); });
 
 /* ---------- three.js встроен в конец файла (без интернета) ---------- */
 const b64 = document.getElementById('three-lib').textContent.trim();
 const bytes = Uint8Array.from(atob(b64), c => c.charCodeAt(0));
 const THREE = await import(URL.createObjectURL(new Blob([bytes], { type: 'text/javascript' })));
+await Promise.all(['400', '600', '700', '800'].map(w => document.fonts.load(`${w} 40px Inter`)));
 
-/* ---------- плавность (easing) ---------- */
+/* ---------- плавность (easing) и случайность ---------- */
 const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
 const lerp = (a, b, t) => a + (b - a) * t;
 const seg = (t, a, b) => clamp((t - a) / (b - a));
 const easeInOutCubic = t => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 const easeInOutSine = t => -(Math.cos(Math.PI * t) - 1) / 2;
+const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
+const easeOutBack = t => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); };
+const pulseAt = (t, h, decay = 5) => (t >= h ? Math.exp(-(t - h) * decay) : Math.exp(-(h - t) * 40));
 function rng(seed) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
   t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
-const rand = rng(CFG.seed);
+const rand = rng(CFG.seed * 100 + SCENE);
 
-/* ---------- таймлайн: сколько «минут» прошло на часах ---------- */
-function minutes(t) {
-  if (t < CFG.hitHour1) return 60 * easeInOutCubic(seg(t, 0.15, CFG.hitHour1));
-  return 60 + 60 * easeInOutCubic(seg(t, CFG.hitHour1 + 0.08, CFG.hitHour2));
-}
-const secondTurns = t => 0.75 + 3 * easeInOutCubic(seg(t, 0.1, 4.5));   // красная стрелка
-function hitPulse(t) {   // вспышка на словах «Час?» и «Два?»
-  let p = 0;
-  for (const h of [CFG.hitHour1, CFG.hitHour2]) p += t >= h ? Math.exp(-(t - h) * 5) : Math.exp(-(h - t) * 40);
-  return Math.min(1, p);
-}
-
-/* ---------- рендерер ---------- */
+/* =====================================================================
+   ОБЩИЙ МИР: рендерер, туман, отражения
+   ===================================================================== */
 const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
 renderer.setPixelRatio(1);
 renderer.setSize(CFG.width, CFG.height, false);
@@ -77,10 +91,10 @@ document.getElementById('wrap').appendChild(renderer.domElement);
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(CFG.bg);
 scene.fog = new THREE.FogExp2(CFG.bg, 0.05);
-const camera = new THREE.PerspectiveCamera(32, CFG.width / CFG.height, 0.1, 100);
+const camera = new THREE.PerspectiveCamera(32, CFG.width / CFG.height, 0.05, 120);
+const add = (o, parent = scene) => { parent.add(o); return o; };
 
-/* ---------- отражения: «комната» с синим и оранжевым экраном ---------- */
-{
+{ // «комната» для отражений: синий экран, оранжевый экран, полоска софтбокса
   const env = new THREE.Scene();
   env.background = new THREE.Color(0x020306);
   const panel = (w, h, color, k, x, y, z) => {
@@ -88,10 +102,38 @@ const camera = new THREE.PerspectiveCamera(32, CFG.width / CFG.height, 0.1, 100)
       new THREE.MeshBasicMaterial({ color: new THREE.Color(color).multiplyScalar(k), side: THREE.DoubleSide }));
     m.position.set(x, y, z); m.lookAt(0, 0, 0); env.add(m);
   };
-  panel(3, 5, CFG.coldLight, 5, -5, -1, 4);    // экран телефона спереди-слева
-  panel(4, 4, CFG.warmLight, 7, 5, 3, -4);     // тёплый экран сзади-справа
-  panel(8, 0.35, 0xffffff, 4, 0, 6, 2);        // узкий софтбокс сверху → блик-полоска
+  panel(3, 5, CFG.coldLight, 5, -5, -1, 4);
+  panel(4, 4, CFG.warmLight, 7, 5, 3, -4);
+  panel(8, 0.35, 0xffffff, 4, 0, 6, 2);
   scene.environment = new THREE.PMREMGenerator(renderer).fromScene(env, 0.02).texture;
+}
+
+/* ---------- материалы и формы ---------- */
+const phys = (color, o = {}) => new THREE.MeshPhysicalMaterial({ color, roughness: 0.4, metalness: 0,
+  clearcoat: 0.5, clearcoatRoughness: 0.3, envMapIntensity: 0.45, ...o });
+const black = phys(0x101114, { roughness: 0.35, clearcoat: 0.8 });
+const shadowAll = m => { m.castShadow = true; m.receiveShadow = true; return m; };
+function roundedRect(w, h, r) {
+  const s = new THREE.Shape(), x = -w / 2, y = -h / 2;
+  s.moveTo(x + r, y); s.lineTo(x + w - r, y); s.quadraticCurveTo(x + w, y, x + w, y + r);
+  s.lineTo(x + w, y + h - r); s.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  s.lineTo(x + r, y + h); s.quadraticCurveTo(x, y + h, x, y + h - r);
+  s.lineTo(x, y + r); s.quadraticCurveTo(x, y, x + r, y); return s;
+}
+function normalizeUV(geo) {
+  geo.computeBoundingBox(); const b = geo.boundingBox, pos = geo.attributes.position;
+  const uv = new Float32Array(pos.count * 2);
+  for (let i = 0; i < pos.count; i++) {
+    uv[i * 2] = (pos.getX(i) - b.min.x) / (b.max.x - b.min.x);
+    uv[i * 2 + 1] = (pos.getY(i) - b.min.y) / (b.max.y - b.min.y);
+  }
+  geo.setAttribute('uv', new THREE.BufferAttribute(uv, 2)); return geo;
+}
+function limb(mesh, from, to) {   // ставит капсулу/цилиндр между двумя точками
+  const dir = new THREE.Vector3().subVectors(to, from);
+  mesh.position.copy(from).addScaledVector(dir, 0.5);
+  mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.clone().normalize());
+  return mesh;
 }
 
 /* ---------- текстуры на canvas ---------- */
@@ -100,159 +142,169 @@ function canvasTex(w, h, draw) {
   draw(c.getContext('2d'), w, h);
   const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; return tex;
 }
-function blurred(src, px) {   // размытая копия — имитация глубины резкости
-  return canvasTex(src.width, src.height, (g) => { g.filter = `blur(${px}px)`; g.drawImage(src, 0, 0); });
-}
+const blurred = (src, px) => canvasTex(src.width, src.height, g => { g.filter = `blur(${px}px)`; g.drawImage(src, 0, 0); });
 const glowTex = (rgb) => canvasTex(256, 256, (g, w) => {
   const gr = g.createRadialGradient(w / 2, w / 2, 0, w / 2, w / 2, w / 2);
   gr.addColorStop(0, `rgba(${rgb},1)`); gr.addColorStop(0.35, `rgba(${rgb},0.35)`); gr.addColorStop(1, `rgba(${rgb},0)`);
   g.fillStyle = gr; g.fillRect(0, 0, w, w);
 });
+const glowSprite = (rgb, size, opacity, parent = scene) => {
+  const s = add(new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex(rgb), transparent: true, opacity,
+    blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false })), parent);
+  s.scale.set(size, size, 1); return s;
+};
 
-/* ---------- материалы ---------- */
-const phys = (color, o = {}) => new THREE.MeshPhysicalMaterial({ color, roughness: 0.4, metalness: 0,
-  clearcoat: 0.5, clearcoatRoughness: 0.3, envMapIntensity: 0.45, ...o });
-const black = phys(0x101114, { roughness: 0.35, clearcoat: 0.8 });
-const shadowAll = m => { m.castShadow = true; m.receiveShadow = true; return m; };
-
-/* =====================================================================
-   ЧАСЫ (по референсу: синий обод, белый циферблат, жёлтая кнопка, табло)
-   ===================================================================== */
-const clock = new THREE.Group();
-clock.position.set(0, 0.65, 0);
-scene.add(clock);
-
-// синий обод с фаской
-const ringShape = new THREE.Shape(); ringShape.absarc(0, 0, 1.0, 0, Math.PI * 2, false);
-const hole = new THREE.Path(); hole.absarc(0, 0, 0.74, 0, Math.PI * 2, true); ringShape.holes.push(hole);
-clock.add(shadowAll(new THREE.Mesh(
-  new THREE.ExtrudeGeometry(ringShape, { depth: 0.14, bevelEnabled: true, bevelThickness: 0.04,
-    bevelSize: 0.035, bevelSegments: 6, curveSegments: 128 }),
-  phys(CFG.ringBlue, { roughness: 0.32, metalness: 0.25, clearcoat: 0.9, clearcoatRoughness: 0.18 }))));
-
-// циферблат (утоплен внутрь обода)
-const face = shadowAll(new THREE.Mesh(new THREE.CylinderGeometry(0.745, 0.745, 0.04, 128),
-  phys(CFG.face, { roughness: 0.45, clearcoat: 0.3, emissive: 0xffffff, emissiveIntensity: 0.012 })));
-face.rotation.x = Math.PI / 2; face.position.z = 0.05; clock.add(face);
-
-// чёрная окантовка циферблата
-const bezel = new THREE.Mesh(new THREE.TorusGeometry(0.718, 0.018, 16, 160), black);
-bezel.position.z = 0.072; clock.add(bezel);
-
-// риски: 12, 3, 6, 9 — длинные
-for (let i = 0; i < 12; i++) {
-  const main = i % 3 === 0, a = i / 12 * Math.PI * 2, r = main ? 0.6 : 0.615;
-  const tick = shadowAll(new THREE.Mesh(new THREE.BoxGeometry(main ? 0.036 : 0.026, main ? 0.13 : 0.085, 0.02), black));
-  tick.position.set(Math.sin(a) * r, Math.cos(a) * r, 0.082); tick.rotation.z = -a; clock.add(tick);
+/* ---------- иконки соцсетей (2D) ---------- */
+function heartPath(g, x, y, s) {   // центр (x, y), размер s
+  y -= s * 0.45;
+  g.beginPath(); g.moveTo(x, y + s * 0.3);
+  g.bezierCurveTo(x, y, x - s * 0.5, y, x - s * 0.5, y + s * 0.3);
+  g.bezierCurveTo(x - s * 0.5, y + s * 0.6, x, y + s * 0.78, x, y + s);
+  g.bezierCurveTo(x, y + s * 0.78, x + s * 0.5, y + s * 0.6, x + s * 0.5, y + s * 0.3);
+  g.bezierCurveTo(x + s * 0.5, y, x, y, x, y + s * 0.3); g.closePath();
 }
-
-// стрелки (+ полупрозрачные «шлейфы» для эффекта размытия движения)
-function makeHand(geo, mat, z) {
-  const pivot = new THREE.Group(); pivot.position.z = z;
-  const main = new THREE.Mesh(geo, mat); main.castShadow = true; pivot.add(main);
-  const ghosts = [];
-  for (let k = 1; k <= 4; k++) {
-    const gm = mat.clone(); gm.transparent = true; gm.opacity = 0.32 / k; gm.depthWrite = false;
-    const g = new THREE.Mesh(geo, gm); g.visible = false; pivot.add(g); ghosts.push(g);
+function drawIcon(g, type, x, y, s, color) {
+  g.fillStyle = color;
+  if (type === 0) { heartPath(g, x, y, s); g.fill(); }
+  else if (type === 1) {   // кнопка «play»
+    g.beginPath(); g.roundRect(x - s / 2, y - s / 2, s, s, s * 0.25); g.fill();
+    g.fillStyle = '#fff'; g.beginPath(); g.moveTo(x - s * 0.14, y - s * 0.2); g.lineTo(x + s * 0.22, y); g.lineTo(x - s * 0.14, y + s * 0.2); g.fill();
+  } else if (type === 2) {   // пузырь комментария
+    g.beginPath(); g.arc(x, y - s * 0.05, s * 0.45, 0, Math.PI * 2); g.fill();
+    g.beginPath(); g.moveTo(x - s * 0.3, y + s * 0.2); g.lineTo(x - s * 0.42, y + s * 0.48); g.lineTo(x - s * 0.05, y + s * 0.36); g.fill();
+  } else {   // звезда
+    g.beginPath();
+    for (let i = 0; i < 10; i++) { const r = i % 2 ? s * 0.22 : s * 0.5, a = -Math.PI / 2 + i * Math.PI / 5;
+      g.lineTo(x + Math.cos(a) * r, y + Math.sin(a) * r); }
+    g.closePath(); g.fill();
   }
-  clock.add(pivot);
-  return { pivot, main, ghosts };
 }
-const capsule = (len, w) => { const g = new THREE.CapsuleGeometry(w, len, 6, 16); g.translate(0, len / 2, 0); g.scale(1, 1, 0.55); return g; };
-const hourHand = makeHand(capsule(0.30, 0.034), black, 0.11);
-const minuteHand = makeHand(capsule(0.47, 0.027), black, 0.135);
-const secGeo = new THREE.BoxGeometry(0.014, 0.66, 0.012); secGeo.translate(0, 0.21, 0);
-const secondHand = makeHand(secGeo, phys(CFG.red, { emissive: CFG.red, emissiveIntensity: 0.35, roughness: 0.3 }), 0.158);
-const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.056, 0.056, 0.05, 48), black);
-cap.rotation.x = Math.PI / 2; cap.position.z = 0.17; clock.add(cap);
-const capDot = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.022, 0.02, 32), phys(CFG.red, { emissive: CFG.red, emissiveIntensity: 0.3 }));
-capDot.rotation.x = Math.PI / 2; capDot.position.z = 0.2; clock.add(capDot);
+const ICON_COLORS = ['#ff4f6d', '#ffb347', '#ffffff', '#ffd84d'];
+const iconTex = [0, 1, 2, 3].map(type => canvasTex(128, 128, g => {
+  g.shadowColor = ICON_COLORS[type]; g.shadowBlur = 14; drawIcon(g, type, 64, 64, 70, ICON_COLORS[type]);
+}));
 
-// блик на стекле
-const glint = new THREE.Mesh(new THREE.CircleGeometry(0.745, 96), new THREE.MeshBasicMaterial({
-  map: canvasTex(512, 512, (g, w) => {
-    const gr = g.createLinearGradient(0, 0, w, w);
-    gr.addColorStop(0.18, 'rgba(255,255,255,0)'); gr.addColorStop(0.3, 'rgba(210,230,255,0.55)');
-    gr.addColorStop(0.36, 'rgba(255,255,255,0.08)'); gr.addColorStop(0.42, 'rgba(255,255,255,0)');
-    g.fillStyle = gr; g.fillRect(0, 0, w, w);
-  }),
-  transparent: true, opacity: 0.22, blending: THREE.AdditiveBlending, depthWrite: false }));
-glint.position.z = 0.215; clock.add(glint);
-
-// жёлтая кнопка секундомера
-{
-  const a = -0.3, btn = new THREE.Group();
-  btn.position.set(Math.sin(a) * 1.0, Math.cos(a) * 1.0, 0.07); btn.rotation.z = -a; clock.add(btn);
-  const yellow = phys(CFG.yellow, { roughness: 0.25, clearcoat: 1, clearcoatRoughness: 0.1,
-                                    emissive: CFG.yellow, emissiveIntensity: 0.12 });
-  const stem = shadowAll(new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.16, 32), yellow)); stem.position.y = 0.05; btn.add(stem);
-  const top = shadowAll(new THREE.Mesh(new THREE.CylinderGeometry(0.17, 0.17, 0.09, 64), yellow)); top.position.y = 0.15; btn.add(top);
+/* ---------- лента соцсети на экране телефона (2D, ширина 512) ---------- */
+const PALETTES = [['#ff8a3d', '#6a2bd1'], ['#2f8fff', '#0a2f6e'], ['#ffd25a', '#ff4f6d'],
+                  ['#38d3c0', '#16407a'], ['#ff5f3d', '#2a1658'], ['#9b5cff', '#ff8a8a']];
+const POST_H = 640;
+function drawPost(g, y, k) {
+  const pr = rng(1000 + k), [c1, c2] = PALETTES[((k % 6) + 6) % 6];
+  g.fillStyle = c1; g.beginPath(); g.arc(34, y + 32, 18, 0, 7); g.fill();
+  g.fillStyle = 'rgba(255,255,255,0.75)'; g.beginPath(); g.roundRect(62, y + 24, 110 + pr() * 80, 14, 7); g.fill();
+  const gr = g.createLinearGradient(0, y + 64, 512, y + 484); gr.addColorStop(0, c1); gr.addColorStop(1, c2);
+  g.fillStyle = gr; g.fillRect(0, y + 64, 512, 420);
+  g.fillStyle = 'rgba(255,255,255,0.28)'; g.beginPath(); g.arc(120 + pr() * 280, y + 170 + pr() * 80, 40 + pr() * 30, 0, 7); g.fill();
+  g.fillStyle = 'rgba(0,0,0,0.28)'; g.beginPath(); g.moveTo(0, y + 484); g.lineTo(150 + pr() * 60, y + 330 + pr() * 60);
+  g.lineTo(300 + pr() * 60, y + 420); g.lineTo(420, y + 350 + pr() * 50); g.lineTo(512, y + 410); g.lineTo(512, y + 484); g.fill();
+  g.strokeStyle = 'rgba(255,255,255,0.85)'; g.lineWidth = 3;
+  heartPath(g, 32, y + 516, 26); g.stroke();
+  g.beginPath(); g.arc(80, y + 516, 12, 0, 7); g.stroke();
+  g.beginPath(); g.moveTo(112, y + 504); g.lineTo(138, y + 516); g.lineTo(112, y + 528); g.closePath(); g.stroke();
+  g.fillStyle = 'rgba(255,255,255,0.5)';
+  g.beginPath(); g.roundRect(16, y + 556, 300 + pr() * 150, 12, 6); g.fill();
+  g.beginPath(); g.roundRect(16, y + 580, 180 + pr() * 150, 12, 6); g.fill();
+}
+function drawStory(g, x, y, R, own, i, hl = 0) {
+  if (own) {
+    g.save();
+    g.lineWidth = 5 + 3 * hl;
+    g.strokeStyle = hl > 0.01 ? `rgba(245,194,66,${0.35 + 0.65 * hl})` : '#4b5262';
+    g.shadowColor = '#f5c242'; g.shadowBlur = 26 * hl;
+    g.beginPath(); g.arc(x, y, R, 0, 7); g.stroke(); g.restore();
+    g.fillStyle = '#1b2130'; g.beginPath(); g.arc(x, y, R - 8, 0, 7); g.fill();
+    g.fillStyle = '#3a4252'; g.beginPath(); g.arc(x, y - 8, R * 0.3, 0, 7); g.fill();
+    g.beginPath(); g.arc(x, y + R * 0.55, R * 0.48, Math.PI, 0); g.fill();
+    g.fillStyle = '#2f8fff'; g.beginPath(); g.arc(x + R * 0.7, y + R * 0.7, 15, 0, 7); g.fill();
+    g.strokeStyle = '#fff'; g.lineWidth = 4; g.beginPath();
+    g.moveTo(x + R * 0.7 - 7, y + R * 0.7); g.lineTo(x + R * 0.7 + 7, y + R * 0.7);
+    g.moveTo(x + R * 0.7, y + R * 0.7 - 7); g.lineTo(x + R * 0.7, y + R * 0.7 + 7); g.stroke();
+  } else {
+    const gr = g.createLinearGradient(x - R, y + R, x + R, y - R);
+    gr.addColorStop(0, '#ffb347'); gr.addColorStop(0.5, '#ff3d6e'); gr.addColorStop(1, '#a03bd6');
+    g.strokeStyle = gr; g.lineWidth = 6; g.beginPath(); g.arc(x, y, R, 0, 7); g.stroke();
+    const [c1, c2] = PALETTES[i % 6];
+    const av = g.createRadialGradient(x - 10, y - 10, 4, x, y, R - 8);
+    av.addColorStop(0, c1); av.addColorStop(1, c2);
+    g.fillStyle = av; g.beginPath(); g.arc(x, y, R - 8, 0, 7); g.fill();
+  }
+  g.fillStyle = 'rgba(255,255,255,0.55)'; g.beginPath(); g.roundRect(x - 30, y + R + 14, 60, 10, 5); g.fill();
+}
+function drawFeedColumn(g, W, H, scroll, startK = 0) {   // колонка постов (для узких экранов)
+  g.fillStyle = '#080b12'; g.fillRect(0, 0, W, H);
+  const s = W / 512; g.save(); g.scale(s, s);
+  const first = Math.floor(scroll / POST_H);
+  for (let k = first; k < first + Math.ceil(H / s / POST_H) + 2; k++) drawPost(g, k * POST_H - scroll, k + startK);
+  g.restore();
 }
 
-// табло со временем
-function roundedRect(w, h, r) {
-  const s = new THREE.Shape(), x = -w / 2, y = -h / 2;
-  s.moveTo(x + r, y); s.lineTo(x + w - r, y); s.quadraticCurveTo(x + w, y, x + w, y + r);
-  s.lineTo(x + w, y + h - r); s.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-  s.lineTo(x + r, y + h); s.quadraticCurveTo(x, y + h, x, y + h - r);
-  s.lineTo(x, y + r); s.quadraticCurveTo(x, y, x + r, y); return s;
+/* ---------- телефон 3D ---------- */
+function makePhone({ w = 0.78, h = 1.62, depth = 0.08, cw = 1024, color = 0x15181e } = {}) {
+  const group = new THREE.Group();
+  const bodyMat = phys(color, { metalness: 0.7, roughness: 0.28, clearcoat: 1, clearcoatRoughness: 0.15 });
+  group.add(shadowAll(new THREE.Mesh(new THREE.ExtrudeGeometry(roundedRect(w, h, Math.min(w, h) * 0.16),
+    { depth, bevelEnabled: true, bevelThickness: 0.02, bevelSize: 0.018, bevelSegments: 5, curveSegments: 20 }), bodyMat)));
+  const bump = shadowAll(new THREE.Mesh(new THREE.ExtrudeGeometry(roundedRect(w * 0.42, w * 0.42, w * 0.08),
+    { depth: 0.03, bevelEnabled: true, bevelThickness: 0.01, bevelSize: 0.01, bevelSegments: 3 }), bodyMat));
+  bump.position.set(-w * 0.22, h / 2 - w * 0.3, -0.06); group.add(bump);
+  const sw = w - 0.05, sh = h - 0.05;
+  const canvas = document.createElement('canvas');
+  canvas.width = cw; canvas.height = Math.round(cw * sh / sw);
+  const tex = new THREE.CanvasTexture(canvas); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8;
+  const screenMat = new THREE.MeshBasicMaterial({ map: tex, toneMapped: false });
+  const screen = new THREE.Mesh(normalizeUV(new THREE.ShapeGeometry(roundedRect(sw, sh, Math.min(sw, sh) * 0.13), 16)), screenMat);
+  screen.position.z = depth + 0.021; group.add(screen);
+  const g = canvas.getContext('2d');
+  return { group, canvas, g, tex, screenMat, w, h, scale: cw / 512, H512: canvas.height / (cw / 512) };
 }
-const label = new THREE.Group(); label.position.set(0, -1.06, 0.2); clock.add(label);
-label.add(shadowAll(new THREE.Mesh(new THREE.ExtrudeGeometry(roundedRect(0.98, 0.4, 0.09),
-  { depth: 0.06, bevelEnabled: true, bevelThickness: 0.012, bevelSize: 0.01, bevelSegments: 4 }), black)));
-const labelMat = phys(0xffffff, { roughness: 0.4, clearcoat: 0.6, emissive: CFG.warmLight, emissiveIntensity: 0 });
-const labelBody = shadowAll(new THREE.Mesh(new THREE.ExtrudeGeometry(roundedRect(0.92, 0.34, 0.065),
-  { depth: 0.07, bevelEnabled: true, bevelThickness: 0.012, bevelSize: 0.01, bevelSegments: 4 }), labelMat));
-labelBody.position.z = 0.01; label.add(labelBody);
-const digitsCanvas = document.createElement('canvas'); digitsCanvas.width = 512; digitsCanvas.height = 200;
-const digitsTex = new THREE.CanvasTexture(digitsCanvas); digitsTex.colorSpace = THREE.SRGBColorSpace;
-digitsTex.anisotropy = 8;
-const digits = new THREE.Mesh(new THREE.PlaneGeometry(0.86, 0.86 * 200 / 512),
-  new THREE.MeshBasicMaterial({ map: digitsTex, transparent: true }));
-digits.position.z = 0.096; label.add(digits);
-await document.fonts.load('800 150px Inter');
-let shownTime = '';
-function drawDigits(str) {
-  if (str === shownTime) return;
-  shownTime = str;
-  const g = digitsCanvas.getContext('2d');
-  g.clearRect(0, 0, 512, 200);
-  g.fillStyle = '#111'; g.font = '800 150px Inter, "DejaVu Sans", sans-serif';
-  g.textAlign = 'center'; g.textBaseline = 'middle';
-  const cells = [...str].map(ch => ch === ':' ? 54 : 96);
-  let x = (512 - cells.reduce((a, b) => a + b, 0)) / 2;
-  [...str].forEach((ch, i) => { g.fillText(ch, x + cells[i] / 2, ch === ':' ? 96 : 106); x += cells[i]; });
-  digitsTex.needsUpdate = true;
+
+/* ---------- фон: размытые «кружки сторис», экраны, пылинки ---------- */
+function addBackground({ count = 46, spreadZ = 12, dustCount = 600 } = {}) {
+  const storySrc = document.createElement('canvas'); storySrc.width = storySrc.height = 256;
+  { const g = storySrc.getContext('2d'); const gr = g.createLinearGradient(0, 256, 256, 0);
+    gr.addColorStop(0, '#ffb347'); gr.addColorStop(0.5, '#ff5a3c'); gr.addColorStop(1, '#c2399a');
+    g.strokeStyle = gr; g.lineWidth = 16; g.beginPath(); g.arc(128, 128, 96, 0, Math.PI * 2); g.stroke();
+    const inner = g.createRadialGradient(128, 128, 0, 128, 128, 80);
+    inner.addColorStop(0, 'rgba(120,170,255,0.35)'); inner.addColorStop(1, 'rgba(40,70,140,0.08)');
+    g.fillStyle = inner; g.beginPath(); g.arc(128, 128, 80, 0, Math.PI * 2); g.fill(); }
+  const screenSrc = document.createElement('canvas'); screenSrc.width = screenSrc.height = 256;
+  { const g = screenSrc.getContext('2d'); const gr = g.createLinearGradient(0, 0, 0, 256);
+    gr.addColorStop(0, 'rgba(120,200,255,0.95)'); gr.addColorStop(1, 'rgba(40,110,255,0.7)');
+    g.fillStyle = gr; g.beginPath(); g.roundRect(70, 20, 116, 216, 18); g.fill(); }
+  const BLUR = [7, 15, 26, 40];
+  const storyTex = BLUR.map(b => blurred(storySrc, b)), screenTex = BLUR.map(b => blurred(screenSrc, b));
+  const sprites = [];
+  for (let i = 0; i < count; i++) {
+    const near = i < 4;
+    const z = near ? 4.5 + rand() * 1.5 : -2 - rand() * spreadZ;
+    const level = near ? 3 : Math.min(3, Math.floor(Math.abs(z) / 4));
+    const isStory = rand() < 0.75;
+    const s = add(new THREE.Sprite(new THREE.SpriteMaterial({ map: (isStory ? storyTex : screenTex)[level], transparent: true,
+      opacity: (near ? 0.25 : 0.4 + rand() * 0.4) * (isStory ? 1 : 0.55), blending: THREE.AdditiveBlending, depthWrite: false })));
+    const size = near ? 1.6 + rand() : 0.55 + rand() * 0.9 + Math.abs(z) * 0.04;
+    s.scale.set(size, size, 1);
+    s.userData = { x: (rand() - 0.5) * (near ? 3.5 : 7 + Math.abs(z) * 0.8), y: (rand() - 0.5) * (near ? 6 : 10 + Math.abs(z)),
+                   z, speed: 0.05 + rand() * 0.12, phase: rand() * 6.28, rot: (rand() - 0.5) * 0.2 };
+    sprites.push(s);
+  }
+  const dustGeo = new THREE.BufferGeometry(), pos = new Float32Array(dustCount * 3);
+  for (let i = 0; i < dustCount; i++) { pos[i * 3] = (rand() - 0.5) * 6; pos[i * 3 + 1] = (rand() - 0.5) * 9; pos[i * 3 + 2] = -3 + rand() * 7; }
+  dustGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  const dust = add(new THREE.Points(dustGeo, new THREE.PointsMaterial({ size: 0.03, map: glowTex('255,210,170'),
+    transparent: true, opacity: 0.6, blending: THREE.AdditiveBlending, depthWrite: false })));
+  return {
+    sprites, dust,
+    update(t, tint, offset = new THREE.Vector3()) {
+      for (const s of sprites) {
+        const d = s.userData;
+        s.position.set(d.x + offset.x + 0.12 * Math.sin(t * 0.5 + d.phase), d.y + offset.y + d.speed * t, d.z + offset.z);
+        s.material.rotation = d.rot * t;
+        if (tint) s.material.color.copy(tint);
+      }
+      dust.position.set(offset.x, offset.y + 0.08 * t, offset.z); dust.rotation.y = 0.03 * t;
+    },
+  };
 }
-const labelGlow = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex('255,150,70'), color: 0xffffff,
-  transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }));
-labelGlow.scale.set(2.2, 1.1, 1); labelGlow.position.set(0, 0, -0.05); label.add(labelGlow);
-
-/* =====================================================================
-   СВЕТ: холодный экран спереди-снизу, тёплый контровой сзади
-   ===================================================================== */
-scene.add(new THREE.HemisphereLight(0x1c2a4a, 0x0a0604, 0.06));
-// холодный ключевой свет слева (экран телефона) — даёт тени от стрелок и обода
-const key = new THREE.SpotLight(CFG.coldLight, 340, 0, 0.42, 0.9, 2);
-const keyTarget = new THREE.Object3D(); keyTarget.position.set(-0.9, 0.0, 0); scene.add(keyTarget);
-key.position.set(-4.6, -1.6, 5.0); key.target = keyTarget; key.castShadow = true;
-key.shadow.mapSize.set(2048, 2048); key.shadow.bias = -0.0004; key.shadow.radius = 4;
-scene.add(key);
-// тёплый контровой свет сзади-справа — обводит силуэт
-const rim = new THREE.SpotLight(CFG.warmLight, 520, 0, 0.6, 0.6, 2);
-rim.position.set(3.6, 3.8, -3.4); rim.target = clock; scene.add(rim);
-// тёплый боковой свет справа (второй экран) — сплит «холодное/тёплое»
-const warmSide = new THREE.SpotLight(CFG.warmLight, 120, 0, 0.5, 1, 2);
-warmSide.position.set(5.2, 0.4, 2.4); warmSide.target = clock; scene.add(warmSide);
-
-/* ---------- ореол за часами и лучи света ---------- */
-const add = (o) => { scene.add(o); return o; };
-const halo = add(new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex('255,128,50'), transparent: true,
-  opacity: 0.55, blending: THREE.AdditiveBlending, depthWrite: false })));
-halo.scale.set(5.2, 5.2, 1); halo.position.set(0.7, 1.3, -1.6);
-const spill = add(new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex('60,140,255'), transparent: true,
-  opacity: 0.22, blending: THREE.AdditiveBlending, depthWrite: false })));
-spill.scale.set(4, 4, 1); spill.position.set(-1.8, -2.4, 0.5);
 const shaftTex = canvasTex(128, 512, (g, w, h) => {
   const gx = g.createLinearGradient(0, 0, w, 0);
   gx.addColorStop(0, 'rgba(255,255,255,0)'); gx.addColorStop(0.5, 'rgba(255,255,255,1)'); gx.addColorStop(1, 'rgba(255,255,255,0)');
@@ -262,121 +314,655 @@ const shaftTex = canvasTex(128, 512, (g, w, h) => {
   gy.addColorStop(0, 'rgba(0,0,0,0)'); gy.addColorStop(0.18, 'rgba(0,0,0,1)'); gy.addColorStop(1, 'rgba(0,0,0,0)');
   g.fillStyle = gy; g.fillRect(0, 0, w, h);
 });
-const shafts = [[CFG.warmLight, 0.11, 1.6, 4.2, -2.8, 0.42, 2.2],
-                [CFG.warmLight, 0.07, 2.6, 4.6, -3.4, 0.58, 1.4]].map(([c, op, x, y, z, rz, w]) => {
-  const m = add(new THREE.Mesh(new THREE.PlaneGeometry(w, 11), new THREE.MeshBasicMaterial({ map: shaftTex, color: c,
-    transparent: true, opacity: op, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide })));
-  m.geometry.translate(0, -5.5, 0); m.position.set(x, y, z); m.rotation.z = rz; m.userData.op = op; return m;
-});
+function addShaft(color, opacity, x, y, z, rz, w, len = 11) {
+  const m = add(new THREE.Mesh(new THREE.PlaneGeometry(w, len), new THREE.MeshBasicMaterial({ map: shaftTex, color,
+    transparent: true, opacity, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide })));
+  m.geometry.translate(0, -len / 2, 0); m.position.set(x, y, z); m.rotation.z = rz; m.userData.op = opacity; return m;
+}
+function spot(color, intensity, pos, target, angle = 0.5, penumbra = 0.8, shadow = false) {
+  const l = add(new THREE.SpotLight(color, intensity, 0, angle, penumbra, 2));
+  l.position.copy(pos);
+  if (target.isObject3D) l.target = target; else { const o = add(new THREE.Object3D()); o.position.copy(target); l.target = o; }
+  if (shadow) { l.castShadow = true; l.shadow.mapSize.set(2048, 2048); l.shadow.bias = -0.0004; l.shadow.radius = 4; }
+  return l;
+}
+const V = (x, y, z) => new THREE.Vector3(x, y, z);
 
 /* =====================================================================
-   ФОН: светящиеся «кружки сторис» и экраны телефонов, размытые (глубина резкости)
+   СЦЕНА 1 — «На чужие сторис время есть, а на свои — нет?»
+   Сверхкрупно экран: листаются чужие сторис → лента замирает,
+   ваш пустой кружок «+» пульсирует жёлтым.
    ===================================================================== */
-function storySource() {
-  const c = document.createElement('canvas'); c.width = c.height = 256; const g = c.getContext('2d');
-  const gr = g.createLinearGradient(0, 256, 256, 0);
-  gr.addColorStop(0, '#ffb347'); gr.addColorStop(0.5, '#ff5a3c'); gr.addColorStop(1, '#c2399a');
-  g.strokeStyle = gr; g.lineWidth = 16; g.beginPath(); g.arc(128, 128, 96, 0, Math.PI * 2); g.stroke();
-  const inner = g.createRadialGradient(128, 128, 0, 128, 128, 80);
-  inner.addColorStop(0, 'rgba(120,170,255,0.35)'); inner.addColorStop(1, 'rgba(40,70,140,0.08)');
-  g.fillStyle = inner; g.beginPath(); g.arc(128, 128, 80, 0, Math.PI * 2); g.fill();
-  return c;
-}
-function screenSource() {
-  const c = document.createElement('canvas'); c.width = c.height = 256; const g = c.getContext('2d');
-  const gr = g.createLinearGradient(0, 0, 0, 256);
-  gr.addColorStop(0, 'rgba(120,200,255,0.95)'); gr.addColorStop(1, 'rgba(40,110,255,0.7)');
-  g.fillStyle = gr; g.beginPath(); g.roundRect(70, 20, 116, 216, 18); g.fill();
-  return c;
-}
-const BLUR = [7, 15, 26, 40];
-const storyTex = BLUR.map(b => blurred(storySource(), b));
-const screenTex = BLUR.map(b => blurred(screenSource(), b));
-const bokeh = [];
-for (let i = 0; i < 46; i++) {
-  const near = i < 4;   // несколько крупных размытых пятен прямо у камеры
-  const z = near ? 4.5 + rand() * 1.5 : -2 - rand() * 12;
-  const level = near ? 3 : Math.min(3, Math.floor(Math.abs(z) / 4));
-  const isStory = rand() < 0.75;
-  const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: (isStory ? storyTex : screenTex)[level], transparent: true,
-    opacity: (near ? 0.25 : 0.4 + rand() * 0.4) * (isStory ? 1 : 0.55),
-    blending: THREE.AdditiveBlending, depthWrite: false }));
-  const size = near ? 1.6 + rand() : 0.55 + rand() * 0.9 + Math.abs(z) * 0.04;
-  s.scale.set(size, size, 1);
-  s.userData = { x: (rand() - 0.5) * (near ? 3.5 : 7 + Math.abs(z) * 0.8), y: (rand() - 0.5) * (near ? 6 : 10 + Math.abs(z)),
-                 z, speed: 0.05 + rand() * 0.12, phase: rand() * 6.28, rot: (rand() - 0.5) * 0.2 };
-  scene.add(s); bokeh.push(s);
-}
+function scene1() {
+  const duration = sceneDuration(3.4);
+  const tStop = at('свои', 2.12) - 0.05, tNo = at('нет', 2.56);
+  scene.add(new THREE.HemisphereLight(0x1c2a4a, 0x0a0604, 0.06));
+  const bg = addBackground();
+  const halo = glowSprite('255,128,50', 5.5, 0.5); halo.position.set(0.8, 1.6, -2);
+  addShaft(CFG.warmLight, 0.1, 1.8, 4.4, -3, 0.45, 2);
+  const phone = makePhone();
+  phone.group.position.set(0, 0.35, 0); phone.group.rotation.set(0.1, -0.22, 0); scene.add(phone.group);
+  spot(CFG.coldLight, 300, V(-4, -1, 4.5), V(-0.6, 0.3, 0), 0.45, 0.9, true);
+  const rim = spot(CFG.warmLight, 500, V(3.5, 3.6, -3.2), phone.group, 0.6, 0.6);
+  const screenLight = add(new THREE.PointLight(CFG.coldLight, 3, 0, 2)); screenLight.position.set(0, 0.4, 0.8);
 
-// пылинки в свете
-const dustGeo = new THREE.BufferGeometry(); const dustPos = new Float32Array(600 * 3);
-for (let i = 0; i < 600; i++) { dustPos[i * 3] = (rand() - 0.5) * 6; dustPos[i * 3 + 1] = (rand() - 0.5) * 9; dustPos[i * 3 + 2] = -3 + rand() * 7; }
-dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
-const dust = add(new THREE.Points(dustGeo, new THREE.PointsMaterial({ size: 0.03, map: glowTex('255,210,170'),
-  transparent: true, opacity: 0.6, blending: THREE.AdditiveBlending, depthWrite: false })));
-
-/* =====================================================================
-   КАДР ВО ВРЕМЕНИ t (секунды от начала сцены)
-   ===================================================================== */
-const FRAME = 1 / 30;
-function setHand(hand, angle, prevAngle) {
-  hand.pivot.rotation.z = -angle;
-  const v = angle - prevAngle;   // скорость поворота за кадр
-  hand.ghosts.forEach((g, k) => {
-    g.visible = Math.abs(v) > 0.03;
-    g.rotation.z = (k + 1) * v / 4;   // шлейф позади стрелки
-  });
-}
-function update(t) {
-  const k = easeInOutSine(seg(t, 0, CFG.duration));
-  const pulse = hitPulse(t);
-
-  // камера: медленный наезд + лёгкий облёт
-  const dist = lerp(10.4, 8.7, k), orbit = lerp(0.24, 0.06, k);
-  camera.position.set(Math.sin(orbit) * dist + 0.02 * Math.sin(t * 1.3),
-                      lerp(-0.55, -0.15, k) + 0.015 * Math.sin(t * 1.7), Math.cos(orbit) * dist);
-  camera.lookAt(0, 0.12, 0);
-
-  // часы
-  clock.rotation.y = lerp(-0.28, -0.12, k) + 0.01 * Math.sin(t * 0.9);
-  clock.rotation.x = lerp(0.10, 0.04, k);
-  clock.scale.setScalar(1 + 0.018 * pulse);
-  const m = minutes(t), mPrev = minutes(Math.max(0, t - FRAME));
-  setHand(minuteHand, m / 60 * Math.PI * 2, mPrev / 60 * Math.PI * 2);
-  setHand(hourHand, m / 720 * Math.PI * 2, mPrev / 720 * Math.PI * 2);
-  setHand(secondHand, secondTurns(t) * Math.PI * 2, secondTurns(Math.max(0, t - FRAME)) * Math.PI * 2);
-  const total = Math.floor(m + 1e-6);
-  drawDigits(String(Math.floor(total / 60)).padStart(2, '0') + ':' + String(total % 60).padStart(2, '0'));
-  labelMat.emissiveIntensity = 0.55 * pulse;
-  labelGlow.material.opacity = 0.75 * pulse;
-  glint.rotation.z = -0.15 + 0.25 * k;
-
-  // свет дышит и вспыхивает на словах
-  rim.intensity = 520 * (1 + 0.8 * pulse);
-  halo.material.opacity = 0.5 + 0.35 * pulse + 0.05 * Math.sin(t * 2.1);
-  shafts.forEach((s, i) => { s.material.opacity = s.userData.op * (0.85 + 0.15 * Math.sin(t * 1.3 + i)) * (1 + 0.6 * pulse); });
-
-  // фон плывёт
-  for (const s of bokeh) {
-    const d = s.userData;
-    s.position.set(d.x + 0.12 * Math.sin(t * 0.5 + d.phase), d.y + d.speed * t, d.z);
-    s.material.rotation = d.rot * t;
+  function drawScreen(t) {
+    const { g, scale, H512 } = phone;
+    const move = 1 - easeOutCubic(seg(t, 0, tStop));
+    const storyX = 1500 * move, postY = 2600 * (1 - move);
+    const blur = 3.5 * move * move;
+    const dim = easeOutCubic(seg(t, tStop, tStop + 0.35));
+    const hl = dim * (0.65 + 0.35 * Math.sin((t - tStop) * 10)) + 0.6 * pulseAt(t, tNo, 6) * (t > tNo ? 1 : 0);
+    g.setTransform(scale, 0, 0, scale, 0, 0);
+    g.fillStyle = '#080b12'; g.fillRect(0, 0, 512, H512);
+    g.fillStyle = 'rgba(255,255,255,0.85)'; g.font = '600 22px Inter'; g.fillText('9:41', 34, 40);
+    g.font = '800 34px Inter'; g.fillText('Лента', 24, 92);
+    g.filter = blur > 0.3 ? `blur(${blur.toFixed(1)}px)` : 'none';
+    g.save(); g.beginPath(); g.rect(0, 250, 512, H512 - 250); g.clip();
+    const first = Math.floor(postY / POST_H);
+    for (let k = first; k < first + 3; k++) drawPost(g, 250 + k * POST_H - postY, k);
+    g.restore();
+    for (let i = 0; i < 20; i++) { const x = 72 + i * 124 - storyX; if (x > -70 && x < 580) drawStory(g, x, 162, 48, i === 0, i); }
+    g.filter = 'none';
+    if (dim > 0) {
+      g.fillStyle = `rgba(3,5,10,${0.68 * dim})`; g.fillRect(0, 0, 512, H512);
+      drawStory(g, 72 - storyX, 162, 48, true, 0, clamp(hl, 0, 1));
+    }
+    phone.tex.needsUpdate = true;
   }
-  dust.position.y = 0.08 * t; dust.rotation.y = 0.03 * t;
+  return {
+    duration,
+    update(t) {
+      const k = easeInOutSine(seg(t, 0, duration));
+      const target = new THREE.Vector3(lerp(-0.12, 0, k), lerp(0.88, 0.12, k), 0);
+      const dist = lerp(1.45, 4.7, easeInOutCubic(seg(t, 0.2, duration)));
+      const orbit = lerp(-0.08, -0.32, k);
+      camera.position.set(target.x + Math.sin(orbit) * dist, target.y + lerp(0.05, 0.25, k), target.z + Math.cos(orbit) * dist);
+      camera.lookAt(target);
+      phone.group.rotation.y = lerp(-0.22, -0.32, k);
+      drawScreen(t);
+      const dim = easeOutCubic(seg(t, tStop, tStop + 0.35));
+      screenLight.intensity = 3 * (1 - 0.6 * dim);
+      rim.intensity = 500 * (1 + 0.6 * pulseAt(t, tNo));
+      halo.material.opacity = 0.45 + 0.3 * pulseAt(t, tNo);
+      bg.update(t);
+    },
+  };
 }
 
-window.CFG = CFG;
-window.renderAt = (t) => { update(t); renderer.render(scene, camera); };
+/* =====================================================================
+   СЦЕНА 2 — «Посчитай, сколько ты сегодня листал ленту. Час? Два?»
+   3D-часы по референсу: табло 00:00 → 01:00 → 02:00 точно на словах.
+   ===================================================================== */
+function scene2() {
+  const duration = sceneDuration(4.9);
+  const h1 = at('час', 3.02), h2 = at('два', 3.91);
+  const minutes = t => (t < h1 ? 60 * easeInOutCubic(seg(t, 0.15, h1)) : 60 + 60 * easeInOutCubic(seg(t, h1 + 0.08, h2)));
+  const secondTurns = t => 0.75 + 3 * easeInOutCubic(seg(t, 0.1, duration - 0.4));
+  const hitPulse = t => Math.min(1, pulseAt(t, h1) + pulseAt(t, h2));
 
-/* ---------- просмотр в браузере / запись ---------- */
-const params = new URLSearchParams(location.search);
+  const bg = addBackground();
+  const clock = add(new THREE.Group()); clock.position.set(0, 0.65, 0);
+  const ringShape = new THREE.Shape(); ringShape.absarc(0, 0, 1.0, 0, Math.PI * 2, false);
+  const hole = new THREE.Path(); hole.absarc(0, 0, 0.74, 0, Math.PI * 2, true); ringShape.holes.push(hole);
+  clock.add(shadowAll(new THREE.Mesh(new THREE.ExtrudeGeometry(ringShape, { depth: 0.14, bevelEnabled: true,
+    bevelThickness: 0.04, bevelSize: 0.035, bevelSegments: 6, curveSegments: 128 }),
+    phys(CFG.ringBlue, { roughness: 0.32, metalness: 0.25, clearcoat: 0.9, clearcoatRoughness: 0.18 }))));
+  const face = shadowAll(new THREE.Mesh(new THREE.CylinderGeometry(0.745, 0.745, 0.04, 128),
+    phys(CFG.face, { roughness: 0.45, clearcoat: 0.3, emissive: 0xffffff, emissiveIntensity: 0.012 })));
+  face.rotation.x = Math.PI / 2; face.position.z = 0.05; clock.add(face);
+  const bezel = new THREE.Mesh(new THREE.TorusGeometry(0.718, 0.018, 16, 160), black); bezel.position.z = 0.072; clock.add(bezel);
+  for (let i = 0; i < 12; i++) {
+    const main = i % 3 === 0, a = i / 12 * Math.PI * 2, r = main ? 0.6 : 0.615;
+    const tick = shadowAll(new THREE.Mesh(new THREE.BoxGeometry(main ? 0.036 : 0.026, main ? 0.13 : 0.085, 0.02), black));
+    tick.position.set(Math.sin(a) * r, Math.cos(a) * r, 0.082); tick.rotation.z = -a; clock.add(tick);
+  }
+  function makeHand(geo, mat, z) {
+    const pivot = new THREE.Group(); pivot.position.z = z;
+    const main = new THREE.Mesh(geo, mat); main.castShadow = true; pivot.add(main);
+    const ghosts = [];
+    for (let k = 1; k <= 4; k++) {
+      const gm = mat.clone(); gm.transparent = true; gm.opacity = 0.32 / k; gm.depthWrite = false;
+      const gh = new THREE.Mesh(geo, gm); gh.visible = false; pivot.add(gh); ghosts.push(gh);
+    }
+    clock.add(pivot); return { pivot, ghosts };
+  }
+  const capsule = (len, w) => { const g = new THREE.CapsuleGeometry(w, len, 6, 16); g.translate(0, len / 2, 0); g.scale(1, 1, 0.55); return g; };
+  const hourHand = makeHand(capsule(0.30, 0.034), black, 0.11);
+  const minuteHand = makeHand(capsule(0.47, 0.027), black, 0.135);
+  const secGeo = new THREE.BoxGeometry(0.014, 0.66, 0.012); secGeo.translate(0, 0.21, 0);
+  const secondHand = makeHand(secGeo, phys(CFG.red, { emissive: CFG.red, emissiveIntensity: 0.35, roughness: 0.3 }), 0.158);
+  const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.056, 0.056, 0.05, 48), black); cap.rotation.x = Math.PI / 2; cap.position.z = 0.17; clock.add(cap);
+  const capDot = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.022, 0.02, 32), phys(CFG.red, { emissive: CFG.red, emissiveIntensity: 0.3 }));
+  capDot.rotation.x = Math.PI / 2; capDot.position.z = 0.2; clock.add(capDot);
+  const glint = new THREE.Mesh(new THREE.CircleGeometry(0.745, 96), new THREE.MeshBasicMaterial({
+    map: canvasTex(512, 512, (g, w) => { const gr = g.createLinearGradient(0, 0, w, w);
+      gr.addColorStop(0.18, 'rgba(255,255,255,0)'); gr.addColorStop(0.3, 'rgba(210,230,255,0.55)');
+      gr.addColorStop(0.36, 'rgba(255,255,255,0.08)'); gr.addColorStop(0.42, 'rgba(255,255,255,0)');
+      g.fillStyle = gr; g.fillRect(0, 0, w, w); }),
+    transparent: true, opacity: 0.22, blending: THREE.AdditiveBlending, depthWrite: false }));
+  glint.position.z = 0.215; clock.add(glint);
+  { const a = -0.3, btn = new THREE.Group(); btn.position.set(Math.sin(a), Math.cos(a), 0.07); btn.rotation.z = -a; clock.add(btn);
+    const yellow = phys(CFG.yellow, { roughness: 0.25, clearcoat: 1, clearcoatRoughness: 0.1, emissive: CFG.yellow, emissiveIntensity: 0.12 });
+    const stem = shadowAll(new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.16, 32), yellow)); stem.position.y = 0.05; btn.add(stem);
+    const top = shadowAll(new THREE.Mesh(new THREE.CylinderGeometry(0.17, 0.17, 0.09, 64), yellow)); top.position.y = 0.15; btn.add(top); }
+  const label = new THREE.Group(); label.position.set(0, -1.06, 0.2); clock.add(label);
+  label.add(shadowAll(new THREE.Mesh(new THREE.ExtrudeGeometry(roundedRect(0.98, 0.4, 0.09),
+    { depth: 0.06, bevelEnabled: true, bevelThickness: 0.012, bevelSize: 0.01, bevelSegments: 4 }), black)));
+  const labelMat = phys(0xffffff, { roughness: 0.4, clearcoat: 0.6, emissive: CFG.warmLight, emissiveIntensity: 0 });
+  const labelBody = shadowAll(new THREE.Mesh(new THREE.ExtrudeGeometry(roundedRect(0.92, 0.34, 0.065),
+    { depth: 0.07, bevelEnabled: true, bevelThickness: 0.012, bevelSize: 0.01, bevelSegments: 4 }), labelMat));
+  labelBody.position.z = 0.01; label.add(labelBody);
+  const digitsCanvas = document.createElement('canvas'); digitsCanvas.width = 512; digitsCanvas.height = 200;
+  const digitsTex = new THREE.CanvasTexture(digitsCanvas); digitsTex.colorSpace = THREE.SRGBColorSpace; digitsTex.anisotropy = 8;
+  const digits = new THREE.Mesh(new THREE.PlaneGeometry(0.86, 0.86 * 200 / 512), new THREE.MeshBasicMaterial({ map: digitsTex, transparent: true }));
+  digits.position.z = 0.096; label.add(digits);
+  let shown = '';
+  function drawDigits(str) {
+    if (str === shown) return; shown = str;
+    const g = digitsCanvas.getContext('2d'); g.clearRect(0, 0, 512, 200);
+    g.fillStyle = '#111'; g.font = '800 150px Inter, "DejaVu Sans", sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle';
+    const cells = [...str].map(ch => (ch === ':' ? 54 : 96));
+    let x = (512 - cells.reduce((a, b) => a + b, 0)) / 2;
+    [...str].forEach((ch, i) => { g.fillText(ch, x + cells[i] / 2, ch === ':' ? 96 : 106); x += cells[i]; });
+    digitsTex.needsUpdate = true;
+  }
+  const labelGlow = glowSprite('255,150,70', 1, 0, label); labelGlow.scale.set(2.2, 1.1, 1); labelGlow.position.z = -0.05;
+
+  scene.add(new THREE.HemisphereLight(0x1c2a4a, 0x0a0604, 0.06));
+  spot(CFG.coldLight, 340, V(-4.6, -1.6, 5.0), V(-0.9, 0, 0), 0.42, 0.9, true);
+  const rim = spot(CFG.warmLight, 520, V(3.6, 3.8, -3.4), clock, 0.6, 0.6);
+  spot(CFG.warmLight, 120, V(5.2, 0.4, 2.4), clock, 0.5, 1);
+  const halo = glowSprite('255,128,50', 5.2, 0.55); halo.position.set(0.7, 1.3, -1.6);
+  const shafts = [addShaft(CFG.warmLight, 0.11, 1.6, 4.2, -2.8, 0.42, 2.2), addShaft(CFG.warmLight, 0.07, 2.6, 4.6, -3.4, 0.58, 1.4)];
+
+  const FRAME = 1 / 30;
+  function setHand(hand, angle, prev) {
+    hand.pivot.rotation.z = -angle; const v = angle - prev;
+    hand.ghosts.forEach((gh, k) => { gh.visible = Math.abs(v) > 0.03; gh.rotation.z = (k + 1) * v / 4; });
+  }
+  return {
+    duration,
+    update(t) {
+      const k = easeInOutSine(seg(t, 0, duration)), pulse = hitPulse(t);
+      const dist = lerp(10.4, 8.7, k), orbit = lerp(0.24, 0.06, k);
+      camera.position.set(Math.sin(orbit) * dist + 0.02 * Math.sin(t * 1.3), lerp(-0.55, -0.15, k) + 0.015 * Math.sin(t * 1.7), Math.cos(orbit) * dist);
+      camera.lookAt(0, 0.12, 0);
+      clock.rotation.y = lerp(-0.28, -0.12, k) + 0.01 * Math.sin(t * 0.9);
+      clock.rotation.x = lerp(0.10, 0.04, k);
+      clock.scale.setScalar(1 + 0.018 * pulse);
+      const m = minutes(t), mp = minutes(Math.max(0, t - FRAME));
+      setHand(minuteHand, m / 60 * Math.PI * 2, mp / 60 * Math.PI * 2);
+      setHand(hourHand, m / 720 * Math.PI * 2, mp / 720 * Math.PI * 2);
+      setHand(secondHand, secondTurns(t) * Math.PI * 2, secondTurns(Math.max(0, t - FRAME)) * Math.PI * 2);
+      const total = Math.floor(m + 1e-6);
+      drawDigits(String(Math.floor(total / 60)).padStart(2, '0') + ':' + String(total % 60).padStart(2, '0'));
+      labelMat.emissiveIntensity = 0.55 * pulse; labelGlow.material.opacity = 0.75 * pulse;
+      glint.rotation.z = -0.15 + 0.25 * k;
+      rim.intensity = 520 * (1 + 0.8 * pulse);
+      halo.material.opacity = 0.5 + 0.35 * pulse + 0.05 * Math.sin(t * 2.1);
+      shafts.forEach((s, i) => { s.material.opacity = s.userData.op * (0.85 + 0.15 * Math.sin(t * 1.3 + i)) * (1 + 0.6 * pulse); });
+      bg.update(t);
+    },
+  };
+}
+
+/* =====================================================================
+   СЦЕНА 3 — «Ты не занят. Ты просто тратишь время на чужой контент.»
+   Песочные часы: стойки — светящиеся телефоны, «песок» — иконки соцсетей.
+   ===================================================================== */
+function scene3() {
+  const duration = sceneDuration(3.6);
+  const tSpend = at('тратишь', 1.43), tAlien = at('чужой', 2.23);
+  const bg = addBackground();
+  const hg = add(new THREE.Group()); hg.position.set(0, 0.6, 0);
+  const capMat = phys(CFG.ringBlue, { roughness: 0.3, metalness: 0.4, clearcoat: 0.9 });
+  for (const y of [-1.18, 1.18]) {
+    const c = shadowAll(new THREE.Mesh(new THREE.CylinderGeometry(1.15, 1.15, 0.14, 96), capMat)); c.position.y = y; hg.add(c);
+    const lip = new THREE.Mesh(new THREE.TorusGeometry(1.15, 0.03, 12, 120), black); lip.rotation.x = Math.PI / 2; lip.position.y = y; hg.add(lip);
+  }
+  // стойки-телефоны
+  const pillars = [];
+  for (const [a, facingIn] of [[Math.PI / 3, false], [-Math.PI / 3, false], [Math.PI, true]]) {
+    const p = makePhone({ w: 0.3, h: 2.2, depth: 0.06, cw: 256 });
+    p.group.position.set(Math.sin(a) * 0.95, 0, Math.cos(a) * 0.95);
+    p.group.rotation.y = facingIn ? 0 : a;
+    hg.add(p.group); pillars.push({ p, offset: rand() * 2000, speed: 260 + rand() * 200 });
+  }
+  // стекло
+  const pts = [];
+  for (let i = 0; i <= 60; i++) { const y = -1.1 + 2.2 * i / 60, u = Math.abs(y) / 1.1;
+    pts.push(new THREE.Vector2(0.07 + 0.66 * Math.sin(u * Math.PI * 0.62), y)); }
+  const glassR = y => 0.07 + 0.66 * Math.sin(Math.abs(y) / 1.1 * Math.PI * 0.62);
+  hg.add(new THREE.Mesh(new THREE.LatheGeometry(pts, 96), new THREE.MeshPhysicalMaterial({ color: 0xffffff, transparent: true,
+    opacity: 0.16, roughness: 0.04, metalness: 0, clearcoat: 1, clearcoatRoughness: 0.02, envMapIntensity: 2.2,
+    side: THREE.DoubleSide, depthWrite: false })));
+  // «песок» из иконок
+  const sandTex = canvasTex(512, 512, (g, w) => {
+    g.fillStyle = '#7a2c10'; g.fillRect(0, 0, w, w);
+    const r2 = rng(99);
+    for (let i = 0; i < 220; i++) { const type = Math.floor(r2() * 4);
+      drawIcon(g, type, r2() * w, r2() * w, 18 + r2() * 14, ICON_COLORS[type]); }
+  });
+  sandTex.wrapS = sandTex.wrapT = THREE.RepeatWrapping; sandTex.repeat.set(4, 2);
+  const sandMat = new THREE.MeshStandardMaterial({ map: sandTex, emissiveMap: sandTex, emissive: 0xffffff,
+    emissiveIntensity: 0.55, roughness: 0.8 });
+  const topGeo = new THREE.ConeGeometry(1, 1, 64); topGeo.rotateX(Math.PI); topGeo.translate(0, 0.5, 0);
+  const topSand = add(new THREE.Mesh(topGeo, sandMat), hg); topSand.position.y = 0.06;
+  const botGeo = new THREE.ConeGeometry(1, 1, 64); botGeo.translate(0, 0.5, 0);
+  const botSand = add(new THREE.Mesh(botGeo, sandMat), hg); botSand.position.y = -1.1;
+  const stream = [];
+  for (let i = 0; i < 90; i++) {
+    const s = add(new THREE.Sprite(new THREE.SpriteMaterial({ map: iconTex[i % 4], transparent: true, depthWrite: false, toneMapped: false })), hg);
+    s.userData = { phase: rand(), jx: rand() - 0.5, jz: rand() - 0.5, size: 0.05 + rand() * 0.035, spin: (rand() - 0.5) * 4 };
+    stream.push(s);
+  }
+  const sandGlow = add(new THREE.PointLight(CFG.warmLight, 2.5, 0, 2), hg); sandGlow.position.set(0, -0.75, 0);
+  const sandHalo = glowSprite('255,140,60', 2.2, 0.35, hg); sandHalo.position.set(0, -0.8, 0);
+
+  scene.add(new THREE.HemisphereLight(0x1c2a4a, 0x0a0604, 0.06));
+  spot(CFG.coldLight, 360, V(-4.8, -0.6, 4.8), V(-0.6, 0.5, 0), 0.5, 0.9, true);
+  const rim = spot(CFG.warmLight, 560, V(3.8, 4.2, -3.6), hg, 0.6, 0.6);
+  const halo = glowSprite('255,128,50', 6, 0.45); halo.position.set(0.6, 1.4, -2.2);
+  addShaft(CFG.warmLight, 0.09, 1.8, 4.6, -3, 0.45, 2.2);
+
+  return {
+    duration,
+    update(t) {
+      const k = easeInOutSine(seg(t, 0, duration));
+      const pulse = pulseAt(t, tAlien, 4);
+      const dist = lerp(8.4, 7.3, k), orbit = lerp(0.38, 0.12, k);
+      camera.position.set(Math.sin(orbit) * dist, lerp(-0.7, -0.35, k), Math.cos(orbit) * dist);
+      camera.lookAt(0, 0.15, 0);
+      hg.rotation.y = 0.15 * k;
+      const level = lerp(0.82, 0.62, t / duration);   // уровень в верхней колбе
+      const rTop = glassR(level) * 0.93;
+      topSand.scale.set(rTop, level - 0.06, rTop);
+      const hBot = lerp(0.2, 0.38, t / duration);
+      botSand.scale.set(0.62, hBot, 0.62);
+      const fallTop = 0.05, fallBot = -1.1 + hBot * 0.9;
+      const density = lerp(0.55, 1, easeInOutCubic(seg(t, tSpend - 0.2, tSpend + 0.4)));
+      stream.forEach((s, i) => {
+        const d = s.userData, u = (t * 0.5 + d.phase) % 1;
+        const y = lerp(fallTop, fallBot, u);
+        const spread = 0.02 + 0.09 * u;
+        s.position.set(d.jx * spread, y, d.jz * spread);
+        s.visible = i / stream.length < density;
+        s.scale.setScalar(d.size * (1 + 0.5 * pulse));
+        s.material.rotation = d.spin * t;
+        s.material.opacity = clamp(u * 8) * clamp((1 - u) * 6);
+      });
+      sandMat.emissiveIntensity = 0.55 * (1 + 1.2 * pulse);
+      sandGlow.intensity = 2.5 * (1 + 2 * pulse);
+      sandHalo.material.opacity = 0.35 + 0.4 * pulse;
+      rim.intensity = 560 * (1 + 0.7 * pulse);
+      halo.material.opacity = 0.42 + 0.3 * pulse;
+      for (const { p, offset, speed } of pillars) {
+        drawFeedColumn(p.g, p.canvas.width, p.canvas.height, offset + speed * t);
+        p.tex.needsUpdate = true;
+      }
+      bg.update(t);
+    },
+  };
+}
+
+/* =====================================================================
+   СЦЕНА 4 — «Чтобы начать блог, не нужно три часа в день.
+   Хватит пятнадцати минут: одно видео, одна мысль.»
+   Телефон на штатив, «3:00:00» зачёркивается, загорается кольцевая
+   лампа, свет из синего становится золотым, «15:00», REC.
+   ===================================================================== */
+function scene4() {
+  const duration = sceneDuration(6.6);
+  const tThree = at('три', 1.68), tDay = at('день', 2.18), tEnough = at('хватит', 3.02);
+  const tFifteen = at('пятнадцати', 3.40), tMin = at('минут', 3.95), tOne = at('одно', 4.46), tIdea = at('одна', 5.26);
+  const bg = addBackground();
+  const rig = add(new THREE.Group());
+  // штатив
+  const metal = phys(0x1b1e24, { metalness: 0.6, roughness: 0.35, clearcoat: 0.6 });
+  const head = V(0, -0.62, -0.18);
+  const column = shadowAll(limb(new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.05, 1, 24), metal), V(0, -1.35, -0.18), head));
+  column.scale.y = 0.73; rig.add(column);
+  for (let i = 0; i < 3; i++) {
+    const a = i / 3 * Math.PI * 2 + 0.4;
+    const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.03, 1, 16), metal);
+    const from = V(0, -1.32, -0.18), to = V(Math.sin(a) * 1.1, -3.8, -0.18 + Math.cos(a) * 1.1);
+    limb(leg, from, to); leg.scale.y = from.distanceTo(to); rig.add(shadowAll(leg));
+  }
+  const ball = shadowAll(new THREE.Mesh(new THREE.SphereGeometry(0.09, 32, 16), metal)); ball.position.copy(head); rig.add(ball);
+  const arm = shadowAll(new THREE.Mesh(new THREE.BoxGeometry(0.06, 1.05, 0.05), metal)); arm.position.set(0, -0.1, -0.18); rig.add(arm);
+  const clampBar = shadowAll(new THREE.Mesh(new THREE.BoxGeometry(0.98, 0.1, 0.06), metal)); clampBar.position.set(0, 0.45, -0.1); rig.add(clampBar);
+  const jaws = [-1, 1].map(sx => { const j = shadowAll(new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.16, 0.2), metal)); j.position.set(sx * 0.47, 0.45, 0.0); rig.add(j); return j; });
+  // кольцевая лампа
+  const ringMat = new THREE.MeshStandardMaterial({ color: 0x2a2d33, emissive: 0xffd9a8, emissiveIntensity: 0, roughness: 0.4 });
+  const ringLamp = shadowAll(new THREE.Mesh(new THREE.TorusGeometry(1.08, 0.075, 24, 160), ringMat)); ringLamp.position.set(0, 0.45, -0.5); rig.add(ringLamp);
+  const ringHousing = new THREE.Mesh(new THREE.TorusGeometry(1.08, 0.1, 16, 160, Math.PI * 2), metal);
+  ringHousing.position.set(0, 0.45, -0.56); ringHousing.scale.z = 0.5; rig.add(ringHousing);
+  const ringLight = add(new THREE.PointLight(0xffc98a, 0, 0, 2), rig); ringLight.position.set(0, 0.45, -0.2);
+  const ringHalo = glowSprite('255,190,120', 4.2, 0, rig); ringHalo.position.set(0, 0.45, -0.7);
+  // телефон
+  const phone = makePhone({ w: 0.72, h: 1.5 });
+  rig.add(phone.group);
+  const recGlow = glowSprite('255,60,50', 0.5, 0, phone.group); recGlow.position.set(-0.22, 0.6, 0.15);
+
+  scene.add(new THREE.HemisphereLight(0x1c2a4a, 0x0a0604, 0.06));
+  const key = spot(CFG.coldLight, 320, V(-4.4, 0.6, 4.6), V(-0.4, 0.3, 0), 0.5, 0.9, true);
+  const rim = spot(CFG.warmLight, 420, V(3.4, 3.8, -3.6), V(0, 0.4, 0), 0.6, 0.6);
+  const halo = glowSprite('255,128,50', 6, 0.35); halo.position.set(0.5, 1.4, -2.4);
+  const shafts = [addShaft(CFG.gold, 0.0, 1.6, 4.6, -2.8, 0.42, 2.4), addShaft(CFG.gold, 0.0, -1.4, 4.8, -3.2, -0.35, 1.8)];
+  const cold = new THREE.Color(CFG.coldLight), gold = new THREE.Color(CFG.gold);
+  const tintCold = new THREE.Color(0.55, 0.75, 1.2), tintWarm = new THREE.Color(1.25, 0.85, 0.55), tint = new THREE.Color();
+  const bgCold = new THREE.Color(CFG.bg), bgWarm = new THREE.Color(0x0b0603);
+
+  function drawScreen(t, warm) {
+    const { g, scale, H512 } = phone;
+    g.setTransform(scale, 0, 0, scale, 0, 0);
+    const gr = g.createLinearGradient(0, 0, 0, H512);
+    const c1 = `rgb(${Math.round(lerp(14, 70, warm))},${Math.round(lerp(26, 40, warm))},${Math.round(lerp(52, 18, warm))})`;
+    const c2 = `rgb(${Math.round(lerp(4, 24, warm))},${Math.round(lerp(8, 12, warm))},${Math.round(lerp(18, 6, warm))})`;
+    gr.addColorStop(0, c1); gr.addColorStop(1, c2); g.fillStyle = gr; g.fillRect(0, 0, 512, H512);
+    const bk = g.createRadialGradient(256, 430, 10, 256, 430, 300);   // размытое «превью» камеры
+    bk.addColorStop(0, `rgba(255,${Math.round(lerp(150, 190, warm))},${Math.round(lerp(220, 110, warm))},${0.18 + 0.25 * warm})`);
+    bk.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = bk; g.fillRect(0, 0, 512, H512);
+    g.strokeStyle = 'rgba(255,255,255,0.12)'; g.lineWidth = 2;   // сетка «правило третей»
+    g.beginPath(); g.moveTo(171, 0); g.lineTo(171, H512); g.moveTo(341, 0); g.lineTo(341, H512);
+    g.moveTo(0, H512 / 3); g.lineTo(512, H512 / 3); g.moveTo(0, H512 * 2 / 3); g.lineTo(512, H512 * 2 / 3); g.stroke();
+    g.textAlign = 'center'; g.textBaseline = 'middle';
+    // «3:00:00» → зачёркивается
+    const a3 = easeOutCubic(seg(t, tThree - 0.15, tThree + 0.2)) * (1 - easeInOutCubic(seg(t, tEnough, tEnough + 0.35)));
+    if (a3 > 0.01) {
+      g.globalAlpha = a3; g.fillStyle = '#ffffff'; g.font = '800 118px Inter'; g.fillText('3:00:00', 256, 470);
+      const strike = easeInOutCubic(seg(t, tDay - 0.05, tDay + 0.35));
+      if (strike > 0) { g.strokeStyle = '#e2463a'; g.lineWidth = 14; g.lineCap = 'round';
+        g.beginPath(); g.moveTo(40, 500); g.lineTo(40 + 432 * strike, 445); g.stroke(); }
+      g.globalAlpha = 1;
+    }
+    // «15:00»
+    const a15 = easeOutBack(seg(t, tFifteen - 0.25, tFifteen + 0.25));
+    if (a15 > 0.01) {
+      const rec = t > tOne;
+      const secs = rec ? Math.max(0, 900 - Math.floor((t - tOne) * 1.0)) : 900;
+      const txt = `${String(Math.floor(secs / 60)).padStart(2, '0')}:${String(secs % 60).padStart(2, '0')}`;
+      g.save(); g.translate(256, 470); g.scale(a15, a15);
+      g.shadowColor = 'rgba(245,194,66,0.9)'; g.shadowBlur = 30 + 20 * pulseAt(t, tMin);
+      g.fillStyle = '#f5c242'; g.font = '800 150px Inter'; g.fillText(txt, 0, 0);
+      g.restore();
+    }
+    // кнопка записи
+    const rec = clamp((t - tOne) / 0.25);
+    g.strokeStyle = '#fff'; g.lineWidth = 7; g.beginPath(); g.arc(256, H512 - 130, 52, 0, 7); g.stroke();
+    g.fillStyle = '#e2463a';
+    const rs = lerp(42, 26, rec), rr = lerp(42, 8, rec);
+    g.beginPath(); g.roundRect(256 - rs, H512 - 130 - rs, rs * 2, rs * 2, rr); g.fill();
+    if (t > tOne && Math.floor((t - tOne) * 2.2) % 2 === 0) {
+      g.fillStyle = '#e2463a'; g.beginPath(); g.arc(44, 70, 11, 0, 7); g.fill();
+      g.fillStyle = '#fff'; g.font = '700 26px Inter'; g.textAlign = 'left'; g.fillText('REC', 64, 71);
+    }
+    phone.tex.needsUpdate = true;
+  }
+  return {
+    duration,
+    update(t) {
+      const k = easeInOutSine(seg(t, 0, duration));
+      const warm = easeInOutCubic(seg(t, tEnough - 0.1, tMin + 0.3));
+      const orbit = lerp(0.5, -0.18, k), dist = lerp(7.6, 6.7, k);
+      camera.position.set(Math.sin(orbit) * dist, lerp(0.15, 0.45, k), Math.cos(orbit) * dist);
+      camera.lookAt(0, 0.28, 0);
+      // телефон опускается в держатель
+      const drop = easeOutCubic(seg(t, 0.0, 1.15));
+      const settle = Math.sin(seg(t, 1.1, 1.6) * Math.PI) * 0.03;
+      phone.group.position.set(0, lerp(2.9, 0.45, drop) - settle, -0.04);
+      phone.group.rotation.z = lerp(0.25, 0, drop);
+      const close = easeOutCubic(seg(t, 1.05, 1.35));
+      jaws.forEach((j, i) => { j.position.x = (i ? 1 : -1) * lerp(0.56, 0.4, close); });
+      // кольцевая лампа: мигнула и загорелась
+      const on = t < tEnough ? 0 : (t < tEnough + 0.3 ? (Math.floor((t - tEnough) * 30) % 3 === 0 ? 0.3 : 1) * seg(t, tEnough, tEnough + 0.3) : 1);
+      ringMat.emissiveIntensity = 3.2 * on;
+      ringLight.intensity = 14 * on;
+      ringHalo.material.opacity = 0.55 * on;
+      key.color.lerpColors(cold, gold, warm);
+      key.intensity = lerp(320, 260, warm);
+      rim.intensity = 420 * (1 + 0.6 * pulseAt(t, tMin) + 0.3 * pulseAt(t, tOne));
+      shafts.forEach((s, i) => { s.material.opacity = s.userData.op + 0.12 * warm * (0.85 + 0.15 * Math.sin(t * 1.4 + i)); });
+      halo.material.color.setRGB(1, lerp(0.7, 0.85, warm), lerp(0.9, 0.6, warm));
+      scene.background.lerpColors(bgCold, bgWarm, warm); scene.fog.color.copy(scene.background);
+      recGlow.material.opacity = t > tOne ? 0.7 * (Math.floor((t - tOne) * 2.2) % 2 === 0 ? 1 : 0.25) : 0;
+      drawScreen(t, warm);
+      tint.lerpColors(tintCold, tintWarm, warm);
+      bg.update(t, tint);
+    },
+  };
+}
+
+/* =====================================================================
+   СЦЕНА 5 — «У блогеров тоже работа и семья. Просто они выбрали
+   снимать, а не смотреть.» Толпа в холодном свете смотрит в телефоны,
+   одна фигура справа снимает — её заливает тёплым светом.
+   ===================================================================== */
+function scene5() {
+  const duration = sceneDuration(5.25);
+  const tJust = at('просто', 2.50), tFilm = at('снимать', 3.47), tWatch = at('смотреть', 4.12);
+  scene.fog.density = 0.055;
+  const floor = add(new THREE.Mesh(new THREE.PlaneGeometry(60, 60), phys(0x07090e, { roughness: 0.32, metalness: 0.3, clearcoat: 0.4, envMapIntensity: 0.6 })));
+  floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true;
+  const bg = addBackground({ count: 30 });
+  const G = { body: new THREE.CapsuleGeometry(0.2, 0.62, 6, 16), head: new THREE.SphereGeometry(0.17, 32, 16),
+    arm: new THREE.CapsuleGeometry(0.05, 1, 4, 8), phone: new THREE.BoxGeometry(0.13, 0.24, 0.02), screen: new THREE.PlaneGeometry(0.115, 0.215) };
+  const crowdMat = phys(0x3a404c, { roughness: 0.55, clearcoat: 0.3 });
+  const heroMat = phys(0xb9b4ad, { roughness: 0.35, clearcoat: 0.8, clearcoatRoughness: 0.15 });
+  const phoneMat = phys(0x111318, { metalness: 0.6, roughness: 0.3 });
+  const coldScreen = new THREE.MeshBasicMaterial({ color: 0x5aa8ff, toneMapped: false });
+  const faceGlowTex = glowTex('80,160,255');
+  function figure(mat, staring) {
+    const f = new THREE.Group();
+    const body = new THREE.Mesh(G.body, mat); body.position.y = 0.51; body.castShadow = true; f.add(body);
+    const head = new THREE.Mesh(G.head, mat); head.castShadow = true; f.add(head);
+    const ph = new THREE.Group(); f.add(ph);
+    ph.add(new THREE.Mesh(G.phone, phoneMat));
+    let phonePos;
+    if (staring) {
+      head.position.set(0, 1.16, 0.13); body.rotation.x = 0.14;
+      phonePos = V(0, 0.92, 0.3); ph.position.copy(phonePos); ph.rotation.x = -2.2;   // экран смотрит на лицо
+      const scr = new THREE.Mesh(G.screen, coldScreen); scr.position.z = 0.011; ph.add(scr);
+      const glow = new THREE.Sprite(new THREE.SpriteMaterial({ map: faceGlowTex, transparent: true, opacity: 0.5,
+        blending: THREE.AdditiveBlending, depthWrite: false })); glow.scale.setScalar(0.5); glow.position.set(0, 1.08, 0.22); f.add(glow);
+    } else {
+      head.position.set(0, 1.27, 0);
+      phonePos = V(0.0, 1.34, 0.55); ph.position.copy(phonePos); ph.rotation.y = Math.PI;   // экран к герою, камера — вперёд
+    }
+    for (const sx of [-1, 1]) {
+      const a = new THREE.Mesh(G.arm, mat); a.castShadow = true;
+      const from = V(sx * 0.2, 0.98, 0.02), to = phonePos.clone().add(V(sx * 0.07, -0.05, -0.02));
+      limb(a, from, to); a.scale.y = from.distanceTo(to) / 1.1; f.add(a);
+    }
+    return { f, ph };
+  }
+  // толпа
+  const crowd = [];
+  for (let row = 0; row < 6; row++) for (let col = 0; col < 8; col++) {
+    const x = -4.2 + col * 0.78 + (rand() - 0.5) * 0.35 + (row % 2) * 0.35, z = -1.6 - row * 1.25 + (rand() - 0.5) * 0.4;
+    if (x > 0.2 && z > -3.5) continue;   // место для героя
+    const { f } = figure(crowdMat, true);
+    f.position.set(x, 0, z); f.rotation.y = (rand() - 0.5) * 0.6 + 0.25; f.scale.setScalar(0.95 + rand() * 0.12);
+    scene.add(f); crowd.push(f);
+  }
+  // герой — снимает
+  const hero = figure(heroMat, false);
+  hero.f.position.set(1.25, 0, 0.9); hero.f.rotation.y = -0.55; scene.add(hero.f);
+  const recDot = new THREE.Mesh(new THREE.SphereGeometry(0.018, 16, 8), new THREE.MeshBasicMaterial({ color: 0xff3b30, toneMapped: false }));
+  recDot.position.set(0.035, 0.08, -0.012); hero.ph.add(recDot);
+  const recGlow = glowSprite('255,60,50', 0.35, 0, hero.ph); recGlow.position.set(0.035, 0.08, -0.03);
+  const heroScreen = new THREE.Mesh(G.screen, new THREE.MeshBasicMaterial({ color: 0xffc27a, toneMapped: false }));
+  heroScreen.position.z = 0.011; hero.ph.add(heroScreen);
+
+  scene.add(new THREE.HemisphereLight(0x1c2a4a, 0x0a0604, 0.08));
+  spot(CFG.coldLight, 380, V(-3.5, 7, 2), V(-1.8, 0, -4), 0.55, 0.8);
+  const heroSpot = spot(CFG.gold, 60, V(2.4, 6.5, 2.4), hero.f, 0.28, 0.7, true);
+  const heroFill = spot(CFG.warmLight, 30, V(3.6, 1.6, 3.4), hero.f, 0.4, 0.9);
+  const shaft = addShaft(CFG.gold, 0.0, 2.2, 7.5, 1.8, 0.2, 1.6, 9);
+  const heroHalo = glowSprite('255,170,90', 3.2, 0); heroHalo.position.set(1.4, 1.5, 0.3);
+  const rim = spot(CFG.warmLight, 260, V(4, 3.5, -4), hero.f, 0.5, 0.6);
+
+  return {
+    duration,
+    update(t) {
+      const k = easeInOutCubic(seg(t, 0.2, duration - 0.3));
+      const light = easeInOutCubic(seg(t, tJust - 0.1, tFilm + 0.1));
+      const from = V(-1.0, 2.6, 6.4), to = V(2.5, 1.55, 4.4);
+      camera.position.lerpVectors(from, to, k);
+      const lookFrom = V(-1.3, 0.8, -3.5), lookTo = V(1.2, 1.05, 0.6);
+      camera.lookAt(new THREE.Vector3().lerpVectors(lookFrom, lookTo, k));
+      heroSpot.intensity = lerp(40, 520, light);
+      heroFill.intensity = lerp(20, 90, light);
+      rim.intensity = lerp(260, 520, light) * (1 + 0.5 * pulseAt(t, tFilm));
+      shaft.material.opacity = 0.16 * light;
+      heroHalo.material.opacity = 0.45 * light;
+      heroScreen.material.color.setRGB(lerp(0.4, 1.0, light), lerp(0.45, 0.78, light), lerp(0.55, 0.48, light));
+      const recOn = t > tFilm ? (Math.floor((t - tFilm) * 2.2) % 2 === 0 ? 1 : 0.3) : 0;
+      recDot.visible = recOn > 0; recGlow.material.opacity = 0.8 * recOn;
+      coldScreen.color.setRGB(0.35, 0.66, 1.0).multiplyScalar(1 - 0.25 * seg(t, tWatch - 0.2, tWatch + 0.4));
+      bg.update(t);
+    },
+  };
+}
+
+/* =====================================================================
+   СЦЕНА 6 — «Сколько часов в день ты сидишь в соцсетях?
+   Пиши честно в комментариях.» Экран: Screen Time 5h 12m с глитчем,
+   потом из телефона выскакивает жёлтый пузырь комментария.
+   ===================================================================== */
+function scene6() {
+  const duration = sceneDuration(5.35);
+  const tSettle = at('соцсетях', 1.69), tWrite = at('пиши', 2.72), tHonest = at('честно', 3.06), tComments = at('комментариях', 3.46);
+  const bg = addBackground();
+  const phone = makePhone();
+  phone.group.position.set(0, 0.4, 0); scene.add(phone.group);
+  // пузырь комментария
+  function bubbleShape(w, h, r) {
+    const s = new THREE.Shape(), x = -w / 2, y = -h / 2;
+    s.moveTo(x + r, y); s.lineTo(x + 0.2, y); s.lineTo(x + 0.06, y - 0.2); s.lineTo(x + 0.4, y);
+    s.lineTo(x + w - r, y); s.quadraticCurveTo(x + w, y, x + w, y + r);
+    s.lineTo(x + w, y + h - r); s.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    s.lineTo(x + r, y + h); s.quadraticCurveTo(x, y + h, x, y + h - r);
+    s.lineTo(x, y + r); s.quadraticCurveTo(x, y, x + r, y); return s;
+  }
+  const bubble = new THREE.Group(); phone.group.add(bubble);
+  const bubbleMesh = shadowAll(new THREE.Mesh(new THREE.ExtrudeGeometry(bubbleShape(0.66, 0.44, 0.13),
+    { depth: 0.12, bevelEnabled: true, bevelThickness: 0.035, bevelSize: 0.03, bevelSegments: 6, curveSegments: 24 }),
+    phys(CFG.yellow, { roughness: 0.25, clearcoat: 1, clearcoatRoughness: 0.08, emissive: CFG.yellow, emissiveIntensity: 0.4 })));
+  bubble.add(bubbleMesh);
+  const dots = [-0.15, 0, 0.15].map(x => { const d = new THREE.Mesh(new THREE.SphereGeometry(0.038, 24, 12), black);
+    d.position.set(x, 0, 0.17); bubble.add(d); return d; });
+  bubble.position.set(0.55, 1.0, 0.45);
+
+  scene.add(new THREE.HemisphereLight(0x1c2a4a, 0x0a0604, 0.06));
+  spot(CFG.coldLight, 300, V(-4, -0.6, 4.6), V(-0.5, 0.3, 0), 0.45, 0.9, true);
+  const rim = spot(CFG.warmLight, 480, V(3.6, 3.8, -3.2), phone.group, 0.6, 0.6);
+  const bubbleKey = spot(0xfff1d6, 0, V(2.5, 3.5, 4), bubble, 0.4, 0.8);
+  const halo = glowSprite('255,128,50', 5.5, 0.45); halo.position.set(0.8, 1.6, -2);
+  addShaft(CFG.warmLight, 0.1, 1.8, 4.4, -3, 0.45, 2);
+  const numberGlow = glowSprite('255,150,80', 1.6, 0, phone.group); numberGlow.position.set(0, 0.42, 0.2); numberGlow.scale.set(1.4, 0.6, 1);
+
+  const BARS = [2, 1, 0, 0, 0, 0, 1, 3, 4, 3, 5, 4, 6, 5, 4, 6, 7, 8, 9, 10, 9, 8, 6, 3];
+  const ALT = ['3h 47m', '8h 05m', '1h 59m', '6h 33m', '4h 20m'];
+  function glitchAmount(t) {
+    let a = 0;
+    for (const [s, e, v] of [[0.05, 0.45, 1], [0.75, 0.95, 0.8], [1.25, 1.55, 0.9], [tHonest - 0.05, tHonest + 0.18, 0.6]])
+      if (t >= s && t <= e) a = Math.max(a, v);
+    return a;
+  }
+  function drawScreen(t) {
+    const { g, scale, H512 } = phone;
+    g.setTransform(scale, 0, 0, scale, 0, 0);
+    g.fillStyle = '#07090f'; g.fillRect(0, 0, 512, H512);
+    g.textAlign = 'left'; g.textBaseline = 'alphabetic';
+    g.fillStyle = 'rgba(255,255,255,0.85)'; g.font = '600 22px Inter'; g.fillText('9:41', 34, 40);
+    g.fillStyle = 'rgba(255,255,255,0.55)'; g.font = '600 26px Inter'; g.fillText(CFG.screenTitle, 34, 150);
+    g.fillStyle = 'rgba(255,255,255,0.4)'; g.font = '500 22px Inter'; g.fillText('Today', 34, 186);
+    // большое число с глитчем
+    const fr = Math.floor(t * 30), gr = rng(fr * 7 + 3), amt = glitchAmount(t);
+    let text = CFG.screenValue;
+    if (amt > 0 && gr() < amt * 0.45) text = ALT[Math.floor(gr() * ALT.length)];
+    const glowK = 0.5 + 0.5 * Math.sin(t * 4) * seg(t, tSettle, tSettle + 0.3) + pulseAt(t, tHonest);
+    g.font = '800 104px Inter';
+    const drawNum = (dx, color, alpha) => { g.globalAlpha = alpha; g.fillStyle = color; g.fillText(text, 30 + dx, 300); };
+    g.save();
+    g.shadowColor = 'rgba(255,150,80,0.9)'; g.shadowBlur = 20 + 30 * clamp(glowK);
+    if (amt > 0) {
+      const off = 10 * amt * (gr() - 0.3);
+      g.globalCompositeOperation = 'lighter';
+      drawNum(-off, '#ff3b5c', 0.9); drawNum(off, '#2fd5ff', 0.9);
+      g.globalCompositeOperation = 'source-over';
+    }
+    drawNum(0, '#ffffff', 1);
+    g.restore(); g.globalAlpha = 1;
+    if (amt > 0) {   // сдвиг горизонтальных полос
+      for (let i = 0; i < 5; i++) {
+        const y = 200 + gr() * 120, h = 6 + gr() * 16, dx = (gr() - 0.5) * 60 * amt;
+        g.drawImage(phone.canvas, 0, y * scale, 512 * scale, h * scale, dx, y, 512, h);
+      }
+    }
+    // график по часам
+    const base = 560;
+    BARS.forEach((v, i) => {
+      const x = 34 + i * 18.5, h = v * 18 * easeOutCubic(seg(t, 0.1 + i * 0.02, 0.7 + i * 0.02));
+      g.fillStyle = '#2f8fff'; g.beginPath(); g.roundRect(x, base - h, 12, h, 4); g.fill();
+      if (v > 4) { const hs = h * 0.6; g.fillStyle = '#ff8a3d'; g.beginPath(); g.roundRect(x, base - h, 12, hs, 4); g.fill(); }
+    });
+    g.fillStyle = 'rgba(255,255,255,0.35)'; g.font = '500 18px Inter';
+    ['00', '06', '12', '18'].forEach((s, i) => g.fillText(s, 34 + i * 6 * 18.5, base + 30));
+    // категории
+    [['Social', '#ff8a3d', '3h 47m', 0.73], ['Entertainment', '#2f8fff', '58m', 0.19], ['Other', '#8a93a6', '27m', 0.09]].forEach(([name, c, v, p], i) => {
+      const y = 670 + i * 92;
+      g.fillStyle = c; g.beginPath(); g.roundRect(34, y - 30, 44, 44, 12); g.fill();
+      g.fillStyle = '#fff'; g.font = '600 26px Inter'; g.fillText(name, 96, y);
+      g.fillStyle = 'rgba(255,255,255,0.55)'; g.textAlign = 'right'; g.fillText(v, 478, y); g.textAlign = 'left';
+      g.fillStyle = 'rgba(255,255,255,0.12)'; g.beginPath(); g.roundRect(96, y + 16, 382, 8, 4); g.fill();
+      g.fillStyle = c; g.beginPath(); g.roundRect(96, y + 16, 382 * p * easeOutCubic(seg(t, 0.3, 1.2)), 8, 4); g.fill();
+    });
+    phone.tex.needsUpdate = true;
+    return amt;
+  }
+  return {
+    duration,
+    update(t) {
+      const k = easeInOutSine(seg(t, 0, duration));
+      const dist = lerp(4.7, 4.2, k), orbit = lerp(0.3, 0.06, k);
+      camera.position.set(Math.sin(orbit) * dist, lerp(0.2, 0.42, k), Math.cos(orbit) * dist);
+      camera.lookAt(0.08, lerp(0.35, 0.5, k), 0);
+      phone.group.rotation.set(0.08, lerp(-0.25, -0.1, k), 0.02 * Math.sin(t * 0.8));
+      const amt = drawScreen(t);
+      phone.group.position.x = amt > 0 ? (rand() - 0.5) * 0.012 * amt : 0;
+      numberGlow.material.opacity = 0.35 * seg(t, tSettle, tSettle + 0.3) + 0.5 * pulseAt(t, tHonest);
+      // пузырь: выскакивает на «Пиши», подпрыгивает на «комментариях»
+      const pop = seg(t, tWrite - 0.05, tWrite + 0.45);
+      const s = pop > 0 ? easeOutBack(pop) * (1 + 0.08 * Math.sin(seg(t, tComments, tComments + 0.35) * Math.PI)) : 0.0001;
+      bubble.scale.setScalar(s);
+      bubble.position.set(lerp(0.15, 0.34, easeOutCubic(pop)), lerp(0.55, 0.96, easeOutCubic(pop)) + 0.02 * Math.sin(t * 2.4), lerp(0.2, 0.45, pop));
+      bubble.rotation.set(0.05 * Math.sin(t * 1.7), -0.25 + 0.06 * Math.sin(t * 1.3), lerp(-0.4, -0.06, easeOutCubic(pop)));
+      dots.forEach((d, i) => { d.position.y = 0.05 * Math.max(0, Math.sin((t - tWrite) * 7 - i * 0.9)); });
+      bubbleKey.intensity = 220 * pop;
+      rim.intensity = 480 * (1 + 0.6 * pulseAt(t, tWrite) + 0.3 * pulseAt(t, tComments));
+      bg.update(t);
+    },
+  };
+}
+
+/* =====================================================================
+   ЗАПУСК
+   ===================================================================== */
+const BUILDERS = { 1: scene1, 2: scene2, 3: scene3, 4: scene4, 5: scene5, 6: scene6 };
+const current = (BUILDERS[SCENE] || scene2)();
+window.CFG = { ...CFG, duration: current.duration };
+window.renderAt = (t) => { current.update(t); renderer.render(scene, camera); };
+
 if (params.has('record')) {
   document.body.classList.add('record');
 } else {
   let t0 = performance.now();
-  const still = params.get('t');   // ?t=3.1 — показать один кадр
+  const still = params.get('t');   // ?scene=3&t=1.5 — показать один кадр
   const loop = (now) => {
-    window.renderAt(still !== null ? parseFloat(still) : ((now - t0) / 1000) % CFG.duration);
+    window.renderAt(still !== null ? parseFloat(still) : ((now - t0) / 1000) % current.duration);
     requestAnimationFrame(loop);
   };
   requestAnimationFrame(loop);
