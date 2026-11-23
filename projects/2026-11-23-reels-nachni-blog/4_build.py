@@ -327,8 +327,8 @@ def main():
 
     total = sum(sc["frames"] for sc in plan["scenes"]) / fps
     fi, fo = video["fade_in_sec"], video["fade_out_sec"]
-    fades = f"fade=t=in:st=0:d={fi},fade=t=out:st={total - fo:.3f}:d={fo}"
-    vf = f"[0:v]{fades},ass=subtitles.ass:fontsdir=fonts[v]"
+    vfades = f"fade=t=in:st=0:d={fi},fade=t=out:st={total - fo:.3f}:d={fo}"
+    vf = f"[0:v]{vfades},ass=subtitles.ass:fontsdir=fonts[v]"
     voice = ROOT / "audio" / "voiceover.wav"
     cmd = ["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", BUILD / "segments.txt", "-i", voice]
 
@@ -366,7 +366,7 @@ def main():
         print("Акценты (SFX): sfx_generated.wav")
     if style == "kino":   # субтитры — прозрачное видео поверх кадра
         cmd += ["-i", BUILD / "subs_overlay.mov"]
-        vf = f"[0:v][{idx}:v]overlay=0:0:format=auto,{fades}[v]"
+        vf = f"[0:v][{idx}:v]overlay=0:0:format=auto,{vfades}[v]"
     n_in = mix_inputs.count("[")
     chains.append(f"{mix_inputs}amix=inputs={n_in}:duration=first:normalize=0,"
                   f"loudnorm=I=-14:TP=-2:LRA=11,aresample=48000[a]")
